@@ -35,6 +35,12 @@ ANTHROPIC_DEFAULT_MODEL = os.environ.get("ANTHROPIC_DEFAULT_MODEL", "claude-sonn
 GOOGLE_API_KEY = os.environ.get("GOOGLE_API_KEY", "")
 GOOGLE_DEFAULT_MODEL = os.environ.get("GOOGLE_DEFAULT_MODEL", "gemini-2.0-flash")
 
+# --- X / Twitter API ---
+X_CONSUMER_KEY = os.environ.get("X_CONSUMER_KEY", "")
+X_CONSUMER_SECRET = os.environ.get("X_CONSUMER_SECRET", "")
+X_ACCESS_TOKEN = os.environ.get("X_ACCESS_TOKEN", "")
+X_ACCESS_TOKEN_SECRET = os.environ.get("X_ACCESS_TOKEN_SECRET", "")
+
 # --- Model defaults ---
 DEFAULT_PROVIDER = "grok"  # Which model provider to use by default
 MAX_TOKENS = 4096
@@ -61,4 +67,6 @@ MODEL_PROVIDERS = {
 # --- Integration registry ---
 # Maps integration names to their module paths.
 # Add new third-party integrations here.
-INTEGRATIONS = {}
+INTEGRATIONS = {
+    "x": "goliath.integrations.x",
+}
