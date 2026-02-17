@@ -48,6 +48,14 @@ INSTAGRAM_ACCESS_TOKEN = os.environ.get("INSTAGRAM_ACCESS_TOKEN", "")
 # --- Discord ---
 DISCORD_WEBHOOK_URL = os.environ.get("DISCORD_WEBHOOK_URL", "")
 
+# --- Telegram ---
+TELEGRAM_BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN", "")
+TELEGRAM_CHAT_ID = os.environ.get("TELEGRAM_CHAT_ID", "")
+
+# --- Gmail ---
+GMAIL_ADDRESS = os.environ.get("GMAIL_ADDRESS", "")
+GMAIL_APP_PASSWORD = os.environ.get("GMAIL_APP_PASSWORD", "")
+
 # --- Model defaults ---
 DEFAULT_PROVIDER = "grok"  # Which model provider to use by default
 MAX_TOKENS = 4096
@@ -78,4 +86,7 @@ INTEGRATIONS = {
     "x": "goliath.integrations.x",
     "instagram": "goliath.integrations.instagram",
     "discord": "goliath.integrations.discord",
+    "telegram": "goliath.integrations.telegram",
+    "gmail": "goliath.integrations.gmail",
+    "scraper": "goliath.integrations.scraper",
 }
