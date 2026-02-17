@@ -45,6 +45,9 @@ X_ACCESS_TOKEN_SECRET = os.environ.get("X_ACCESS_TOKEN_SECRET", "")
 INSTAGRAM_USER_ID = os.environ.get("INSTAGRAM_USER_ID", "")
 INSTAGRAM_ACCESS_TOKEN = os.environ.get("INSTAGRAM_ACCESS_TOKEN", "")
 
+# --- Discord ---
+DISCORD_WEBHOOK_URL = os.environ.get("DISCORD_WEBHOOK_URL", "")
+
 # --- Model defaults ---
 DEFAULT_PROVIDER = "grok"  # Which model provider to use by default
 MAX_TOKENS = 4096
@@ -74,4 +77,5 @@ MODEL_PROVIDERS = {
 INTEGRATIONS = {
     "x": "goliath.integrations.x",
     "instagram": "goliath.integrations.instagram",
+    "discord": "goliath.integrations.discord",
 }
