@@ -107,7 +107,13 @@ goliath/
       openai_provider.py # OpenAI provider (GPT-4o, GPT-4, etc.)
       claude.py          # Anthropic Claude provider (Opus, Sonnet, Haiku)
       gemini.py          # Google Gemini provider (2.0 Flash, 1.5 Pro)
-    integrations/        # Third-party service plugins (Slack, GitHub, etc.)
+    integrations/
+      x.py               # X / Twitter (tweets, threads, media)
+      instagram.py       # Instagram (photos, Reels, carousels)
+      discord.py         # Discord (messages, embeds, files via webhook)
+      telegram.py        # Telegram (messages, photos, documents via bot)
+      gmail.py           # Gmail (emails with HTML, attachments via SMTP)
+      scraper.py         # Web scraper (text, links, structured data)
     tools/               # Executable tool plugins (web search, file I/O, etc.)
     memory/              # Persistent context & session memory
     cli/
@@ -129,13 +135,59 @@ MODEL_PROVIDERS = {
 
 4. Set `DEFAULT_PROVIDER = "my_provider"` — no other code needs to change
 
-## Adding an Integration
+## Integrations
 
-Drop a module into `integrations/`, register it in `config.INTEGRATIONS`, and the engine can discover and use it. The same pattern applies to `tools/` for executable tool plugins.
+Six built-in integrations for connecting GOLIATH to external services:
+
+| Integration | What it does | Setup |
+|---|---|---|
+| **X / Twitter** | Post tweets, threads, and media | 4 OAuth keys from [developer.x.com](https://developer.x.com) |
+| **Instagram** | Post photos, Reels, and carousels | Meta Graph API token ([setup guide](src/goliath/integrations/instagram.py)) |
+| **Discord** | Send messages, rich embeds, and files | Webhook URL (no auth needed) |
+| **Telegram** | Send messages, photos, and documents | Bot token from [@BotFather](https://t.me/BotFather) |
+| **Gmail** | Send emails with HTML and attachments | App password from [Google](https://myaccount.google.com/apppasswords) |
+| **Web Scraper** | Extract text, links, and data from URLs | No keys needed |
+
+### Quick Examples
+
+```python
+from goliath.integrations.x import XClient
+from goliath.integrations.instagram import InstagramClient
+from goliath.integrations.discord import DiscordClient
+from goliath.integrations.telegram import TelegramClient
+from goliath.integrations.gmail import GmailClient
+from goliath.integrations.scraper import WebScraper
+
+# Post a tweet
+XClient().tweet("Hello from GOLIATH!")
+
+# Post a photo to Instagram
+InstagramClient().post_image("https://example.com/photo.jpg", caption="Automated post")
+
+# Send a Discord message with a rich embed
+DiscordClient().send_embed(title="Deploy Complete", description="v1.0 is live.", color=0x00FF00)
+
+# Send a Telegram message
+TelegramClient().send("Build finished successfully.")
+
+# Send an email with an attachment
+GmailClient().send(to="team@example.com", subject="Report", body="See attached.", attachments=["report.pdf"])
+
+# Scrape a web page
+data = WebScraper().get_text("https://example.com")
+```
+
+Each integration file contains full setup instructions in its docstring.
+
+## Adding a New Integration
+
+Drop a module into `src/goliath/integrations/`, register it in `config.INTEGRATIONS`, and the engine can discover and use it. The same pattern applies to `tools/` for executable tool plugins.
 
 ## Configuration Reference
 
 All settings live in `config.py` and can be overridden with environment variables or `.env`:
+
+**Model Providers**
 
 | Variable | Default | Description |
 |---|---|---|
@@ -148,6 +200,22 @@ All settings live in `config.py` and can be overridden with environment variable
 | `ANTHROPIC_DEFAULT_MODEL` | `claude-sonnet-4-5-20250929` | Claude model |
 | `GOOGLE_API_KEY` | — | Google AI API key |
 | `GOOGLE_DEFAULT_MODEL` | `gemini-2.0-flash` | Gemini model |
+
+**Integrations**
+
+| Variable | Description |
+|---|---|
+| `X_CONSUMER_KEY` | X/Twitter API key |
+| `X_CONSUMER_SECRET` | X/Twitter API secret |
+| `X_ACCESS_TOKEN` | X/Twitter access token |
+| `X_ACCESS_TOKEN_SECRET` | X/Twitter access token secret |
+| `INSTAGRAM_USER_ID` | Instagram Business account ID |
+| `INSTAGRAM_ACCESS_TOKEN` | Meta Graph API access token |
+| `DISCORD_WEBHOOK_URL` | Discord channel webhook URL |
+| `TELEGRAM_BOT_TOKEN` | Telegram bot token from @BotFather |
+| `TELEGRAM_CHAT_ID` | Default Telegram chat/group ID |
+| `GMAIL_ADDRESS` | Gmail address to send from |
+| `GMAIL_APP_PASSWORD` | Gmail app password |
 
 ## License
 
