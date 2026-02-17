@@ -1,0 +1,49 @@
+"""
+GOLIATH Configuration
+
+Central configuration for API keys, model settings, and runtime options.
+All secrets are loaded from a .env file (never commit secrets to source).
+"""
+
+import os
+from pathlib import Path
+
+# Load .env file from project root
+_env_path = Path(__file__).parent / ".env"
+if _env_path.exists():
+    for line in _env_path.read_text().splitlines():
+        line = line.strip()
+        if line and not line.startswith("#") and "=" in line:
+            key, _, value = line.partition("=")
+            os.environ.setdefault(key.strip(), value.strip())
+
+
+# --- xAI / Grok API ---
+XAI_API_KEY = os.environ.get("XAI_API_KEY", "")
+XAI_BASE_URL = os.environ.get("XAI_BASE_URL", "https://api.x.ai/v1")
+XAI_DEFAULT_MODEL = os.environ.get("XAI_DEFAULT_MODEL", "grok-3-latest")
+
+# --- Model defaults ---
+DEFAULT_PROVIDER = "grok"  # Which model provider to use by default
+MAX_TOKENS = 4096
+TEMPERATURE = 0.7
+
+# --- System prompt fed to every task ---
+SYSTEM_PROMPT = (
+    "You are GOLIATH, a universal AI automation engine. "
+    "When given a task, respond with a clear, actionable answer. "
+    "If the task requires multiple steps, break it down. "
+    "Be concise and precise."
+)
+
+# --- Plugin registry ---
+# Maps provider names to their module paths for dynamic loading.
+# Add new model providers here as they are built.
+MODEL_PROVIDERS = {
+    "grok": "models.grok",
+}
+
+# --- Integration registry ---
+# Maps integration names to their module paths.
+# Add new third-party integrations here.
+INTEGRATIONS = {}
