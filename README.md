@@ -15,6 +15,9 @@ goliath/
   models/
     base.py            # Abstract provider interface
     grok.py            # xAI Grok provider (default)
+    openai_provider.py # OpenAI provider (GPT-4o, GPT-4, etc.)
+    claude.py          # Anthropic Claude provider (Opus, Sonnet, Haiku)
+    gemini.py          # Google Gemini provider (2.0 Flash, 1.5 Pro)
   integrations/        # Third-party service plugins (Slack, GitHub, etc.)
   tools/               # Executable tool plugins (web search, file I/O, etc.)
   memory/              # Persistent context & session memory
@@ -32,8 +35,12 @@ cd goliath
 # 2. Install dependencies
 pip install -r requirements.txt
 
-# 3. Set your xAI API key
+# 3. Set your API key(s) — at minimum the default provider (Grok)
 export XAI_API_KEY="your-key-here"
+# Optional: enable additional providers
+# export OPENAI_API_KEY="your-key-here"
+# export ANTHROPIC_API_KEY="your-key-here"
+# export GOOGLE_API_KEY="your-key-here"
 
 # 4. Run GOLIATH
 python main.py
@@ -51,22 +58,35 @@ Or run a single task directly:
 python main.py "Write a Python script that sorts a list of names"
 ```
 
+## Supported Providers
+
+| Provider | Config Key | Default Model |
+|---|---|---|
+| **xAI Grok** (default) | `XAI_API_KEY` | `grok-3-latest` |
+| **OpenAI** | `OPENAI_API_KEY` | `gpt-4o` |
+| **Anthropic Claude** | `ANTHROPIC_API_KEY` | `claude-sonnet-4-5-20250929` |
+| **Google Gemini** | `GOOGLE_API_KEY` | `gemini-2.0-flash` |
+
+Switch providers by setting `DEFAULT_PROVIDER` in `config.py` (or `.env`):
+
+```python
+DEFAULT_PROVIDER = "claude"  # or "openai", "gemini", "grok"
+```
+
 ## Adding a New Model Provider
 
-1. Create a new file in `models/` (e.g. `models/openai_provider.py`).
+1. Create a new file in `models/` (e.g. `models/my_provider.py`).
 2. Subclass `BaseProvider` from `models/base.py` and implement `run()`.
 3. Register it in `config.py`:
 
 ```python
 MODEL_PROVIDERS = {
-    "grok": "models.grok",
-    "openai": "models.openai_provider",  # new
+    ...
+    "my_provider": "models.my_provider",
 }
 ```
 
-4. Switch to it by setting `DEFAULT_PROVIDER = "openai"` in `config.py`, or pass it to the engine directly.
-
-That's it. No other code needs to change.
+4. Set `DEFAULT_PROVIDER = "my_provider"` — no other code needs to change.
 
 ## Adding an Integration
 
@@ -78,9 +98,15 @@ All settings live in `config.py` and can be overridden with environment variable
 
 | Variable | Default | Description |
 |---|---|---|
-| `XAI_API_KEY` | — | Your xAI API key (required) |
-| `XAI_BASE_URL` | `https://api.x.ai/v1` | xAI API endpoint |
-| `XAI_DEFAULT_MODEL` | `grok-3-latest` | Which Grok model to use |
+| `XAI_API_KEY` | — | xAI API key |
+| `XAI_DEFAULT_MODEL` | `grok-3-latest` | Grok model |
+| `OPENAI_API_KEY` | — | OpenAI API key |
+| `OPENAI_DEFAULT_MODEL` | `gpt-4o` | OpenAI model |
+| `ANTHROPIC_API_KEY` | — | Anthropic API key |
+| `ANTHROPIC_DEFAULT_MODEL` | `claude-sonnet-4-5-20250929` | Claude model |
+| `GOOGLE_API_KEY` | — | Google AI API key |
+| `GOOGLE_DEFAULT_MODEL` | `gemini-2.0-flash` | Gemini model |
+| `DEFAULT_PROVIDER` | `grok` | Which provider to use |
 
 ## License
 

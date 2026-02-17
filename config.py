@@ -23,6 +23,18 @@ XAI_API_KEY = os.environ.get("XAI_API_KEY", "")
 XAI_BASE_URL = os.environ.get("XAI_BASE_URL", "https://api.x.ai/v1")
 XAI_DEFAULT_MODEL = os.environ.get("XAI_DEFAULT_MODEL", "grok-3-latest")
 
+# --- OpenAI API ---
+OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY", "")
+OPENAI_DEFAULT_MODEL = os.environ.get("OPENAI_DEFAULT_MODEL", "gpt-4o")
+
+# --- Anthropic / Claude API ---
+ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
+ANTHROPIC_DEFAULT_MODEL = os.environ.get("ANTHROPIC_DEFAULT_MODEL", "claude-sonnet-4-5-20250929")
+
+# --- Google / Gemini API ---
+GOOGLE_API_KEY = os.environ.get("GOOGLE_API_KEY", "")
+GOOGLE_DEFAULT_MODEL = os.environ.get("GOOGLE_DEFAULT_MODEL", "gemini-2.0-flash")
+
 # --- Model defaults ---
 DEFAULT_PROVIDER = "grok"  # Which model provider to use by default
 MAX_TOKENS = 4096
@@ -41,6 +53,9 @@ SYSTEM_PROMPT = (
 # Add new model providers here as they are built.
 MODEL_PROVIDERS = {
     "grok": "models.grok",
+    "openai": "models.openai_provider",
+    "claude": "models.claude",
+    "gemini": "models.gemini",
 }
 
 # --- Integration registry ---
