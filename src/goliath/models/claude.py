@@ -7,8 +7,8 @@ Haiku, and any future Anthropic model.
 
 import anthropic
 
-import config
-from models.base import BaseProvider, ModelResponse
+from goliath import config
+from goliath.models.base import BaseProvider, ModelResponse
 
 
 class ClaudeProvider(BaseProvider):

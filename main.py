@@ -5,21 +5,10 @@ GOLIATH — Universal AI Automation Engine
 Usage:
     python main.py                  # interactive mode
     python main.py "summarise X"   # single-shot mode
+    goliath "summarise X"          # after pip install
 """
 
-import sys
-
-from cli.interface import run_interactive, run_once
-
-
-def main():
-    if len(sys.argv) > 1:
-        # Single-shot: join all args as the task string
-        task = " ".join(sys.argv[1:])
-        run_once(task)
-    else:
-        run_interactive()
-
+from goliath.main import main
 
 if __name__ == "__main__":
     main()

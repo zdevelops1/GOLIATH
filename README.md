@@ -15,15 +15,20 @@ GOLIATH is a modular, plugin-driven automation engine that takes plain-English t
 
 All four providers are built in. Add the API key and go — no code changes needed.
 
-## Quick Start
+## Install
+
+**From PyPI:**
 
 ```bash
-# Clone the repo
+pip install goliath-ai
+```
+
+**From source:**
+
+```bash
 git clone https://github.com/zdevelops1/GOLIATH.git
 cd GOLIATH
-
-# Install dependencies
-pip install -r requirements.txt
+pip install -e .
 ```
 
 ### Set Up API Keys
@@ -51,7 +56,8 @@ export XAI_API_KEY="your-xai-key-here"
 **Interactive mode** — opens a REPL where you type tasks:
 
 ```bash
-python main.py
+goliath          # if installed via pip
+python main.py   # if running from source
 ```
 
 ```
@@ -70,7 +76,7 @@ GOLIATH > Summarise the top 5 trends in AI this week
 **Single-shot mode** — pass a task directly:
 
 ```bash
-python main.py "Write a Python script that sorts a list of names"
+goliath "Write a Python script that sorts a list of names"
 ```
 
 ### Switch Providers
@@ -87,33 +93,37 @@ Options: `grok` (default), `openai`, `claude`, `gemini`
 
 ```
 goliath/
-  main.py              # Entry point (interactive & single-shot modes)
-  config.py            # API keys, model settings, plugin registry
-  core/
-    engine.py          # Task execution engine — orchestrates everything
-  models/
-    base.py            # Abstract provider interface (subclass to add new models)
-    grok.py            # xAI Grok provider (default)
-    openai_provider.py # OpenAI provider (GPT-4o, GPT-4, etc.)
-    claude.py          # Anthropic Claude provider (Opus, Sonnet, Haiku)
-    gemini.py          # Google Gemini provider (2.0 Flash, 1.5 Pro)
-  integrations/        # Third-party service plugins (Slack, GitHub, etc.)
-  tools/               # Executable tool plugins (web search, file I/O, etc.)
-  memory/              # Persistent context & session memory
-  cli/
-    interface.py       # Interactive REPL & single-shot CLI
+  main.py                # Entry point & CLI entrypoint
+  pyproject.toml         # Package config (pip install goliath-ai)
+  src/goliath/
+    __init__.py          # Package root
+    config.py            # API keys, model settings, plugin registry
+    main.py              # CLI dispatcher (interactive & single-shot)
+    core/
+      engine.py          # Task execution engine — orchestrates everything
+    models/
+      base.py            # Abstract provider interface (subclass to add new models)
+      grok.py            # xAI Grok provider (default)
+      openai_provider.py # OpenAI provider (GPT-4o, GPT-4, etc.)
+      claude.py          # Anthropic Claude provider (Opus, Sonnet, Haiku)
+      gemini.py          # Google Gemini provider (2.0 Flash, 1.5 Pro)
+    integrations/        # Third-party service plugins (Slack, GitHub, etc.)
+    tools/               # Executable tool plugins (web search, file I/O, etc.)
+    memory/              # Persistent context & session memory
+    cli/
+      interface.py       # Interactive REPL & single-shot CLI
 ```
 
 ## Adding a New Model Provider
 
-1. Create a file in `models/` (e.g. `models/my_provider.py`)
-2. Subclass `BaseProvider` from `models/base.py` and implement `run()`
-3. Register it in `config.py`:
+1. Create a file in `src/goliath/models/` (e.g. `my_provider.py`)
+2. Subclass `BaseProvider` from `goliath.models.base` and implement `run()`
+3. Register it in `src/goliath/config.py`:
 
 ```python
 MODEL_PROVIDERS = {
     ...
-    "my_provider": "models.my_provider",
+    "my_provider": "goliath.models.my_provider",
 }
 ```
 

@@ -7,8 +7,8 @@ so the only dependency is the `openai` package.
 
 from openai import OpenAI
 
-import config
-from models.base import BaseProvider, ModelResponse
+from goliath import config
+from goliath.models.base import BaseProvider, ModelResponse
 
 
 class GrokProvider(BaseProvider):

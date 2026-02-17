@@ -7,7 +7,7 @@ Supports single-shot mode (`goliath "do something"`) and interactive mode.
 
 import sys
 
-from core.engine import Engine
+from goliath.core.engine import Engine
 
 
 BANNER = r"""

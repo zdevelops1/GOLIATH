@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "goliath-ai"
+version = "0.1.0"
+description = "Universal AI Automation Engine — Grok, OpenAI, Claude, Gemini in one CLI"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.10"
+authors = [
+    { name = "zdevelops1" },
+]
+keywords = ["ai", "automation", "grok", "openai", "claude", "gemini", "llm"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+    "openai>=1.0.0",
+    "anthropic>=0.39.0",
+    "google-genai>=1.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/zdevelops1/GOLIATH"
+Repository = "https://github.com/zdevelops1/GOLIATH"
+Issues = "https://github.com/zdevelops1/GOLIATH/issues"
+
+[project.scripts]
+goliath = "goliath.main:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]

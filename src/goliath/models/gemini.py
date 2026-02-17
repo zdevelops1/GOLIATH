@@ -8,8 +8,8 @@ Gemini 1.5 Pro, and any future Google model.
 from google import genai
 from google.genai import types
 
-import config
-from models.base import BaseProvider, ModelResponse
+from goliath import config
+from goliath.models.base import BaseProvider, ModelResponse
 
 
 class GeminiProvider(BaseProvider):

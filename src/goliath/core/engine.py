@@ -14,8 +14,8 @@ multi-step pipelines later.
 
 import importlib
 
-import config
-from models.base import BaseProvider, ModelResponse
+from goliath import config
+from goliath.models.base import BaseProvider, ModelResponse
 
 
 class Engine:

@@ -8,8 +8,8 @@ All secrets are loaded from a .env file (never commit secrets to source).
 import os
 from pathlib import Path
 
-# Load .env file from project root
-_env_path = Path(__file__).parent / ".env"
+# Load .env file from the current working directory (project root)
+_env_path = Path.cwd() / ".env"
 if _env_path.exists():
     for line in _env_path.read_text().splitlines():
         line = line.strip()
@@ -52,10 +52,10 @@ SYSTEM_PROMPT = (
 # Maps provider names to their module paths for dynamic loading.
 # Add new model providers here as they are built.
 MODEL_PROVIDERS = {
-    "grok": "models.grok",
-    "openai": "models.openai_provider",
-    "claude": "models.claude",
-    "gemini": "models.gemini",
+    "grok": "goliath.models.grok",
+    "openai": "goliath.models.openai_provider",
+    "claude": "goliath.models.claude",
+    "gemini": "goliath.models.gemini",
 }
 
 # --- Integration registry ---
