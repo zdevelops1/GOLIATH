@@ -117,9 +117,54 @@ goliath/
       slack.py           # Slack (messages, Block Kit, file uploads)
       github.py          # GitHub (repos, issues, PRs, files, Actions)
     tools/               # Executable tool plugins (web search, file I/O, etc.)
-    memory/              # Persistent context & session memory
+    memory/
+      store.py           # Persistent memory (conversation history + facts)
     cli/
       interface.py       # Interactive REPL & single-shot CLI
+```
+
+## Memory System
+
+GOLIATH has a persistent memory system that lets it remember context across tasks and sessions. Data is stored as JSON at `~/.goliath/memory.json`.
+
+**Two layers:**
+
+| Layer | What it does | How it works |
+|---|---|---|
+| **Conversation history** | Remembers recent tasks and responses | Last 20 turns auto-fed as context to the model |
+| **Facts** | Persistent key-value store | Injected into the system prompt every request |
+
+### Memory Commands (Interactive Mode)
+
+| Command | Description |
+|---|---|
+| `/memory` | Show memory status and file location |
+| `/history` | Show conversation history |
+| `/remember <key> <value>` | Store a persistent fact |
+| `/recall <key>` | Retrieve a stored fact |
+| `/forget <key>` | Remove a stored fact |
+| `/facts` | List all stored facts |
+| `/clear history` | Clear conversation history |
+| `/clear all` | Clear all memory (history + facts) |
+
+### Programmatic Usage
+
+```python
+from goliath.memory.store import Memory
+
+mem = Memory()
+
+# Conversation history (auto-managed by the engine)
+mem.add_turn("user", "What is Python?")
+mem.add_turn("assistant", "Python is a programming language.")
+history = mem.get_history()
+
+# Facts (persistent key-value pairs)
+mem.remember("name", "GOLIATH")
+mem.remember("owner", "zdevelops1")
+print(mem.recall("name"))        # "GOLIATH"
+print(mem.facts())               # {"name": "GOLIATH", "owner": "zdevelops1"}
+mem.forget("owner")
 ```
 
 ## Adding a New Model Provider
@@ -212,6 +257,13 @@ All settings live in `config.py` and can be overridden with environment variable
 | `ANTHROPIC_DEFAULT_MODEL` | `claude-sonnet-4-5-20250929` | Claude model |
 | `GOOGLE_API_KEY` | — | Google AI API key |
 | `GOOGLE_DEFAULT_MODEL` | `gemini-2.0-flash` | Gemini model |
+
+**Memory**
+
+| Variable | Default | Description |
+|---|---|---|
+| `GOLIATH_MEMORY_PATH` | `~/.goliath/memory.json` | Path to the memory file |
+| `GOLIATH_MEMORY_MAX_HISTORY` | `20` | Max conversation turns to keep |
 
 **Integrations**
 
