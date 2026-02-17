@@ -41,6 +41,10 @@ X_CONSUMER_SECRET = os.environ.get("X_CONSUMER_SECRET", "")
 X_ACCESS_TOKEN = os.environ.get("X_ACCESS_TOKEN", "")
 X_ACCESS_TOKEN_SECRET = os.environ.get("X_ACCESS_TOKEN_SECRET", "")
 
+# --- Instagram Graph API ---
+INSTAGRAM_USER_ID = os.environ.get("INSTAGRAM_USER_ID", "")
+INSTAGRAM_ACCESS_TOKEN = os.environ.get("INSTAGRAM_ACCESS_TOKEN", "")
+
 # --- Model defaults ---
 DEFAULT_PROVIDER = "grok"  # Which model provider to use by default
 MAX_TOKENS = 4096
@@ -69,4 +73,5 @@ MODEL_PROVIDERS = {
 # Add new third-party integrations here.
 INTEGRATIONS = {
     "x": "goliath.integrations.x",
+    "instagram": "goliath.integrations.instagram",
 }
