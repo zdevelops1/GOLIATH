@@ -115,6 +115,7 @@ goliath/
       gmail.py           # Gmail (emails with HTML, attachments via SMTP)
       scraper.py         # Web scraper (text, links, structured data)
       slack.py           # Slack (messages, Block Kit, file uploads)
+      github.py          # GitHub (repos, issues, PRs, files, Actions)
     tools/               # Executable tool plugins (web search, file I/O, etc.)
     memory/              # Persistent context & session memory
     cli/
@@ -138,7 +139,7 @@ MODEL_PROVIDERS = {
 
 ## Integrations
 
-Seven built-in integrations for connecting GOLIATH to external services:
+Eight built-in integrations for connecting GOLIATH to external services:
 
 | Integration | What it does | Setup |
 |---|---|---|
@@ -148,6 +149,7 @@ Seven built-in integrations for connecting GOLIATH to external services:
 | **Telegram** | Send messages, photos, and documents | Bot token from [@BotFather](https://t.me/BotFather) |
 | **Gmail** | Send emails with HTML and attachments | App password from [Google](https://myaccount.google.com/apppasswords) |
 | **Slack** | Send messages, Block Kit, and file uploads | Webhook URL or bot token from [api.slack.com](https://api.slack.com/apps) |
+| **GitHub** | Manage repos, issues, PRs, files, and Actions | Personal access token from [github.com/settings/tokens](https://github.com/settings/tokens) |
 | **Web Scraper** | Extract text, links, and data from URLs | No keys needed |
 
 ### Quick Examples
@@ -159,6 +161,7 @@ from goliath.integrations.discord import DiscordClient
 from goliath.integrations.telegram import TelegramClient
 from goliath.integrations.gmail import GmailClient
 from goliath.integrations.slack import SlackClient
+from goliath.integrations.github import GitHubClient
 from goliath.integrations.scraper import WebScraper
 
 # Post a tweet
@@ -178,6 +181,9 @@ GmailClient().send(to="team@example.com", subject="Report", body="See attached."
 
 # Send a Slack message with Block Kit
 SlackClient().send("Deployment complete.", channel="#deployments")
+
+# Create a GitHub issue
+GitHubClient().create_issue("owner/repo", title="Bug report", body="Something broke.")
 
 # Scrape a web page
 data = WebScraper().get_text("https://example.com")
@@ -224,6 +230,8 @@ All settings live in `config.py` and can be overridden with environment variable
 | `GMAIL_APP_PASSWORD` | Gmail app password |
 | `SLACK_WEBHOOK_URL` | Slack incoming webhook URL |
 | `SLACK_BOT_TOKEN` | Slack bot user OAuth token |
+| `GITHUB_TOKEN` | GitHub personal access token |
+| `GITHUB_OWNER` | Default GitHub user or org name |
 
 ## License
 
