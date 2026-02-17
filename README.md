@@ -2,7 +2,86 @@
 
 **Universal AI Automation Engine**
 
-GOLIATH is a modular, plugin-driven automation engine that takes plain-English tasks and executes them through AI. Built on the xAI Grok API by default, it's designed so any model provider or third-party integration can be dropped in as a plugin with zero changes to the core.
+GOLIATH is a modular, plugin-driven automation engine that takes plain-English tasks and executes them through AI. Built on the xAI Grok API by default, with drop-in support for OpenAI, Anthropic Claude, and Google Gemini. Any model provider or third-party integration can be added as a plugin with zero changes to the core.
+
+## Supported Providers
+
+| Provider | Status | Default Model | Plugin File |
+|---|---|---|---|
+| **xAI Grok** | Default | `grok-3-latest` | `models/grok.py` |
+| **OpenAI** | Ready | `gpt-4o` | `models/openai_provider.py` |
+| **Anthropic Claude** | Ready | `claude-sonnet-4-5-20250929` | `models/claude.py` |
+| **Google Gemini** | Ready | `gemini-2.0-flash` | `models/gemini.py` |
+
+All four providers are built in. Add the API key and go — no code changes needed.
+
+## Quick Start
+
+```bash
+# Clone the repo
+git clone https://github.com/zdevelops1/GOLIATH.git
+cd GOLIATH
+
+# Install dependencies
+pip install -r requirements.txt
+```
+
+### Set Up API Keys
+
+Create a `.env` file in the project root (this file is git-ignored and will never be committed):
+
+```bash
+# Required — default provider
+XAI_API_KEY=your-xai-key-here
+
+# Optional — enable additional providers
+OPENAI_API_KEY=your-openai-key-here
+ANTHROPIC_API_KEY=your-anthropic-key-here
+GOOGLE_API_KEY=your-google-key-here
+```
+
+Or export them directly:
+
+```bash
+export XAI_API_KEY="your-xai-key-here"
+```
+
+### Run GOLIATH
+
+**Interactive mode** — opens a REPL where you type tasks:
+
+```bash
+python main.py
+```
+
+```
+   ██████   ██████  ██      ██  █████  ████████ ██   ██
+  ██       ██    ██ ██      ██ ██   ██    ██    ██   ██
+  ██   ███ ██    ██ ██      ██ ███████    ██    ███████
+  ██    ██ ██    ██ ██      ██ ██   ██    ██    ██   ██
+   ██████   ██████  ███████ ██ ██   ██    ██    ██   ██
+
+  Universal AI Automation Engine
+  Type a task. Type 'quit' to exit.
+
+GOLIATH > Summarise the top 5 trends in AI this week
+```
+
+**Single-shot mode** — pass a task directly:
+
+```bash
+python main.py "Write a Python script that sorts a list of names"
+```
+
+### Switch Providers
+
+Change the default provider in your `.env` or `config.py`:
+
+```
+DEFAULT_PROVIDER=claude
+```
+
+Options: `grok` (default), `openai`, `claude`, `gemini`
 
 ## Architecture
 
@@ -13,7 +92,7 @@ goliath/
   core/
     engine.py          # Task execution engine — orchestrates everything
   models/
-    base.py            # Abstract provider interface
+    base.py            # Abstract provider interface (subclass to add new models)
     grok.py            # xAI Grok provider (default)
     openai_provider.py # OpenAI provider (GPT-4o, GPT-4, etc.)
     claude.py          # Anthropic Claude provider (Opus, Sonnet, Haiku)
@@ -25,58 +104,10 @@ goliath/
     interface.py       # Interactive REPL & single-shot CLI
 ```
 
-## Quick Start
-
-```bash
-# 1. Clone the repo
-git clone https://github.com/YOUR_USERNAME/goliath.git
-cd goliath
-
-# 2. Install dependencies
-pip install -r requirements.txt
-
-# 3. Set your API key(s) — at minimum the default provider (Grok)
-export XAI_API_KEY="your-key-here"
-# Optional: enable additional providers
-# export OPENAI_API_KEY="your-key-here"
-# export ANTHROPIC_API_KEY="your-key-here"
-# export GOOGLE_API_KEY="your-key-here"
-
-# 4. Run GOLIATH
-python main.py
-```
-
-You'll get an interactive prompt where you can type any task:
-
-```
-GOLIATH > Summarise the top 5 trends in AI this week
-```
-
-Or run a single task directly:
-
-```bash
-python main.py "Write a Python script that sorts a list of names"
-```
-
-## Supported Providers
-
-| Provider | Config Key | Default Model |
-|---|---|---|
-| **xAI Grok** (default) | `XAI_API_KEY` | `grok-3-latest` |
-| **OpenAI** | `OPENAI_API_KEY` | `gpt-4o` |
-| **Anthropic Claude** | `ANTHROPIC_API_KEY` | `claude-sonnet-4-5-20250929` |
-| **Google Gemini** | `GOOGLE_API_KEY` | `gemini-2.0-flash` |
-
-Switch providers by setting `DEFAULT_PROVIDER` in `config.py` (or `.env`):
-
-```python
-DEFAULT_PROVIDER = "claude"  # or "openai", "gemini", "grok"
-```
-
 ## Adding a New Model Provider
 
-1. Create a new file in `models/` (e.g. `models/my_provider.py`).
-2. Subclass `BaseProvider` from `models/base.py` and implement `run()`.
+1. Create a file in `models/` (e.g. `models/my_provider.py`)
+2. Subclass `BaseProvider` from `models/base.py` and implement `run()`
 3. Register it in `config.py`:
 
 ```python
@@ -86,18 +117,19 @@ MODEL_PROVIDERS = {
 }
 ```
 
-4. Set `DEFAULT_PROVIDER = "my_provider"` — no other code needs to change.
+4. Set `DEFAULT_PROVIDER = "my_provider"` — no other code needs to change
 
 ## Adding an Integration
 
 Drop a module into `integrations/`, register it in `config.INTEGRATIONS`, and the engine can discover and use it. The same pattern applies to `tools/` for executable tool plugins.
 
-## Configuration
+## Configuration Reference
 
-All settings live in `config.py` and can be overridden with environment variables:
+All settings live in `config.py` and can be overridden with environment variables or `.env`:
 
 | Variable | Default | Description |
 |---|---|---|
+| `DEFAULT_PROVIDER` | `grok` | Active model provider |
 | `XAI_API_KEY` | — | xAI API key |
 | `XAI_DEFAULT_MODEL` | `grok-3-latest` | Grok model |
 | `OPENAI_API_KEY` | — | OpenAI API key |
@@ -106,7 +138,6 @@ All settings live in `config.py` and can be overridden with environment variable
 | `ANTHROPIC_DEFAULT_MODEL` | `claude-sonnet-4-5-20250929` | Claude model |
 | `GOOGLE_API_KEY` | — | Google AI API key |
 | `GOOGLE_DEFAULT_MODEL` | `gemini-2.0-flash` | Gemini model |
-| `DEFAULT_PROVIDER` | `grok` | Which provider to use |
 
 ## License
 
