@@ -25,12 +25,17 @@ class ClaudeProvider(BaseProvider):
         self.client = anthropic.Anthropic(api_key=config.ANTHROPIC_API_KEY)
         self.model = config.ANTHROPIC_DEFAULT_MODEL
 
-    def run(self, prompt: str, system_prompt: str = "") -> ModelResponse:
+    def run(self, prompt: str, system_prompt: str = "", history: list[dict] | None = None) -> ModelResponse:
         """Send a task prompt to Claude and return the response."""
+        messages = []
+        if history:
+            messages.extend(history)
+        messages.append({"role": "user", "content": prompt})
+
         kwargs = {
             "model": self.model,
             "max_tokens": config.MAX_TOKENS,
-            "messages": [{"role": "user", "content": prompt}],
+            "messages": messages,
         }
         if system_prompt:
             kwargs["system"] = system_prompt

@@ -64,8 +64,12 @@ SLACK_BOT_TOKEN = os.environ.get("SLACK_BOT_TOKEN", "")
 GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN", "")
 GITHUB_OWNER = os.environ.get("GITHUB_OWNER", "")
 
+# --- Memory ---
+MEMORY_PATH = os.environ.get("GOLIATH_MEMORY_PATH", str(Path.home() / ".goliath" / "memory.json"))
+MEMORY_MAX_HISTORY = int(os.environ.get("GOLIATH_MEMORY_MAX_HISTORY", "20"))
+
 # --- Model defaults ---
-DEFAULT_PROVIDER = "grok"  # Which model provider to use by default
+DEFAULT_PROVIDER = os.environ.get("DEFAULT_PROVIDER", "grok")
 MAX_TOKENS = 4096
 TEMPERATURE = 0.7
 

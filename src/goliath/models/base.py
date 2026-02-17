@@ -25,6 +25,17 @@ class BaseProvider(ABC):
     name: str = "base"
 
     @abstractmethod
-    def run(self, prompt: str, system_prompt: str = "") -> ModelResponse:
-        """Send a prompt to the model and return a ModelResponse."""
+    def run(
+        self,
+        prompt: str,
+        system_prompt: str = "",
+        history: list[dict] | None = None,
+    ) -> ModelResponse:
+        """Send a prompt to the model and return a ModelResponse.
+
+        Args:
+            prompt:        The current user message.
+            system_prompt: System instructions.
+            history:       Prior conversation turns [{"role": ..., "content": ...}].
+        """
         ...

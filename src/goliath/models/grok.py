@@ -28,11 +28,13 @@ class GrokProvider(BaseProvider):
         )
         self.model = config.XAI_DEFAULT_MODEL
 
-    def run(self, prompt: str, system_prompt: str = "") -> ModelResponse:
+    def run(self, prompt: str, system_prompt: str = "", history: list[dict] | None = None) -> ModelResponse:
         """Send a task prompt to Grok and return the response."""
         messages = []
         if system_prompt:
             messages.append({"role": "system", "content": system_prompt})
+        if history:
+            messages.extend(history)
         messages.append({"role": "user", "content": prompt})
 
         completion = self.client.chat.completions.create(

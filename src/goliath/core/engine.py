@@ -15,6 +15,7 @@ multi-step pipelines later.
 import importlib
 
 from goliath import config
+from goliath.memory.store import Memory
 from goliath.models.base import BaseProvider, ModelResponse
 
 
@@ -23,13 +24,30 @@ class Engine:
 
     def __init__(self, provider_name: str | None = None):
         self.provider = self._load_provider(provider_name or config.DEFAULT_PROVIDER)
+        self.memory = Memory()
 
     def execute(self, task: str) -> ModelResponse:
         """Execute a plain-English task and return the model response."""
-        return self.provider.run(
+        # Build system prompt with any stored facts
+        system_prompt = config.SYSTEM_PROMPT
+        facts_context = self.memory.facts_as_context()
+        if facts_context:
+            system_prompt = f"{system_prompt}\n\n{facts_context}"
+
+        # Get conversation history for context
+        history = self.memory.get_history()
+
+        result = self.provider.run(
             prompt=task,
-            system_prompt=config.SYSTEM_PROMPT,
+            system_prompt=system_prompt,
+            history=history or None,
         )
+
+        # Save this turn to memory
+        self.memory.add_turn("user", task)
+        self.memory.add_turn("assistant", result.content)
+
+        return result
 
     # -- internal helpers --------------------------------------------------
 
