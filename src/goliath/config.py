@@ -60,6 +60,10 @@ GMAIL_APP_PASSWORD = os.environ.get("GMAIL_APP_PASSWORD", "")
 SLACK_WEBHOOK_URL = os.environ.get("SLACK_WEBHOOK_URL", "")
 SLACK_BOT_TOKEN = os.environ.get("SLACK_BOT_TOKEN", "")
 
+# --- GitHub ---
+GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN", "")
+GITHUB_OWNER = os.environ.get("GITHUB_OWNER", "")
+
 # --- Model defaults ---
 DEFAULT_PROVIDER = "grok"  # Which model provider to use by default
 MAX_TOKENS = 4096
@@ -94,4 +98,5 @@ INTEGRATIONS = {
     "gmail": "goliath.integrations.gmail",
     "scraper": "goliath.integrations.scraper",
     "slack": "goliath.integrations.slack",
+    "github": "goliath.integrations.github",
 }
