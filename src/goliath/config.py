@@ -56,6 +56,10 @@ TELEGRAM_CHAT_ID = os.environ.get("TELEGRAM_CHAT_ID", "")
 GMAIL_ADDRESS = os.environ.get("GMAIL_ADDRESS", "")
 GMAIL_APP_PASSWORD = os.environ.get("GMAIL_APP_PASSWORD", "")
 
+# --- Slack ---
+SLACK_WEBHOOK_URL = os.environ.get("SLACK_WEBHOOK_URL", "")
+SLACK_BOT_TOKEN = os.environ.get("SLACK_BOT_TOKEN", "")
+
 # --- Model defaults ---
 DEFAULT_PROVIDER = "grok"  # Which model provider to use by default
 MAX_TOKENS = 4096
@@ -89,4 +93,5 @@ INTEGRATIONS = {
     "telegram": "goliath.integrations.telegram",
     "gmail": "goliath.integrations.gmail",
     "scraper": "goliath.integrations.scraper",
+    "slack": "goliath.integrations.slack",
 }
