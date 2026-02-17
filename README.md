@@ -114,6 +114,7 @@ goliath/
       telegram.py        # Telegram (messages, photos, documents via bot)
       gmail.py           # Gmail (emails with HTML, attachments via SMTP)
       scraper.py         # Web scraper (text, links, structured data)
+      slack.py           # Slack (messages, Block Kit, file uploads)
     tools/               # Executable tool plugins (web search, file I/O, etc.)
     memory/              # Persistent context & session memory
     cli/
@@ -137,7 +138,7 @@ MODEL_PROVIDERS = {
 
 ## Integrations
 
-Six built-in integrations for connecting GOLIATH to external services:
+Seven built-in integrations for connecting GOLIATH to external services:
 
 | Integration | What it does | Setup |
 |---|---|---|
@@ -146,6 +147,7 @@ Six built-in integrations for connecting GOLIATH to external services:
 | **Discord** | Send messages, rich embeds, and files | Webhook URL (no auth needed) |
 | **Telegram** | Send messages, photos, and documents | Bot token from [@BotFather](https://t.me/BotFather) |
 | **Gmail** | Send emails with HTML and attachments | App password from [Google](https://myaccount.google.com/apppasswords) |
+| **Slack** | Send messages, Block Kit, and file uploads | Webhook URL or bot token from [api.slack.com](https://api.slack.com/apps) |
 | **Web Scraper** | Extract text, links, and data from URLs | No keys needed |
 
 ### Quick Examples
@@ -156,6 +158,7 @@ from goliath.integrations.instagram import InstagramClient
 from goliath.integrations.discord import DiscordClient
 from goliath.integrations.telegram import TelegramClient
 from goliath.integrations.gmail import GmailClient
+from goliath.integrations.slack import SlackClient
 from goliath.integrations.scraper import WebScraper
 
 # Post a tweet
@@ -172,6 +175,9 @@ TelegramClient().send("Build finished successfully.")
 
 # Send an email with an attachment
 GmailClient().send(to="team@example.com", subject="Report", body="See attached.", attachments=["report.pdf"])
+
+# Send a Slack message with Block Kit
+SlackClient().send("Deployment complete.", channel="#deployments")
 
 # Scrape a web page
 data = WebScraper().get_text("https://example.com")
@@ -216,6 +222,8 @@ All settings live in `config.py` and can be overridden with environment variable
 | `TELEGRAM_CHAT_ID` | Default Telegram chat/group ID |
 | `GMAIL_ADDRESS` | Gmail address to send from |
 | `GMAIL_APP_PASSWORD` | Gmail app password |
+| `SLACK_WEBHOOK_URL` | Slack incoming webhook URL |
+| `SLACK_BOT_TOKEN` | Slack bot user OAuth token |
 
 ## License
 
