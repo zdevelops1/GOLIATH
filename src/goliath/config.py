@@ -37,6 +37,28 @@ ANTHROPIC_DEFAULT_MODEL = os.environ.get(
 GOOGLE_API_KEY = os.environ.get("GOOGLE_API_KEY", "")
 GOOGLE_DEFAULT_MODEL = os.environ.get("GOOGLE_DEFAULT_MODEL", "gemini-2.0-flash")
 
+# --- Mistral AI API ---
+MISTRAL_API_KEY = os.environ.get("MISTRAL_API_KEY", "")
+MISTRAL_DEFAULT_MODEL = os.environ.get("MISTRAL_DEFAULT_MODEL", "mistral-large-latest")
+
+# --- DeepSeek API ---
+DEEPSEEK_API_KEY = os.environ.get("DEEPSEEK_API_KEY", "")
+DEEPSEEK_BASE_URL = os.environ.get("DEEPSEEK_BASE_URL", "https://api.deepseek.com")
+DEEPSEEK_DEFAULT_MODEL = os.environ.get("DEEPSEEK_DEFAULT_MODEL", "deepseek-chat")
+
+# --- Ollama (local models) ---
+OLLAMA_BASE_URL = os.environ.get("OLLAMA_BASE_URL", "http://localhost:11434/v1")
+OLLAMA_DEFAULT_MODEL = os.environ.get("OLLAMA_DEFAULT_MODEL", "llama3.1")
+
+# --- Cohere API ---
+COHERE_API_KEY = os.environ.get("COHERE_API_KEY", "")
+COHERE_DEFAULT_MODEL = os.environ.get("COHERE_DEFAULT_MODEL", "command-r-plus")
+
+# --- Perplexity API ---
+PERPLEXITY_API_KEY = os.environ.get("PERPLEXITY_API_KEY", "")
+PERPLEXITY_BASE_URL = os.environ.get("PERPLEXITY_BASE_URL", "https://api.perplexity.ai")
+PERPLEXITY_DEFAULT_MODEL = os.environ.get("PERPLEXITY_DEFAULT_MODEL", "sonar-pro")
+
 # --- X / Twitter API ---
 X_CONSUMER_KEY = os.environ.get("X_CONSUMER_KEY", "")
 X_CONSUMER_SECRET = os.environ.get("X_CONSUMER_SECRET", "")
@@ -150,6 +172,38 @@ PAYPAL_CLIENT_ID = os.environ.get("PAYPAL_CLIENT_ID", "")
 PAYPAL_CLIENT_SECRET = os.environ.get("PAYPAL_CLIENT_SECRET", "")
 PAYPAL_SANDBOX = os.environ.get("PAYPAL_SANDBOX", "true")
 
+# --- Dropbox ---
+DROPBOX_ACCESS_TOKEN = os.environ.get("DROPBOX_ACCESS_TOKEN", "")
+
+# --- Jira ---
+JIRA_URL = os.environ.get("JIRA_URL", "")
+JIRA_EMAIL = os.environ.get("JIRA_EMAIL", "")
+JIRA_API_TOKEN = os.environ.get("JIRA_API_TOKEN", "")
+
+# --- Airtable ---
+AIRTABLE_ACCESS_TOKEN = os.environ.get("AIRTABLE_ACCESS_TOKEN", "")
+
+# --- Mailchimp ---
+MAILCHIMP_API_KEY = os.environ.get("MAILCHIMP_API_KEY", "")
+MAILCHIMP_SERVER_PREFIX = os.environ.get("MAILCHIMP_SERVER_PREFIX", "")
+
+# --- SendGrid ---
+SENDGRID_API_KEY = os.environ.get("SENDGRID_API_KEY", "")
+SENDGRID_FROM_EMAIL = os.environ.get("SENDGRID_FROM_EMAIL", "")
+
+# --- Trello ---
+TRELLO_API_KEY = os.environ.get("TRELLO_API_KEY", "")
+TRELLO_TOKEN = os.environ.get("TRELLO_TOKEN", "")
+
+# --- Amazon S3 ---
+AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID", "")
+AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY", "")
+AWS_DEFAULT_REGION = os.environ.get("AWS_DEFAULT_REGION", "us-east-1")
+AWS_S3_BUCKET = os.environ.get("AWS_S3_BUCKET", "")
+AWS_S3_USE_INSTANCE_PROFILE = (
+    os.environ.get("AWS_S3_USE_INSTANCE_PROFILE", "").lower() == "true"
+)
+
 # --- Memory ---
 MEMORY_PATH = os.environ.get(
     "GOLIATH_MEMORY_PATH", str(Path.home() / ".goliath" / "memory.json")
@@ -177,6 +231,11 @@ MODEL_PROVIDERS = {
     "openai": "goliath.models.openai_provider",
     "claude": "goliath.models.claude",
     "gemini": "goliath.models.gemini",
+    "mistral": "goliath.models.mistral",
+    "deepseek": "goliath.models.deepseek",
+    "ollama": "goliath.models.ollama",
+    "cohere": "goliath.models.cohere",
+    "perplexity": "goliath.models.perplexity",
 }
 
 # --- Integration registry ---
@@ -214,4 +273,11 @@ INTEGRATIONS = {
     "wordpress": "goliath.integrations.wordpress",
     "webflow": "goliath.integrations.webflow",
     "paypal": "goliath.integrations.paypal",
+    "dropbox": "goliath.integrations.dropbox",
+    "jira": "goliath.integrations.jira",
+    "airtable": "goliath.integrations.airtable",
+    "mailchimp": "goliath.integrations.mailchimp",
+    "sendgrid": "goliath.integrations.sendgrid",
+    "trello": "goliath.integrations.trello",
+    "s3": "goliath.integrations.s3",
 }

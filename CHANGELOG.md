@@ -2,6 +2,32 @@
 
 All notable changes to GOLIATH are documented in this file.
 
+## [0.3.0] - 2026-02-19
+
+### Added
+
+- **5 new model providers (4 → 9 total):**
+  - **Mistral AI** — Mistral Large, Medium, Small, Codestral (`mistralai` SDK)
+  - **DeepSeek** — DeepSeek Chat and Reasoner (OpenAI-compatible endpoint)
+  - **Ollama** — Local models: Llama 3.1, Mistral, Phi, CodeLlama, etc. (no API key needed)
+  - **Cohere** — Command R+, Command R, Command Light (`cohere` SDK)
+  - **Perplexity** — Sonar and Sonar Pro search-augmented models (OpenAI-compatible endpoint)
+- **7 new integrations (31 → 38 total):**
+  - **Cloud storage:** Dropbox (files, folders, sharing), Amazon S3 (objects, buckets, presigned URLs)
+  - **Project management:** Jira (issues, transitions, comments, JQL search), Trello (boards, lists, cards, checklists)
+  - **Databases & tables:** Airtable (bases, tables, records, formulas)
+  - **Email marketing:** Mailchimp (audiences, subscribers, campaigns), SendGrid (transactional email, templates, contacts)
+
+### Changed
+
+- Dependencies: added `mistralai>=1.0.0`, `cohere>=5.0.0`, `boto3>=1.26.0`
+- Total model providers: 4 → 9
+- Total integrations: 31 → 38
+- README updated with all 9 providers and 38 integrations
+- Package version bumped to 0.3.0
+
+---
+
 ## [0.2.0] - 2026-02-19
 
 ### Added

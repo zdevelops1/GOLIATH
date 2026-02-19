@@ -4,7 +4,7 @@
 
 **Universal AI Automation Engine**
 
-GOLIATH is a modular, plugin-driven automation engine that takes plain-English tasks and executes them through AI. Built on the xAI Grok API by default, with drop-in support for OpenAI, Anthropic Claude, and Google Gemini. Any model provider or third-party integration can be added as a plugin with zero changes to the core.
+GOLIATH is a modular, plugin-driven automation engine that takes plain-English tasks and executes them through AI. Built on the xAI Grok API by default, with drop-in support for 8 additional model providers and 38 third-party integrations. Any model provider or integration can be added as a plugin with zero changes to the core.
 
 ## Supported Providers
 
@@ -14,8 +14,13 @@ GOLIATH is a modular, plugin-driven automation engine that takes plain-English t
 | **OpenAI** | Ready | `gpt-4o` | `models/openai_provider.py` |
 | **Anthropic Claude** | Ready | `claude-sonnet-4-5-20250929` | `models/claude.py` |
 | **Google Gemini** | Ready | `gemini-2.0-flash` | `models/gemini.py` |
+| **Mistral AI** | Ready | `mistral-large-latest` | `models/mistral.py` |
+| **DeepSeek** | Ready | `deepseek-chat` | `models/deepseek.py` |
+| **Ollama (local)** | Ready | `llama3.1` | `models/ollama.py` |
+| **Cohere** | Ready | `command-r-plus` | `models/cohere.py` |
+| **Perplexity** | Ready | `sonar-pro` | `models/perplexity.py` |
 
-All four providers are built in. Add the API key and go — no code changes needed.
+All nine providers are built in. Add the API key and go — no code changes needed. Ollama runs locally and needs no API key.
 
 ## Install
 
@@ -45,6 +50,11 @@ XAI_API_KEY=your-xai-key-here
 OPENAI_API_KEY=your-openai-key-here
 ANTHROPIC_API_KEY=your-anthropic-key-here
 GOOGLE_API_KEY=your-google-key-here
+MISTRAL_API_KEY=your-mistral-key-here
+DEEPSEEK_API_KEY=your-deepseek-key-here
+COHERE_API_KEY=your-cohere-key-here
+PERPLEXITY_API_KEY=your-perplexity-key-here
+# Ollama — no key needed, just install and run: ollama serve
 ```
 
 Or export them directly:
@@ -89,7 +99,7 @@ Change the default provider in your `.env` or `config.py`:
 DEFAULT_PROVIDER=claude
 ```
 
-Options: `grok` (default), `openai`, `claude`, `gemini`
+Options: `grok` (default), `openai`, `claude`, `gemini`, `mistral`, `deepseek`, `ollama`, `cohere`, `perplexity`
 
 ## Architecture
 
@@ -110,6 +120,11 @@ goliath/
       openai_provider.py # OpenAI provider (GPT-4o, GPT-4, etc.)
       claude.py          # Anthropic Claude provider (Opus, Sonnet, Haiku)
       gemini.py          # Google Gemini provider (2.0 Flash, 1.5 Pro)
+      mistral.py         # Mistral AI provider (Large, Medium, Codestral)
+      deepseek.py        # DeepSeek provider (Chat, Reasoner)
+      ollama.py          # Ollama provider (local Llama, Mistral, Phi, etc.)
+      cohere.py          # Cohere provider (Command R+, Command R)
+      perplexity.py      # Perplexity provider (Sonar, Sonar Pro)
     integrations/
       x.py               # X / Twitter (tweets, threads, media)
       instagram.py       # Instagram (photos, Reels, carousels)
@@ -142,6 +157,13 @@ goliath/
       wordpress.py       # WordPress (posts, pages, media)
       webflow.py         # Webflow (sites, CMS collections, items)
       paypal.py          # PayPal (orders, payments, payouts, refunds)
+      dropbox.py         # Dropbox (files, folders, sharing, search)
+      jira.py            # Jira (issues, transitions, comments, JQL search)
+      airtable.py        # Airtable (bases, tables, records, formulas)
+      mailchimp.py       # Mailchimp (audiences, subscribers, campaigns)
+      sendgrid.py        # SendGrid (transactional email, templates, contacts)
+      trello.py          # Trello (boards, lists, cards, checklists)
+      s3.py              # Amazon S3 (objects, buckets, presigned URLs)
     tools/               # Executable tool plugins (web search, file I/O, etc.)
     memory/
       store.py           # Persistent memory (conversation history + facts)
@@ -210,7 +232,7 @@ MODEL_PROVIDERS = {
 
 ## Integrations
 
-Thirty-one built-in integrations for connecting GOLIATH to external services:
+Thirty-eight built-in integrations for connecting GOLIATH to external services:
 
 | Integration | What it does | Setup |
 |---|---|---|
@@ -245,6 +267,13 @@ Thirty-one built-in integrations for connecting GOLIATH to external services:
 | **WordPress** | Manage posts, pages, and media | Application password from your WordPress admin |
 | **Webflow** | Manage sites, CMS collections, and items | API token from [webflow.com](https://webflow.com/) |
 | **PayPal** | Orders, payments, payouts, and refunds | REST API credentials from [developer.paypal.com](https://developer.paypal.com/) |
+| **Dropbox** | Upload, download, manage files and folders | Access token from [dropbox.com/developers](https://www.dropbox.com/developers/apps) |
+| **Jira** | Issues, transitions, comments, JQL search | API token from [id.atlassian.com](https://id.atlassian.com/manage-profile/security/api-tokens) |
+| **Airtable** | Bases, tables, records, and formulas | Personal access token from [airtable.com/create/tokens](https://airtable.com/create/tokens) |
+| **Mailchimp** | Audiences, subscribers, and campaigns | API key from [mailchimp.com](https://us1.admin.mailchimp.com/account/api/) |
+| **SendGrid** | Transactional email, templates, contacts | API key from [app.sendgrid.com](https://app.sendgrid.com/settings/api_keys) |
+| **Trello** | Boards, lists, cards, and checklists | API key + token from [trello.com/power-ups/admin](https://trello.com/power-ups/admin) |
+| **Amazon S3** | Object storage, buckets, presigned URLs | AWS credentials from [IAM Console](https://console.aws.amazon.com/iam/) |
 
 ### Quick Examples
 
@@ -280,6 +309,13 @@ from goliath.integrations.salesforce import SalesforceClient
 from goliath.integrations.wordpress import WordPressClient
 from goliath.integrations.webflow import WebflowClient
 from goliath.integrations.paypal import PayPalClient
+from goliath.integrations.dropbox import DropboxClient
+from goliath.integrations.jira import JiraClient
+from goliath.integrations.airtable import AirtableClient
+from goliath.integrations.mailchimp import MailchimpClient
+from goliath.integrations.sendgrid import SendGridClient
+from goliath.integrations.trello import TrelloClient
+from goliath.integrations.s3 import S3Client
 
 # Post a tweet
 XClient().tweet("Hello from GOLIATH!")
@@ -373,6 +409,27 @@ WebflowClient().create_item(collection_id="col_abc", fields={"name": "New Post",
 
 # Create a PayPal order
 PayPalClient().create_order(amount="29.99", currency="USD")
+
+# List Dropbox files
+DropboxClient().list_folder("/Documents")
+
+# Create a Jira issue
+JiraClient().create_issue(project="PROJ", summary="Bug report", issue_type="Bug")
+
+# List Airtable records
+AirtableClient().list_records(base_id="appXXX", table="Tasks")
+
+# Add a Mailchimp subscriber
+MailchimpClient().add_subscriber(list_id="abc123", email="user@example.com")
+
+# Send an email via SendGrid
+SendGridClient().send(to="user@example.com", subject="Hello", text="Hello from GOLIATH!")
+
+# Create a Trello card
+TrelloClient().create_card(list_id="xyz789", name="New task")
+
+# Upload a file to S3
+S3Client().upload_file("report.pdf", "my-bucket", "reports/report.pdf")
 ```
 
 Each integration file contains full setup instructions in its docstring.
@@ -436,6 +493,18 @@ All settings live in `config.py` and can be overridden with environment variable
 | `ANTHROPIC_DEFAULT_MODEL` | `claude-sonnet-4-5-20250929` | Claude model |
 | `GOOGLE_API_KEY` | — | Google AI API key |
 | `GOOGLE_DEFAULT_MODEL` | `gemini-2.0-flash` | Gemini model |
+| `MISTRAL_API_KEY` | — | Mistral AI API key |
+| `MISTRAL_DEFAULT_MODEL` | `mistral-large-latest` | Mistral model |
+| `DEEPSEEK_API_KEY` | — | DeepSeek API key |
+| `DEEPSEEK_BASE_URL` | `https://api.deepseek.com` | DeepSeek API base URL |
+| `DEEPSEEK_DEFAULT_MODEL` | `deepseek-chat` | DeepSeek model |
+| `OLLAMA_BASE_URL` | `http://localhost:11434/v1` | Ollama server URL |
+| `OLLAMA_DEFAULT_MODEL` | `llama3.1` | Ollama model name |
+| `COHERE_API_KEY` | — | Cohere API key |
+| `COHERE_DEFAULT_MODEL` | `command-r-plus` | Cohere model |
+| `PERPLEXITY_API_KEY` | — | Perplexity API key |
+| `PERPLEXITY_BASE_URL` | `https://api.perplexity.ai` | Perplexity API base URL |
+| `PERPLEXITY_DEFAULT_MODEL` | `sonar-pro` | Perplexity model |
 
 **Memory**
 
@@ -507,6 +576,21 @@ All settings live in `config.py` and can be overridden with environment variable
 | `PAYPAL_CLIENT_ID` | PayPal REST API client ID |
 | `PAYPAL_CLIENT_SECRET` | PayPal REST API client secret |
 | `PAYPAL_SANDBOX` | `true` for sandbox, `false` for live (default: `true`) |
+| `DROPBOX_ACCESS_TOKEN` | Dropbox access token |
+| `JIRA_URL` | Jira Cloud URL (e.g. `https://your-domain.atlassian.net`) |
+| `JIRA_EMAIL` | Atlassian account email |
+| `JIRA_API_TOKEN` | Jira API token |
+| `AIRTABLE_ACCESS_TOKEN` | Airtable personal access token |
+| `MAILCHIMP_API_KEY` | Mailchimp API key (e.g. `xxx-us14`) |
+| `MAILCHIMP_SERVER_PREFIX` | Mailchimp data center (e.g. `us14`) |
+| `SENDGRID_API_KEY` | SendGrid API key (starts with `SG.`) |
+| `SENDGRID_FROM_EMAIL` | Verified sender email for SendGrid |
+| `TRELLO_API_KEY` | Trello API key |
+| `TRELLO_TOKEN` | Trello authorization token |
+| `AWS_ACCESS_KEY_ID` | AWS access key ID |
+| `AWS_SECRET_ACCESS_KEY` | AWS secret access key |
+| `AWS_DEFAULT_REGION` | AWS region (default: `us-east-1`) |
+| `AWS_S3_BUCKET` | Default S3 bucket name (optional) |
 
 ## License
 
