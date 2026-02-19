@@ -116,6 +116,7 @@ goliath/
       scraper.py         # Web scraper (text, links, structured data)
       slack.py           # Slack (messages, Block Kit, file uploads)
       github.py          # GitHub (repos, issues, PRs, files, Actions)
+      imagegen.py        # Image generation (DALL-E text-to-image, edits, variations)
     tools/               # Executable tool plugins (web search, file I/O, etc.)
     memory/
       store.py           # Persistent memory (conversation history + facts)
@@ -184,7 +185,7 @@ MODEL_PROVIDERS = {
 
 ## Integrations
 
-Eight built-in integrations for connecting GOLIATH to external services:
+Nine built-in integrations for connecting GOLIATH to external services:
 
 | Integration | What it does | Setup |
 |---|---|---|
@@ -195,6 +196,7 @@ Eight built-in integrations for connecting GOLIATH to external services:
 | **Gmail** | Send emails with HTML and attachments | App password from [Google](https://myaccount.google.com/apppasswords) |
 | **Slack** | Send messages, Block Kit, and file uploads | Webhook URL or bot token from [api.slack.com](https://api.slack.com/apps) |
 | **GitHub** | Manage repos, issues, PRs, files, and Actions | Personal access token from [github.com/settings/tokens](https://github.com/settings/tokens) |
+| **Image Generation** | Generate, edit, and vary images via DALL-E | Uses existing `OPENAI_API_KEY` |
 | **Web Scraper** | Extract text, links, and data from URLs | No keys needed |
 
 ### Quick Examples
@@ -207,6 +209,7 @@ from goliath.integrations.telegram import TelegramClient
 from goliath.integrations.gmail import GmailClient
 from goliath.integrations.slack import SlackClient
 from goliath.integrations.github import GitHubClient
+from goliath.integrations.imagegen import ImageGenClient
 from goliath.integrations.scraper import WebScraper
 
 # Post a tweet
@@ -229,6 +232,9 @@ SlackClient().send("Deployment complete.", channel="#deployments")
 
 # Create a GitHub issue
 GitHubClient().create_issue("owner/repo", title="Bug report", body="Something broke.")
+
+# Generate an image from a text prompt
+result = ImageGenClient().generate("A futuristic city skyline at sunset")
 
 # Scrape a web page
 data = WebScraper().get_text("https://example.com")
@@ -284,6 +290,7 @@ All settings live in `config.py` and can be overridden with environment variable
 | `SLACK_BOT_TOKEN` | Slack bot user OAuth token |
 | `GITHUB_TOKEN` | GitHub personal access token |
 | `GITHUB_OWNER` | Default GitHub user or org name |
+| `IMAGEGEN_DEFAULT_MODEL` | DALL-E model (`dall-e-3` default, `dall-e-2`, `gpt-image-1`) |
 
 ## License
 
