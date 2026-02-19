@@ -58,7 +58,7 @@ from goliath import config
 
 _OAUTH_URL = "https://www.reddit.com/api/v1/access_token"
 _API_BASE = "https://oauth.reddit.com"
-_USER_AGENT = "GOLIATH/0.1.0"
+_USER_AGENT = "python:goliath-ai:v0.1.0 (by /u/{username})"
 
 
 class RedditClient:
@@ -86,7 +86,7 @@ class RedditClient:
         self._token = None
 
         self.session = requests.Session()
-        self.session.headers["User-Agent"] = _USER_AGENT
+        self.session.headers["User-Agent"] = _USER_AGENT.format(username=self._username)
         self._authenticate()
 
     def _authenticate(self):
@@ -99,13 +99,16 @@ class RedditClient:
                 "username": self._username,
                 "password": self._password,
             },
-            headers={"User-Agent": _USER_AGENT},
+            headers={"User-Agent": _USER_AGENT.format(username=self._username)},
         )
         resp.raise_for_status()
         data = resp.json()
 
         if "access_token" not in data:
-            raise RuntimeError(f"Reddit OAuth failed: {data}")
+            raise RuntimeError(
+                f"Reddit OAuth failed: {data.get('error', 'unknown')} — "
+                f"{data.get('error_description', 'no details')}"
+            )
 
         self._token = data["access_token"]
         self.session.headers["Authorization"] = f"Bearer {self._token}"

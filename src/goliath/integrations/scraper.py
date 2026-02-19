@@ -47,6 +47,17 @@ _DEFAULT_HEADERS = {
 }
 
 
+def _validate_url(url: str) -> None:
+    """Reject non-HTTP(S) URLs to prevent SSRF and local file access."""
+    from urllib.parse import urlparse
+
+    parsed = urlparse(url)
+    if parsed.scheme not in ("http", "https"):
+        raise ValueError(
+            f"Unsupported URL scheme '{parsed.scheme}'. Only http and https are allowed."
+        )
+
+
 class WebScraper:
     """Web scraper for extracting content from web pages."""
 
@@ -71,6 +82,7 @@ class WebScraper:
         Returns:
             BeautifulSoup object for custom querying.
         """
+        _validate_url(url)
         resp = self.session.get(url, timeout=self.timeout)
         resp.raise_for_status()
         return BeautifulSoup(resp.text, "html.parser")
@@ -152,6 +164,7 @@ class WebScraper:
         Returns:
             Path object of the saved file.
         """
+        _validate_url(url)
         resp = self.session.get(url, timeout=self.timeout, stream=True)
         resp.raise_for_status()
 

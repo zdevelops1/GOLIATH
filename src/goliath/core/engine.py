@@ -15,6 +15,7 @@ multi-step pipelines later.
 import importlib
 
 from goliath import config
+from goliath.core.moderation import check as moderate
 from goliath.memory.store import Memory
 from goliath.models.base import BaseProvider, ModelResponse
 
@@ -28,6 +29,9 @@ class Engine:
 
     def execute(self, task: str) -> ModelResponse:
         """Execute a plain-English task and return the model response."""
+        # Content moderation — block harmful requests before they reach the model
+        moderate(task)
+
         # Build system prompt with any stored facts
         system_prompt = config.SYSTEM_PROMPT
         facts_context = self.memory.facts_as_context()

@@ -205,7 +205,7 @@ class SheetsClient:
         if self._credentials:
             self._refresh_token()
         else:
-            kwargs.setdefault("params", {})["key"] = self._api_key
+            kwargs.setdefault("headers", {})["X-Goog-Api-Key"] = self._api_key
         resp = self.session.get(f"{_BASE_URL}{path}", **kwargs)
         resp.raise_for_status()
         return resp.json()

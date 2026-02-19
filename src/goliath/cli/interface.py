@@ -18,6 +18,7 @@ Memory commands (interactive mode):
 import sys
 
 from goliath.core.engine import Engine
+from goliath.core.moderation import ModerationError
 
 
 BANNER = r"""
@@ -60,6 +61,12 @@ def _handle_memory_command(engine: Engine, task: str) -> bool:
             print("\n  Usage: /remember <key> <value>")
             return True
         key, value = parts[1], parts[2]
+        if len(key) > 128:
+            print("\n  [ERROR] Key too long (max 128 characters).")
+            return True
+        if len(value) > 4096:
+            print("\n  [ERROR] Value too long (max 4,096 characters).")
+            return True
         engine.memory.remember(key, value)
         print(f"\n  Remembered: {key} = {value}")
         return True
@@ -129,6 +136,9 @@ def run_interactive():
 
         if not task:
             continue
+        if len(task) > 32000:
+            print("\n[ERROR] Input too long (max 32,000 characters).")
+            continue
         if task.lower() in ("quit", "exit"):
             print("Shutting down.")
             break
@@ -142,6 +152,8 @@ def run_interactive():
             result = engine.execute(task)
             print(f"\n{result.content}")
             print(f"\n  [{result.provider}:{result.model} | {result.usage['total_tokens']} tokens]")
+        except ModerationError as exc:
+            print(f"\n[BLOCKED] {exc}")
         except Exception as exc:
             print(f"\n[ERROR] {exc}")
 
@@ -152,6 +164,9 @@ def run_once(task: str):
         engine = Engine()
         result = engine.execute(task)
         print(result.content)
+    except ModerationError as exc:
+        print(f"[BLOCKED] {exc}")
+        sys.exit(1)
     except Exception as exc:
         print(f"[ERROR] {exc}")
         sys.exit(1)

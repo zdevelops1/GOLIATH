@@ -152,14 +152,15 @@ class DriveClient:
 
         # Multipart upload: metadata + file content
         import json
-        resp = self.session.post(
-            _UPLOAD_URL,
-            params={"uploadType": "multipart", "fields": "id,name,mimeType,size,webViewLink"},
-            files={
-                "metadata": ("metadata.json", json.dumps(metadata), "application/json"),
-                "file": (path.name, open(path, "rb"), mime_type or "application/octet-stream"),
-            },
-        )
+        with open(path, "rb") as f:
+            resp = self.session.post(
+                _UPLOAD_URL,
+                params={"uploadType": "multipart", "fields": "id,name,mimeType,size,webViewLink"},
+                files={
+                    "metadata": ("metadata.json", json.dumps(metadata), "application/json"),
+                    "file": (path.name, f, mime_type or "application/octet-stream"),
+                },
+            )
         resp.raise_for_status()
         return resp.json()
 

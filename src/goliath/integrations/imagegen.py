@@ -170,26 +170,30 @@ class ImageGenClient:
         if not image_path.exists():
             raise FileNotFoundError(f"Image not found: {image}")
 
-        kwargs: dict = {
-            "model": "dall-e-2",
-            "image": open(image_path, "rb"),
-            "prompt": prompt,
-            "n": n,
-            "size": size,
-        }
-
-        if mask:
-            mask_path = Path(mask)
-            if not mask_path.exists():
-                raise FileNotFoundError(f"Mask not found: {mask}")
-            kwargs["mask"] = open(mask_path, "rb")
-
+        image_file = open(image_path, "rb")
+        mask_file = None
         try:
+            kwargs: dict = {
+                "model": "dall-e-2",
+                "image": image_file,
+                "prompt": prompt,
+                "n": n,
+                "size": size,
+            }
+
+            if mask:
+                mask_path = Path(mask)
+                if not mask_path.exists():
+                    image_file.close()
+                    raise FileNotFoundError(f"Mask not found: {mask}")
+                mask_file = open(mask_path, "rb")
+                kwargs["mask"] = mask_file
+
             response = self.client.images.edit(**kwargs)
         finally:
-            kwargs["image"].close()
-            if "mask" in kwargs:
-                kwargs["mask"].close()
+            image_file.close()
+            if mask_file:
+                mask_file.close()
 
         results = [{"url": img.url} for img in response.data]
         return results[0] if n == 1 else results

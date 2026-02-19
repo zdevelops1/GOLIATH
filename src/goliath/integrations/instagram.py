@@ -189,10 +189,9 @@ class InstagramClient:
 
     def _create_container(self, **params) -> str:
         """Create a media container and return its ID."""
-        params["access_token"] = self.token
-
         resp = requests.post(
             f"{_BASE_URL}/{self.user_id}/media",
+            headers={"Authorization": f"Bearer {self.token}"},
             data=params,
         )
         resp.raise_for_status()
@@ -202,10 +201,8 @@ class InstagramClient:
         """Publish a media container and return the response."""
         resp = requests.post(
             f"{_BASE_URL}/{self.user_id}/media_publish",
-            data={
-                "creation_id": container_id,
-                "access_token": self.token,
-            },
+            headers={"Authorization": f"Bearer {self.token}"},
+            data={"creation_id": container_id},
         )
         resp.raise_for_status()
         return resp.json()
@@ -216,10 +213,8 @@ class InstagramClient:
         while time.time() - start < timeout:
             resp = requests.get(
                 f"{_BASE_URL}/{container_id}",
-                params={
-                    "fields": "status_code",
-                    "access_token": self.token,
-                },
+                headers={"Authorization": f"Bearer {self.token}"},
+                params={"fields": "status_code"},
             )
             resp.raise_for_status()
             status = resp.json().get("status_code")
