@@ -19,7 +19,7 @@ _CATEGORIES: dict[str, dict] = {
     "illegal_activity": {
         "description": "Requests for help with illegal activities",
         "patterns": [
-            r"how\s+to\s+(?:make|build|create|manufacture)\s+(?:a\s+)?(?:bomb|explosive|weapon|meth|drugs)",
+            r"how\s+to\s+(?:make|build|create|manufacture)\s+(?:an?\s+)?(?:bomb|explosive|weapon|meth|drugs)",
             r"how\s+to\s+(?:hack|break\s+into|crack)\s+(?:someone'?s?\s+|a\s+|an\s+)(?:account|password|system|network|computer|server|email|phone|wifi)",
             r"how\s+to\s+(?:steal|shoplift|rob|burglarize|pickpocket)",
             r"how\s+to\s+(?:forge|counterfeit)\s+(?:money|documents|ids|passports|currency)",
@@ -27,16 +27,16 @@ _CATEGORIES: dict[str, dict] = {
             r"how\s+to\s+(?:launder|money\s*launder)",
             r"how\s+to\s+(?:kidnap|abduct|traffic)",
             r"how\s+to\s+(?:make|create|distribute)\s+(?:child\s+)?(?:exploitation|csam|cp)\s+material",
-            r"how\s+to\s+(?:evade|escape|flee\s+from)\s+(?:police|law\s+enforcement|authorities)",
+            r"how\s+to\s+(?:evade|escape\s+from|flee\s+from)\s+(?:police|law\s+enforcement|authorities)",
         ],
         "message": "This request appears to involve illegal activity. GOLIATH cannot assist with this.",
     },
     "violence_and_threats": {
         "description": "Threats, incitement to violence, or instructions to harm",
         "patterns": [
-            r"how\s+to\s+(?:kill|murder|assassinate|poison)\s+(?:a\s+|my\s+|some)?\w+",
-            r"how\s+to\s+(?:hurt|harm|injure|torture|maim)\s+(?:a\s+|my\s+|some)?\w+",
-            r"(?:i\s+(?:want|plan|going)\s+to|help\s+me)\s+(?:kill|murder|attack|hurt|harm)\b",
+            r"how\s+to\s+(?:kill|murder|assassinate|poison)\s+(?:a\s+|my\s+|some)?(?!process|container|docker|pod|service|task|session|connection|thread|dns|cache|server|port|job|screen|tmux|myself)\w+",
+            r"how\s+to\s+(?:hurt|harm|injure|torture|maim)\s+(?:a\s+|my\s+|some)?(?!process|container|myself)\w+",
+            r"(?:i\s+(?:want|plan|going)\s+to|i'?m\s+going\s+to|help\s+me)\s+(?:kill|murder|attack|hurt|harm)\b",
             r"how\s+to\s+(?:get\s+away\s+with|cover\s+up)\s+(?:murder|killing|assault)",
         ],
         "message": "This request contains violent or threatening content. GOLIATH cannot assist with this.",
@@ -45,7 +45,7 @@ _CATEGORIES: dict[str, dict] = {
         "description": "Content targeting groups based on protected characteristics",
         "patterns": [
             r"(?:why\s+(?:are|do)\s+)?(?:all\s+)?(?:jews|muslims|blacks|whites|asians|mexicans|immigrants|gays|trans\s+people)\s+(?:are\s+)?(?:inferior|evil|disgusting|subhuman|vermin|parasites|animals)",
-            r"(?:write|generate|create)\s+(?:a\s+)?(?:racist|antisemitic|homophobic|transphobic|xenophobic|sexist)\s+(?:joke|speech|rant|manifesto|post|message)",
+            r"(?:write|generate|create)\s+(?:an?\s+)?(?:racist|antisemitic|homophobic|transphobic|xenophobic|sexist)\s+(?:joke|speech|rant|manifesto|post|message)",
             r"\b(?:racial|ethnic)\s+(?:cleansing|purification|extermination)\b",
             r"\b(?:white|black|jewish|muslim|christian)\s+(?:supremacy|genocide)\b",
         ],
@@ -56,7 +56,7 @@ _CATEGORIES: dict[str, dict] = {
         "patterns": [
             r"how\s+to\s+(?:stalk|dox|doxx|swat)\s+(?:a\s+|some)?\w+",
             r"how\s+to\s+(?:find|track|locate)\s+(?:someone'?s?|a\s+person'?s?)\s+(?:home\s+)?(?:address|location|phone|workplace)",
-            r"(?:write|generate|create)\s+(?:a\s+)?(?:harassment|threatening|intimidating|bullying)\s+(?:message|email|letter|post)",
+            r"(?:write|generate|create)\s+(?:an?\s+)?(?:harassment|threatening|intimidating|bullying)\s+(?:message|email|letter|post)",
             r"how\s+to\s+(?:blackmail|extort|threaten)\s+(?:someone|a\s+person)",
         ],
         "message": "This request involves harassment or stalking. GOLIATH cannot assist with this.",
@@ -90,16 +90,47 @@ _CATEGORIES: dict[str, dict] = {
         "patterns": [
             r"(?:write|generate|create)\s+(?:a\s+)?(?:phishing|scam)\s+(?:email|page|site|message|sms|text)",
             r"how\s+to\s+(?:create|set\s+up|run)\s+(?:a\s+)?(?:ponzi|pyramid)\s+scheme",
-            r"how\s+to\s+(?:impersonate|pretend\s+to\s+be)\s+(?:a\s+)?(?:bank|government|police|irs|fbi|official|company|authority)",
+            r"how\s+to\s+(?:impersonate|pretend\s+to\s+be)\s+(?:a\s+|the\s+|an\s+)?(?:bank|government|police|irs|fbi|official|company|authority)",
             r"(?:write|generate|create)\s+(?:a\s+)?(?:fake|fraudulent)\s+(?:review|testimonial|identity|document|invoice|receipt)",
         ],
         "message": "This request involves spam, phishing, or fraud. GOLIATH cannot assist with this.",
     },
 }
 
-# Pre-compile all patterns for performance
+# Pre-compile all patterns for performance.
+# Order matters: more specific categories (self_harm) are checked before
+# broader ones (violence_and_threats) to avoid misclassification.
+_CHECK_ORDER = [
+    "self_harm",
+    "sexual_exploitation",
+    "illegal_activity",
+    "violence_and_threats",
+    "hate_speech",
+    "harassment",
+    "spam_and_fraud",
+]
+
+# Technical contexts that use violent verbs ("kill a process", "poison a
+# DNS cache") must be allowed through. These are checked BEFORE the harmful
+# patterns. The lazy quantifier (?:\w+\s+)*? scans past adjectives to find
+# the technical noun.
+_TECH_NOUNS = (
+    r"process|processes|container|containers|docker|pod|pods|service|services|"
+    r"task|tasks|session|sessions|connection|connections|thread|threads|"
+    r"dns|cache|server|servers|port|ports|job|jobs|screen|tmux|daemon|daemons|"
+    r"instance|instances|vm|vms|build|builds|app|apps|program|programs|"
+    r"script|scripts|command|commands|window|windows|node|nodes|query|queries|"
+    r"request|requests|signal|socket|pipe|queue|cron|zombie|orphan|tab|channel"
+)
+_SAFE_TECH = re.compile(
+    rf"how\s+to\s+(?:kill|stop|terminate|end|close|destroy|remove|drop|poison)"
+    rf"\s+(?:\w+\s+)*?(?:{_TECH_NOUNS})\b",
+    re.IGNORECASE,
+)
+
 _COMPILED: list[tuple[str, re.Pattern, str]] = []
-for category, info in _CATEGORIES.items():
+for category in _CHECK_ORDER:
+    info = _CATEGORIES[category]
     for pattern in info["patterns"]:
         _COMPILED.append((
             category,
@@ -125,6 +156,10 @@ def check(task: str) -> None:
     Raises:
         ModerationError: If the task matches a blocked content category.
     """
+    # Allow known-safe technical contexts (e.g. "kill a process")
+    if _SAFE_TECH.search(task):
+        return
+
     for category, pattern, message in _COMPILED:
         if pattern.search(task):
             raise ModerationError(message, category)
