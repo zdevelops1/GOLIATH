@@ -64,6 +64,9 @@ SLACK_BOT_TOKEN = os.environ.get("SLACK_BOT_TOKEN", "")
 GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN", "")
 GITHUB_OWNER = os.environ.get("GITHUB_OWNER", "")
 
+# --- Image Generation ---
+IMAGEGEN_DEFAULT_MODEL = os.environ.get("IMAGEGEN_DEFAULT_MODEL", "dall-e-3")
+
 # --- Memory ---
 MEMORY_PATH = os.environ.get("GOLIATH_MEMORY_PATH", str(Path.home() / ".goliath" / "memory.json"))
 MEMORY_MAX_HISTORY = int(os.environ.get("GOLIATH_MEMORY_MAX_HISTORY", "20"))
@@ -103,4 +106,5 @@ INTEGRATIONS = {
     "scraper": "goliath.integrations.scraper",
     "slack": "goliath.integrations.slack",
     "github": "goliath.integrations.github",
+    "imagegen": "goliath.integrations.imagegen",
 }
