@@ -132,6 +132,16 @@ goliath/
       shopify.py         # Shopify (products, orders, customers, inventory)
       stripe.py          # Stripe (payments, customers, subscriptions, refunds)
       twilio.py          # Twilio (SMS/MMS messaging)
+      pinterest.py       # Pinterest (pins, boards, search)
+      tiktok.py          # TikTok (video publishing, comments)
+      spotify.py         # Spotify (search, playlists, playback)
+      zoom.py            # Zoom (meetings CRUD, participants)
+      calendly.py        # Calendly (event types, scheduled events, invitees)
+      hubspot.py         # HubSpot (contacts, deals, companies)
+      salesforce.py      # Salesforce (SOQL queries, SObject CRUD)
+      wordpress.py       # WordPress (posts, pages, media)
+      webflow.py         # Webflow (sites, CMS collections, items)
+      paypal.py          # PayPal (orders, payments, payouts, refunds)
     tools/               # Executable tool plugins (web search, file I/O, etc.)
     memory/
       store.py           # Persistent memory (conversation history + facts)
@@ -200,7 +210,7 @@ MODEL_PROVIDERS = {
 
 ## Integrations
 
-Twenty-one built-in integrations for connecting GOLIATH to external services:
+Thirty-one built-in integrations for connecting GOLIATH to external services:
 
 | Integration | What it does | Setup |
 |---|---|---|
@@ -225,6 +235,16 @@ Twenty-one built-in integrations for connecting GOLIATH to external services:
 | **Shopify** | Manage products, orders, customers, and inventory | Admin API token from your [Shopify admin](https://admin.shopify.com/) |
 | **Stripe** | Payments, customers, subscriptions, and refunds | Secret key from [dashboard.stripe.com/apikeys](https://dashboard.stripe.com/apikeys) |
 | **Twilio SMS** | Send and manage SMS/MMS messages | Account SID + auth token from [console.twilio.com](https://console.twilio.com/) |
+| **Pinterest** | Create pins, manage boards, and search | OAuth token from [developers.pinterest.com](https://developers.pinterest.com/) |
+| **TikTok** | Publish videos and manage content | OAuth token from [developers.tiktok.com](https://developers.tiktok.com/) |
+| **Spotify** | Search music, manage playlists, control playback | Client credentials or OAuth from [developer.spotify.com](https://developer.spotify.com/) |
+| **Zoom** | Create and manage meetings | Server-to-Server OAuth or token from [marketplace.zoom.us](https://marketplace.zoom.us/) |
+| **Calendly** | Manage event types, events, and invitees | Personal access token from [calendly.com](https://calendly.com/integrations/api_webhooks) |
+| **HubSpot** | CRM contacts, deals, and companies | Private app token from [app.hubspot.com](https://app.hubspot.com/) |
+| **Salesforce** | CRM queries, SObject CRUD | OAuth token or password flow from [Salesforce Setup](https://login.salesforce.com/) |
+| **WordPress** | Manage posts, pages, and media | Application password from your WordPress admin |
+| **Webflow** | Manage sites, CMS collections, and items | API token from [webflow.com](https://webflow.com/) |
+| **PayPal** | Orders, payments, payouts, and refunds | REST API credentials from [developer.paypal.com](https://developer.paypal.com/) |
 
 ### Quick Examples
 
@@ -250,6 +270,16 @@ from goliath.integrations.linkedin import LinkedInClient
 from goliath.integrations.shopify import ShopifyClient
 from goliath.integrations.stripe import StripeClient
 from goliath.integrations.twilio import TwilioClient
+from goliath.integrations.pinterest import PinterestClient
+from goliath.integrations.tiktok import TikTokClient
+from goliath.integrations.spotify import SpotifyClient
+from goliath.integrations.zoom import ZoomClient
+from goliath.integrations.calendly import CalendlyClient
+from goliath.integrations.hubspot import HubSpotClient
+from goliath.integrations.salesforce import SalesforceClient
+from goliath.integrations.wordpress import WordPressClient
+from goliath.integrations.webflow import WebflowClient
+from goliath.integrations.paypal import PayPalClient
 
 # Post a tweet
 XClient().tweet("Hello from GOLIATH!")
@@ -313,6 +343,36 @@ StripeClient().create_payment_intent(amount=2000, currency="usd")
 
 # Send an SMS via Twilio
 TwilioClient().send(to="+15559876543", body="Hello from GOLIATH!")
+
+# Create a Pinterest pin
+PinterestClient().create_pin(board_id="123", title="My Pin", image_url="https://example.com/photo.jpg")
+
+# Publish a TikTok video from URL
+TikTokClient().publish_video_from_url(video_url="https://example.com/video.mp4", title="Automated TikTok")
+
+# Search Spotify tracks
+SpotifyClient().search("Bohemian Rhapsody", search_type="track")
+
+# Create a Zoom meeting
+ZoomClient().create_meeting(topic="Team Standup", duration=30)
+
+# List Calendly scheduled events
+CalendlyClient().list_scheduled_events()
+
+# Create a HubSpot contact
+HubSpotClient().create_contact(properties={"email": "jane@example.com", "firstname": "Jane"})
+
+# Query Salesforce contacts
+SalesforceClient().query("SELECT Id, Name FROM Contact LIMIT 10")
+
+# Create a WordPress post
+WordPressClient().create_post(title="Hello World", content="<p>Automated post!</p>")
+
+# Create a Webflow CMS item
+WebflowClient().create_item(collection_id="col_abc", fields={"name": "New Post", "slug": "new-post"})
+
+# Create a PayPal order
+PayPalClient().create_order(amount="29.99", currency="USD")
 ```
 
 Each integration file contains full setup instructions in its docstring.
@@ -423,6 +483,30 @@ All settings live in `config.py` and can be overridden with environment variable
 | `TWILIO_ACCOUNT_SID` | Twilio Account SID |
 | `TWILIO_AUTH_TOKEN` | Twilio Auth Token |
 | `TWILIO_PHONE_NUMBER` | Twilio sender phone number (E.164 format) |
+| `PINTEREST_ACCESS_TOKEN` | Pinterest OAuth access token |
+| `TIKTOK_ACCESS_TOKEN` | TikTok OAuth access token |
+| `SPOTIFY_CLIENT_ID` | Spotify app client ID |
+| `SPOTIFY_CLIENT_SECRET` | Spotify app client secret |
+| `SPOTIFY_ACCESS_TOKEN` | Spotify user OAuth token (optional, for playlists/playback) |
+| `ZOOM_ACCOUNT_ID` | Zoom Server-to-Server OAuth account ID |
+| `ZOOM_CLIENT_ID` | Zoom app client ID |
+| `ZOOM_CLIENT_SECRET` | Zoom app client secret |
+| `ZOOM_ACCESS_TOKEN` | Zoom user OAuth token (alternative to S2S) |
+| `CALENDLY_ACCESS_TOKEN` | Calendly personal access token |
+| `HUBSPOT_ACCESS_TOKEN` | HubSpot private app access token |
+| `SALESFORCE_INSTANCE_URL` | Salesforce instance URL |
+| `SALESFORCE_ACCESS_TOKEN` | Salesforce OAuth access token |
+| `SALESFORCE_CLIENT_ID` | Salesforce Connected App client ID |
+| `SALESFORCE_CLIENT_SECRET` | Salesforce Connected App client secret |
+| `SALESFORCE_USERNAME` | Salesforce username (password flow) |
+| `SALESFORCE_PASSWORD` | Salesforce password + security token (password flow) |
+| `WORDPRESS_URL` | WordPress site URL (e.g. `https://your-site.com`) |
+| `WORDPRESS_USERNAME` | WordPress username |
+| `WORDPRESS_APP_PASSWORD` | WordPress application password |
+| `WEBFLOW_ACCESS_TOKEN` | Webflow API access token |
+| `PAYPAL_CLIENT_ID` | PayPal REST API client ID |
+| `PAYPAL_CLIENT_SECRET` | PayPal REST API client secret |
+| `PAYPAL_SANDBOX` | `true` for sandbox, `false` for live (default: `true`) |
 
 ## License
 

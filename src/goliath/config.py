@@ -106,6 +106,50 @@ TWILIO_ACCOUNT_SID = os.environ.get("TWILIO_ACCOUNT_SID", "")
 TWILIO_AUTH_TOKEN = os.environ.get("TWILIO_AUTH_TOKEN", "")
 TWILIO_PHONE_NUMBER = os.environ.get("TWILIO_PHONE_NUMBER", "")
 
+# --- Pinterest ---
+PINTEREST_ACCESS_TOKEN = os.environ.get("PINTEREST_ACCESS_TOKEN", "")
+
+# --- TikTok ---
+TIKTOK_ACCESS_TOKEN = os.environ.get("TIKTOK_ACCESS_TOKEN", "")
+
+# --- Spotify ---
+SPOTIFY_CLIENT_ID = os.environ.get("SPOTIFY_CLIENT_ID", "")
+SPOTIFY_CLIENT_SECRET = os.environ.get("SPOTIFY_CLIENT_SECRET", "")
+SPOTIFY_ACCESS_TOKEN = os.environ.get("SPOTIFY_ACCESS_TOKEN", "")
+
+# --- Zoom ---
+ZOOM_ACCOUNT_ID = os.environ.get("ZOOM_ACCOUNT_ID", "")
+ZOOM_CLIENT_ID = os.environ.get("ZOOM_CLIENT_ID", "")
+ZOOM_CLIENT_SECRET = os.environ.get("ZOOM_CLIENT_SECRET", "")
+ZOOM_ACCESS_TOKEN = os.environ.get("ZOOM_ACCESS_TOKEN", "")
+
+# --- Calendly ---
+CALENDLY_ACCESS_TOKEN = os.environ.get("CALENDLY_ACCESS_TOKEN", "")
+
+# --- HubSpot ---
+HUBSPOT_ACCESS_TOKEN = os.environ.get("HUBSPOT_ACCESS_TOKEN", "")
+
+# --- Salesforce ---
+SALESFORCE_INSTANCE_URL = os.environ.get("SALESFORCE_INSTANCE_URL", "")
+SALESFORCE_ACCESS_TOKEN = os.environ.get("SALESFORCE_ACCESS_TOKEN", "")
+SALESFORCE_CLIENT_ID = os.environ.get("SALESFORCE_CLIENT_ID", "")
+SALESFORCE_CLIENT_SECRET = os.environ.get("SALESFORCE_CLIENT_SECRET", "")
+SALESFORCE_USERNAME = os.environ.get("SALESFORCE_USERNAME", "")
+SALESFORCE_PASSWORD = os.environ.get("SALESFORCE_PASSWORD", "")
+
+# --- WordPress ---
+WORDPRESS_URL = os.environ.get("WORDPRESS_URL", "")
+WORDPRESS_USERNAME = os.environ.get("WORDPRESS_USERNAME", "")
+WORDPRESS_APP_PASSWORD = os.environ.get("WORDPRESS_APP_PASSWORD", "")
+
+# --- Webflow ---
+WEBFLOW_ACCESS_TOKEN = os.environ.get("WEBFLOW_ACCESS_TOKEN", "")
+
+# --- PayPal ---
+PAYPAL_CLIENT_ID = os.environ.get("PAYPAL_CLIENT_ID", "")
+PAYPAL_CLIENT_SECRET = os.environ.get("PAYPAL_CLIENT_SECRET", "")
+PAYPAL_SANDBOX = os.environ.get("PAYPAL_SANDBOX", "true")
+
 # --- Memory ---
 MEMORY_PATH = os.environ.get(
     "GOLIATH_MEMORY_PATH", str(Path.home() / ".goliath" / "memory.json")
@@ -160,4 +204,14 @@ INTEGRATIONS = {
     "shopify": "goliath.integrations.shopify",
     "stripe": "goliath.integrations.stripe",
     "twilio": "goliath.integrations.twilio",
+    "pinterest": "goliath.integrations.pinterest",
+    "tiktok": "goliath.integrations.tiktok",
+    "spotify": "goliath.integrations.spotify",
+    "zoom": "goliath.integrations.zoom",
+    "calendly": "goliath.integrations.calendly",
+    "hubspot": "goliath.integrations.hubspot",
+    "salesforce": "goliath.integrations.salesforce",
+    "wordpress": "goliath.integrations.wordpress",
+    "webflow": "goliath.integrations.webflow",
+    "paypal": "goliath.integrations.paypal",
 }
