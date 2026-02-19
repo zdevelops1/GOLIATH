@@ -13,6 +13,7 @@ from dataclasses import dataclass
 @dataclass
 class ModelResponse:
     """Standardised response returned by every provider."""
+
     content: str
     model: str
     provider: str

@@ -25,7 +25,9 @@ class OpenAIProvider(BaseProvider):
         self.client = OpenAI(api_key=config.OPENAI_API_KEY)
         self.model = config.OPENAI_DEFAULT_MODEL
 
-    def run(self, prompt: str, system_prompt: str = "", history: list[dict] | None = None) -> ModelResponse:
+    def run(
+        self, prompt: str, system_prompt: str = "", history: list[dict] | None = None
+    ) -> ModelResponse:
         """Send a task prompt to OpenAI and return the response."""
         messages = []
         if system_prompt:

@@ -3,7 +3,7 @@
 All four share the service account pattern, which we mock via google.oauth2.
 """
 
-from unittest.mock import MagicMock, patch, PropertyMock
+from unittest.mock import MagicMock, patch
 
 import pytest
 
@@ -26,14 +26,15 @@ def _mock_google_auth():
 # Google Sheets
 # ---------------------------------------------------------------------------
 
-class TestSheetsClient:
 
+class TestSheetsClient:
     @patch("goliath.integrations.sheets.config")
     def test_no_credentials_raises(self, mock_config):
         mock_config.GOOGLE_SERVICE_ACCOUNT_FILE = ""
         mock_config.GOOGLE_SHEETS_API_KEY = ""
 
         from goliath.integrations.sheets import SheetsClient
+
         with pytest.raises(RuntimeError, match="No Google Sheets credentials"):
             SheetsClient()
 
@@ -43,6 +44,7 @@ class TestSheetsClient:
         mock_config.GOOGLE_SHEETS_API_KEY = "AIza-test"
 
         from goliath.integrations.sheets import SheetsClient
+
         client = SheetsClient()
         assert client._api_key == "AIza-test"
         assert client._credentials is None
@@ -53,6 +55,7 @@ class TestSheetsClient:
         mock_config.GOOGLE_SHEETS_API_KEY = "AIza-test"
 
         from goliath.integrations.sheets import SheetsClient
+
         client = SheetsClient()
 
         mock_resp = MagicMock()
@@ -71,6 +74,7 @@ class TestSheetsClient:
         mock_config.GOOGLE_SHEETS_API_KEY = "AIza-test"
 
         from goliath.integrations.sheets import SheetsClient
+
         client = SheetsClient()
 
         with pytest.raises(RuntimeError, match="requires a service account"):
@@ -88,7 +92,9 @@ class TestSheetsClient:
     @patch("google.oauth2.service_account.Credentials.from_service_account_file")
     @patch("google.auth.transport.requests.Request")
     @patch("goliath.integrations.sheets.config")
-    def test_service_account_update_values(self, mock_config, mock_request, mock_from_sa):
+    def test_service_account_update_values(
+        self, mock_config, mock_request, mock_from_sa
+    ):
         mock_config.GOOGLE_SERVICE_ACCOUNT_FILE = "/path/to/sa.json"
         mock_config.GOOGLE_SHEETS_API_KEY = ""
 
@@ -99,6 +105,7 @@ class TestSheetsClient:
         mock_from_sa.return_value = mock_creds
 
         from goliath.integrations.sheets import SheetsClient
+
         client = SheetsClient()
 
         mock_resp = MagicMock()
@@ -111,7 +118,9 @@ class TestSheetsClient:
     @patch("google.oauth2.service_account.Credentials.from_service_account_file")
     @patch("google.auth.transport.requests.Request")
     @patch("goliath.integrations.sheets.config")
-    def test_service_account_create_spreadsheet(self, mock_config, mock_request, mock_from_sa):
+    def test_service_account_create_spreadsheet(
+        self, mock_config, mock_request, mock_from_sa
+    ):
         mock_config.GOOGLE_SERVICE_ACCOUNT_FILE = "/path/to/sa.json"
         mock_config.GOOGLE_SHEETS_API_KEY = ""
 
@@ -122,6 +131,7 @@ class TestSheetsClient:
         mock_from_sa.return_value = mock_creds
 
         from goliath.integrations.sheets import SheetsClient
+
         client = SheetsClient()
 
         mock_resp = MagicMock()
@@ -138,13 +148,14 @@ class TestSheetsClient:
 # Google Drive
 # ---------------------------------------------------------------------------
 
-class TestDriveClient:
 
+class TestDriveClient:
     @patch("goliath.integrations.drive.config")
     def test_no_service_account_raises(self, mock_config):
         mock_config.GOOGLE_SERVICE_ACCOUNT_FILE = ""
 
         from goliath.integrations.drive import DriveClient
+
         with pytest.raises(RuntimeError, match="GOOGLE_SERVICE_ACCOUNT_FILE"):
             DriveClient()
 
@@ -157,6 +168,7 @@ class TestDriveClient:
         mock_from_sa.return_value = mock_creds
 
         from goliath.integrations.drive import DriveClient
+
         client = DriveClient()
 
         mock_resp = MagicMock()
@@ -178,13 +190,14 @@ class TestDriveClient:
         mock_from_sa.return_value = mock_creds
 
         from goliath.integrations.drive import DriveClient
+
         client = DriveClient()
 
         mock_resp = MagicMock()
         mock_resp.json.return_value = {"id": "folder_1", "name": "Assets"}
         client.session.post = MagicMock(return_value=mock_resp)
 
-        result = client.create_folder("Assets", parent_id="parent_1")
+        client.create_folder("Assets", parent_id="parent_1")
         payload = client.session.post.call_args.kwargs["json"]
         assert payload["mimeType"] == "application/vnd.google-apps.folder"
         assert payload["parents"] == ["parent_1"]
@@ -198,13 +211,14 @@ class TestDriveClient:
         mock_from_sa.return_value = mock_creds
 
         from goliath.integrations.drive import DriveClient
+
         client = DriveClient()
 
         mock_resp = MagicMock()
         mock_resp.json.return_value = {"id": "perm_1"}
         client.session.post = MagicMock(return_value=mock_resp)
 
-        result = client.share_file("f1", email="user@example.com", role="writer")
+        client.share_file("f1", email="user@example.com", role="writer")
         payload = client.session.post.call_args.kwargs["json"]
         assert payload["emailAddress"] == "user@example.com"
         assert payload["role"] == "writer"
@@ -218,6 +232,7 @@ class TestDriveClient:
         mock_from_sa.return_value = mock_creds
 
         from goliath.integrations.drive import DriveClient
+
         client = DriveClient()
         with pytest.raises(FileNotFoundError):
             client.upload_file("/nonexistent/file.pdf")
@@ -231,6 +246,7 @@ class TestDriveClient:
         mock_from_sa.return_value = mock_creds
 
         from goliath.integrations.drive import DriveClient
+
         client = DriveClient()
 
         mock_resp = MagicMock()
@@ -245,13 +261,14 @@ class TestDriveClient:
 # Google Calendar
 # ---------------------------------------------------------------------------
 
-class TestCalendarClient:
 
+class TestCalendarClient:
     @patch("goliath.integrations.calendar.config")
     def test_no_service_account_raises(self, mock_config):
         mock_config.GOOGLE_SERVICE_ACCOUNT_FILE = ""
 
         from goliath.integrations.calendar import CalendarClient
+
         with pytest.raises(RuntimeError, match="GOOGLE_SERVICE_ACCOUNT_FILE"):
             CalendarClient()
 
@@ -264,6 +281,7 @@ class TestCalendarClient:
         mock_from_sa.return_value = mock_creds
 
         from goliath.integrations.calendar import CalendarClient
+
         client = CalendarClient()
 
         mock_resp = MagicMock()
@@ -283,13 +301,14 @@ class TestCalendarClient:
         mock_from_sa.return_value = mock_creds
 
         from goliath.integrations.calendar import CalendarClient
+
         client = CalendarClient()
 
         mock_resp = MagicMock()
         mock_resp.json.return_value = {"id": "e2", "summary": "Meeting"}
         client.session.post = MagicMock(return_value=mock_resp)
 
-        result = client.create_event(
+        client.create_event(
             summary="Meeting",
             start="2025-06-01T09:00:00",
             end="2025-06-01T10:00:00",
@@ -310,13 +329,14 @@ class TestCalendarClient:
         mock_from_sa.return_value = mock_creds
 
         from goliath.integrations.calendar import CalendarClient
+
         client = CalendarClient()
 
         mock_resp = MagicMock()
         mock_resp.json.return_value = {"id": "e1", "summary": "Updated"}
         client.session.patch = MagicMock(return_value=mock_resp)
 
-        result = client.update_event("e1", summary="Updated", location="Room 42")
+        client.update_event("e1", summary="Updated", location="Room 42")
         payload = client.session.patch.call_args.kwargs["json"]
         assert payload["summary"] == "Updated"
         assert payload["location"] == "Room 42"
@@ -330,6 +350,7 @@ class TestCalendarClient:
         mock_from_sa.return_value = mock_creds
 
         from goliath.integrations.calendar import CalendarClient
+
         client = CalendarClient()
 
         mock_resp = MagicMock()
@@ -344,13 +365,14 @@ class TestCalendarClient:
 # Google Docs
 # ---------------------------------------------------------------------------
 
-class TestDocsClient:
 
+class TestDocsClient:
     @patch("goliath.integrations.docs.config")
     def test_no_service_account_raises(self, mock_config):
         mock_config.GOOGLE_SERVICE_ACCOUNT_FILE = ""
 
         from goliath.integrations.docs import DocsClient
+
         with pytest.raises(RuntimeError, match="GOOGLE_SERVICE_ACCOUNT_FILE"):
             DocsClient()
 
@@ -363,6 +385,7 @@ class TestDocsClient:
         mock_from_sa.return_value = mock_creds
 
         from goliath.integrations.docs import DocsClient
+
         client = DocsClient()
 
         mock_resp = MagicMock()
@@ -381,13 +404,14 @@ class TestDocsClient:
         mock_from_sa.return_value = mock_creds
 
         from goliath.integrations.docs import DocsClient
+
         client = DocsClient()
 
         mock_resp = MagicMock()
         mock_resp.json.return_value = {"documentId": "d2", "title": "New Doc"}
         client.session.post = MagicMock(return_value=mock_resp)
 
-        result = client.create_document("New Doc")
+        client.create_document("New Doc")
         payload = client.session.post.call_args.kwargs["json"]
         assert payload["title"] == "New Doc"
 
@@ -400,6 +424,7 @@ class TestDocsClient:
         mock_from_sa.return_value = mock_creds
 
         from goliath.integrations.docs import DocsClient
+
         client = DocsClient()
 
         mock_resp = MagicMock()
@@ -407,7 +432,7 @@ class TestDocsClient:
         client.session.post = MagicMock(return_value=mock_resp)
 
         reqs = [{"insertText": {"location": {"index": 1}, "text": "Hello\n"}}]
-        result = client.batch_update("d1", requests=reqs)
+        client.batch_update("d1", requests=reqs)
 
         url = client.session.post.call_args[0][0]
         assert "d1:batchUpdate" in url
@@ -423,6 +448,7 @@ class TestDocsClient:
         mock_from_sa.return_value = mock_creds
 
         from goliath.integrations.docs import DocsClient
+
         client = DocsClient()
 
         # Mock get_document (to find end index) and batch_update

@@ -132,11 +132,13 @@ _COMPILED: list[tuple[str, re.Pattern, str]] = []
 for category in _CHECK_ORDER:
     info = _CATEGORIES[category]
     for pattern in info["patterns"]:
-        _COMPILED.append((
-            category,
-            re.compile(pattern, re.IGNORECASE),
-            info["message"],
-        ))
+        _COMPILED.append(
+            (
+                category,
+                re.compile(pattern, re.IGNORECASE),
+                info["message"],
+            )
+        )
 
 
 class ModerationError(Exception):

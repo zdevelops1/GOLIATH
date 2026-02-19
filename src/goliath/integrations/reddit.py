@@ -126,12 +126,15 @@ class RedditClient:
         Returns:
             API response dict with the post URL and ID.
         """
-        return self._post("/api/submit", data={
-            "sr": subreddit,
-            "kind": "self",
-            "title": title,
-            "text": text,
-        })
+        return self._post(
+            "/api/submit",
+            data={
+                "sr": subreddit,
+                "kind": "self",
+                "title": title,
+                "text": text,
+            },
+        )
 
     def submit_link(self, subreddit: str, title: str, url: str) -> dict:
         """Submit a link post to a subreddit.
@@ -144,12 +147,15 @@ class RedditClient:
         Returns:
             API response dict.
         """
-        return self._post("/api/submit", data={
-            "sr": subreddit,
-            "kind": "link",
-            "title": title,
-            "url": url,
-        })
+        return self._post(
+            "/api/submit",
+            data={
+                "sr": subreddit,
+                "kind": "link",
+                "title": title,
+                "url": url,
+            },
+        )
 
     def comment(self, thing_id: str, text: str) -> dict:
         """Add a top-level comment to a post.
@@ -161,10 +167,13 @@ class RedditClient:
         Returns:
             API response dict.
         """
-        return self._post("/api/comment", data={
-            "thing_id": thing_id,
-            "text": text,
-        })
+        return self._post(
+            "/api/comment",
+            data={
+                "thing_id": thing_id,
+                "text": text,
+            },
+        )
 
     def reply(self, thing_id: str, text: str) -> dict:
         """Reply to a comment.
@@ -176,10 +185,13 @@ class RedditClient:
         Returns:
             API response dict.
         """
-        return self._post("/api/comment", data={
-            "thing_id": thing_id,
-            "text": text,
-        })
+        return self._post(
+            "/api/comment",
+            data={
+                "thing_id": thing_id,
+                "text": text,
+            },
+        )
 
     def get_subreddit_posts(
         self,

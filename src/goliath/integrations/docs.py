@@ -52,7 +52,6 @@ class DocsClient:
                 "See integrations/docs.py for setup instructions."
             )
 
-        from google.auth.transport.requests import Request
         from google.oauth2 import service_account
 
         scopes = [
@@ -60,7 +59,8 @@ class DocsClient:
             "https://www.googleapis.com/auth/drive",
         ]
         self._credentials = service_account.Credentials.from_service_account_file(
-            config.GOOGLE_SERVICE_ACCOUNT_FILE, scopes=scopes,
+            config.GOOGLE_SERVICE_ACCOUNT_FILE,
+            scopes=scopes,
         )
         self.session = requests.Session()
         self._refresh_token()
@@ -119,9 +119,12 @@ class DocsClient:
             if end_index < 1:
                 end_index = 1
 
-        return self.batch_update(document_id, requests=[
-            {"insertText": {"location": {"index": end_index}, "text": text}},
-        ])
+        return self.batch_update(
+            document_id,
+            requests=[
+                {"insertText": {"location": {"index": end_index}, "text": text}},
+            ],
+        )
 
     def batch_update(self, document_id: str, requests: list[dict]) -> dict:
         """Send a batch update to a document.

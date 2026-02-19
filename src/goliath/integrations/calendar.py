@@ -63,12 +63,12 @@ class CalendarClient:
                 "See integrations/calendar.py for setup instructions."
             )
 
-        from google.auth.transport.requests import Request
         from google.oauth2 import service_account
 
         scopes = ["https://www.googleapis.com/auth/calendar"]
         self._credentials = service_account.Credentials.from_service_account_file(
-            config.GOOGLE_SERVICE_ACCOUNT_FILE, scopes=scopes,
+            config.GOOGLE_SERVICE_ACCOUNT_FILE,
+            scopes=scopes,
         )
         self.calendar_id = calendar_id
         self.session = requests.Session()

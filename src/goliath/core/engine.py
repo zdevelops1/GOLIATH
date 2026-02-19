@@ -60,9 +60,7 @@ class Engine:
         """Dynamically load a model provider by its registered name."""
         if name not in config.MODEL_PROVIDERS:
             available = ", ".join(config.MODEL_PROVIDERS) or "(none)"
-            raise ValueError(
-                f"Unknown provider '{name}'. Available: {available}"
-            )
+            raise ValueError(f"Unknown provider '{name}'. Available: {available}")
 
         module_path = config.MODEL_PROVIDERS[name]
         module = importlib.import_module(module_path)
@@ -77,6 +75,4 @@ class Engine:
             ):
                 return attr()
 
-        raise ImportError(
-            f"No BaseProvider subclass found in '{module_path}'"
-        )
+        raise ImportError(f"No BaseProvider subclass found in '{module_path}'")

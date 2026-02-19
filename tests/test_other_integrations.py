@@ -1,7 +1,6 @@
 """Tests for remaining integrations: GitHub, Gmail, Notion, Scraper, ImageGen."""
 
-from unittest.mock import MagicMock, patch, mock_open
-from pathlib import Path
+from unittest.mock import MagicMock, patch
 
 import pytest
 
@@ -10,14 +9,15 @@ import pytest
 # GitHub
 # ---------------------------------------------------------------------------
 
-class TestGitHubClient:
 
+class TestGitHubClient:
     @patch("goliath.integrations.github.config")
     def test_missing_token_raises(self, mock_config):
         mock_config.GITHUB_TOKEN = ""
         mock_config.GITHUB_OWNER = ""
 
         from goliath.integrations.github import GitHubClient
+
         with pytest.raises(RuntimeError, match="GITHUB_TOKEN"):
             GitHubClient()
 
@@ -27,6 +27,7 @@ class TestGitHubClient:
         mock_config.GITHUB_OWNER = "testuser"
 
         from goliath.integrations.github import GitHubClient
+
         client = GitHubClient()
         assert "Bearer ghp_test123" in client.session.headers["Authorization"]
         assert client.owner == "testuser"
@@ -37,6 +38,7 @@ class TestGitHubClient:
         mock_config.GITHUB_OWNER = "testuser"
 
         from goliath.integrations.github import GitHubClient
+
         client = GitHubClient()
 
         mock_resp = MagicMock()
@@ -54,13 +56,14 @@ class TestGitHubClient:
         mock_config.GITHUB_OWNER = ""
 
         from goliath.integrations.github import GitHubClient
+
         client = GitHubClient()
 
         mock_resp = MagicMock()
         mock_resp.json.return_value = {"number": 42, "title": "Bug"}
         client.session.post = MagicMock(return_value=mock_resp)
 
-        result = client.create_issue("owner/repo", title="Bug", body="It broke", labels=["bug"])
+        client.create_issue("owner/repo", title="Bug", body="It broke", labels=["bug"])
         payload = client.session.post.call_args.kwargs["json"]
         assert payload["title"] == "Bug"
         assert payload["labels"] == ["bug"]
@@ -71,13 +74,14 @@ class TestGitHubClient:
         mock_config.GITHUB_OWNER = ""
 
         from goliath.integrations.github import GitHubClient
+
         client = GitHubClient()
 
         mock_resp = MagicMock()
         mock_resp.json.return_value = {"name": "new-repo", "private": True}
         client.session.post = MagicMock(return_value=mock_resp)
 
-        result = client.create_repo("new-repo", description="Test", private=True)
+        client.create_repo("new-repo", description="Test", private=True)
         payload = client.session.post.call_args.kwargs["json"]
         assert payload["private"] is True
 
@@ -87,6 +91,7 @@ class TestGitHubClient:
         mock_config.GITHUB_OWNER = ""
 
         from goliath.integrations.github import GitHubClient
+
         client = GitHubClient()
 
         mock_resp = MagicMock()
@@ -103,14 +108,15 @@ class TestGitHubClient:
 # Gmail
 # ---------------------------------------------------------------------------
 
-class TestGmailClient:
 
+class TestGmailClient:
     @patch("goliath.integrations.gmail.config")
     def test_missing_address_raises(self, mock_config):
         mock_config.GMAIL_ADDRESS = ""
         mock_config.GMAIL_APP_PASSWORD = "pass"
 
         from goliath.integrations.gmail import GmailClient
+
         with pytest.raises(RuntimeError, match="GMAIL_ADDRESS"):
             GmailClient()
 
@@ -120,6 +126,7 @@ class TestGmailClient:
         mock_config.GMAIL_APP_PASSWORD = ""
 
         from goliath.integrations.gmail import GmailClient
+
         with pytest.raises(RuntimeError, match="GMAIL_APP_PASSWORD"):
             GmailClient()
 
@@ -134,6 +141,7 @@ class TestGmailClient:
         mock_smtplib.SMTP.return_value.__exit__ = MagicMock(return_value=False)
 
         from goliath.integrations.gmail import GmailClient
+
         client = GmailClient()
         client.send(to="recipient@example.com", subject="Test", body="Hello")
 
@@ -150,6 +158,7 @@ class TestGmailClient:
         mock_config.GMAIL_APP_PASSWORD = "app-pass"
 
         from goliath.integrations.gmail import GmailClient
+
         client = GmailClient()
         with pytest.raises(FileNotFoundError):
             client.send(
@@ -170,6 +179,7 @@ class TestGmailClient:
         mock_smtplib.SMTP.return_value.__exit__ = MagicMock(return_value=False)
 
         from goliath.integrations.gmail import GmailClient
+
         client = GmailClient()
         client.send(
             to=["a@example.com", "b@example.com"],
@@ -188,13 +198,14 @@ class TestGmailClient:
 # Notion
 # ---------------------------------------------------------------------------
 
-class TestNotionClient:
 
+class TestNotionClient:
     @patch("goliath.integrations.notion.config")
     def test_missing_key_raises(self, mock_config):
         mock_config.NOTION_API_KEY = ""
 
         from goliath.integrations.notion import NotionClient
+
         with pytest.raises(RuntimeError, match="NOTION_API_KEY"):
             NotionClient()
 
@@ -203,6 +214,7 @@ class TestNotionClient:
         mock_config.NOTION_API_KEY = "ntn_test123"
 
         from goliath.integrations.notion import NotionClient
+
         client = NotionClient()
         assert "Bearer ntn_test123" in client.session.headers["Authorization"]
         assert client.session.headers["Notion-Version"] == "2022-06-28"
@@ -212,6 +224,7 @@ class TestNotionClient:
         mock_config.NOTION_API_KEY = "ntn_test"
 
         from goliath.integrations.notion import NotionClient
+
         client = NotionClient()
 
         mock_resp = MagicMock()
@@ -229,6 +242,7 @@ class TestNotionClient:
         mock_config.NOTION_API_KEY = "ntn_test"
 
         from goliath.integrations.notion import NotionClient
+
         client = NotionClient()
         with pytest.raises(ValueError, match="parent_database_id or parent_page_id"):
             client.create_page(properties={"Name": {"title": []}})
@@ -238,6 +252,7 @@ class TestNotionClient:
         mock_config.NOTION_API_KEY = "ntn_test"
 
         from goliath.integrations.notion import NotionClient
+
         client = NotionClient()
 
         mock_resp = MagicMock()
@@ -245,7 +260,7 @@ class TestNotionClient:
         client.session.post = MagicMock(return_value=mock_resp)
 
         props = {"Name": {"title": [{"text": {"content": "Task"}}]}}
-        result = client.create_page(properties=props, parent_database_id="db_1")
+        client.create_page(properties=props, parent_database_id="db_1")
 
         payload = client.session.post.call_args.kwargs["json"]
         assert payload["parent"]["database_id"] == "db_1"
@@ -255,6 +270,7 @@ class TestNotionClient:
         mock_config.NOTION_API_KEY = "ntn_test"
 
         from goliath.integrations.notion import NotionClient
+
         client = NotionClient()
 
         mock_resp = MagicMock()
@@ -272,13 +288,19 @@ class TestNotionClient:
         mock_config.NOTION_API_KEY = "ntn_test"
 
         from goliath.integrations.notion import NotionClient
+
         client = NotionClient()
 
         mock_resp = MagicMock()
         mock_resp.json.return_value = {"results": [{"id": "block_1"}]}
         client.session.patch = MagicMock(return_value=mock_resp)
 
-        blocks = [{"type": "paragraph", "paragraph": {"rich_text": [{"text": {"content": "Hi"}}]}}]
+        blocks = [
+            {
+                "type": "paragraph",
+                "paragraph": {"rich_text": [{"text": {"content": "Hi"}}]},
+            }
+        ]
         client.append_blocks("page_1", children=blocks)
 
         url = client.session.patch.call_args[0][0]
@@ -289,6 +311,7 @@ class TestNotionClient:
         mock_config.NOTION_API_KEY = "ntn_test"
 
         from goliath.integrations.notion import NotionClient
+
         client = NotionClient()
 
         mock_resp = MagicMock()
@@ -303,8 +326,8 @@ class TestNotionClient:
 # Web Scraper
 # ---------------------------------------------------------------------------
 
-class TestWebScraper:
 
+class TestWebScraper:
     def test_url_scheme_validation(self):
         from goliath.integrations.scraper import _validate_url
 
@@ -336,7 +359,9 @@ class TestWebScraper:
 
         scraper = WebScraper()
         mock_resp = MagicMock()
-        mock_resp.text = "<html><body><p>Hello World</p><script>bad</script></body></html>"
+        mock_resp.text = (
+            "<html><body><p>Hello World</p><script>bad</script></body></html>"
+        )
         scraper.session.get = MagicMock(return_value=mock_resp)
 
         text = scraper.get_text("https://example.com")
@@ -363,10 +388,14 @@ class TestWebScraper:
 
         scraper = WebScraper()
         mock_resp = MagicMock()
-        mock_resp.text = '<html><body><h1>Title</h1><p class="intro">Intro text</p></body></html>'
+        mock_resp.text = (
+            '<html><body><h1>Title</h1><p class="intro">Intro text</p></body></html>'
+        )
         scraper.session.get = MagicMock(return_value=mock_resp)
 
-        result = scraper.extract("https://example.com", {"headings": "h1", "intros": ".intro"})
+        result = scraper.extract(
+            "https://example.com", {"headings": "h1", "intros": ".intro"}
+        )
         assert result["headings"] == ["Title"]
         assert result["intros"] == ["Intro text"]
 
@@ -375,13 +404,14 @@ class TestWebScraper:
 # Image Generation
 # ---------------------------------------------------------------------------
 
-class TestImageGenClient:
 
+class TestImageGenClient:
     @patch("goliath.integrations.imagegen.config")
     def test_missing_key_raises(self, mock_config):
         mock_config.OPENAI_API_KEY = ""
 
         from goliath.integrations.imagegen import ImageGenClient
+
         with pytest.raises(RuntimeError, match="OPENAI_API_KEY"):
             ImageGenClient()
 
@@ -399,6 +429,7 @@ class TestImageGenClient:
         mock_openai_cls.return_value = mock_client
 
         from goliath.integrations.imagegen import ImageGenClient
+
         client = ImageGenClient()
         result = client.generate("sunset")
 
@@ -423,6 +454,7 @@ class TestImageGenClient:
         mock_openai_cls.return_value = mock_client
 
         from goliath.integrations.imagegen import ImageGenClient
+
         client = ImageGenClient()
         results = client.generate("art", n=3, model="dall-e-2")
 
@@ -437,6 +469,7 @@ class TestImageGenClient:
         mock_openai_cls.return_value = MagicMock()
 
         from goliath.integrations.imagegen import ImageGenClient
+
         client = ImageGenClient()
         with pytest.raises(FileNotFoundError, match="Image not found"):
             client.edit(image="/nonexistent/img.png", prompt="add rainbow")
@@ -449,6 +482,7 @@ class TestImageGenClient:
         mock_openai_cls.return_value = MagicMock()
 
         from goliath.integrations.imagegen import ImageGenClient
+
         client = ImageGenClient()
         with pytest.raises(FileNotFoundError, match="Image not found"):
             client.variation(image="/nonexistent/img.png")

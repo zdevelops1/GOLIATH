@@ -38,7 +38,6 @@ Usage:
     drive.delete_file("FILE_ID")
 """
 
-import os
 from pathlib import Path
 
 import requests
@@ -60,12 +59,12 @@ class DriveClient:
                 "See integrations/drive.py for setup instructions."
             )
 
-        from google.auth.transport.requests import Request
         from google.oauth2 import service_account
 
         scopes = ["https://www.googleapis.com/auth/drive"]
         self._credentials = service_account.Credentials.from_service_account_file(
-            config.GOOGLE_SERVICE_ACCOUNT_FILE, scopes=scopes,
+            config.GOOGLE_SERVICE_ACCOUNT_FILE,
+            scopes=scopes,
         )
         self.session = requests.Session()
         self._refresh_token()
@@ -152,12 +151,20 @@ class DriveClient:
 
         # Multipart upload: metadata + file content
         import json
+
         with open(path, "rb") as f:
             resp = self.session.post(
                 _UPLOAD_URL,
-                params={"uploadType": "multipart", "fields": "id,name,mimeType,size,webViewLink"},
+                params={
+                    "uploadType": "multipart",
+                    "fields": "id,name,mimeType,size,webViewLink",
+                },
                 files={
-                    "metadata": ("metadata.json", json.dumps(metadata), "application/json"),
+                    "metadata": (
+                        "metadata.json",
+                        json.dumps(metadata),
+                        "application/json",
+                    ),
                     "file": (path.name, f, mime_type or "application/octet-stream"),
                 },
             )

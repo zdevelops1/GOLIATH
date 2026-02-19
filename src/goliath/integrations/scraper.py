@@ -127,10 +127,12 @@ class WebScraper:
             href = a["href"]
             if absolute and not href.startswith(("http://", "https://")):
                 href = urljoin(url, href)
-            links.append({
-                "text": a.get_text(strip=True),
-                "href": href,
-            })
+            links.append(
+                {
+                    "text": a.get_text(strip=True),
+                    "href": href,
+                }
+            )
 
         return links
 

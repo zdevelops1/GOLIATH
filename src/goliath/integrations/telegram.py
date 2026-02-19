@@ -157,7 +157,9 @@ class TelegramClient:
             if caption:
                 data["caption"] = caption
             with open(path, "rb") as f:
-                return self._post("sendDocument", data=data, files={"document": (path.name, f)})
+                return self._post(
+                    "sendDocument", data=data, files={"document": (path.name, f)}
+                )
         else:
             payload: dict = {"chat_id": cid, "document": document}
             if caption:
@@ -169,9 +171,7 @@ class TelegramClient:
     def _resolve_chat(self, chat_id: str | None) -> str:
         cid = chat_id or self.default_chat_id
         if not cid:
-            raise RuntimeError(
-                "No chat_id provided and TELEGRAM_CHAT_ID is not set."
-            )
+            raise RuntimeError("No chat_id provided and TELEGRAM_CHAT_ID is not set.")
         return cid
 
     def _post(self, method: str, **kwargs) -> dict:

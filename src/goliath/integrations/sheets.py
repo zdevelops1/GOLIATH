@@ -76,12 +76,12 @@ class SheetsClient:
 
     def _init_service_account(self):
         """Load service account credentials and set auth header."""
-        from google.auth.transport.requests import Request
         from google.oauth2 import service_account
 
         scopes = ["https://www.googleapis.com/auth/spreadsheets"]
         self._credentials = service_account.Credentials.from_service_account_file(
-            self._service_account_file, scopes=scopes,
+            self._service_account_file,
+            scopes=scopes,
         )
         self._refresh_token()
 
@@ -89,7 +89,9 @@ class SheetsClient:
         """Refresh the access token if expired."""
         from google.auth.transport.requests import Request
 
-        if self._credentials and (not self._credentials.valid or self._credentials.expired):
+        if self._credentials and (
+            not self._credentials.valid or self._credentials.expired
+        ):
             self._credentials.refresh(Request())
             self.session.headers["Authorization"] = f"Bearer {self._credentials.token}"
 

@@ -28,7 +28,9 @@ class GrokProvider(BaseProvider):
         )
         self.model = config.XAI_DEFAULT_MODEL
 
-    def run(self, prompt: str, system_prompt: str = "", history: list[dict] | None = None) -> ModelResponse:
+    def run(
+        self, prompt: str, system_prompt: str = "", history: list[dict] | None = None
+    ) -> ModelResponse:
         """Send a task prompt to Grok and return the response."""
         messages = []
         if system_prompt:

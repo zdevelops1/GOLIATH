@@ -79,10 +79,12 @@ class WhatsAppClient:
 
         self.phone_id = config.WHATSAPP_PHONE_ID
         self.session = requests.Session()
-        self.session.headers.update({
-            "Authorization": f"Bearer {config.WHATSAPP_ACCESS_TOKEN}",
-            "Content-Type": "application/json",
-        })
+        self.session.headers.update(
+            {
+                "Authorization": f"Bearer {config.WHATSAPP_ACCESS_TOKEN}",
+                "Content-Type": "application/json",
+            }
+        )
 
     # -- public API --------------------------------------------------------
 
@@ -97,10 +99,13 @@ class WhatsAppClient:
         Returns:
             API response dict with message ID.
         """
-        return self._send(to, {
-            "type": "text",
-            "text": {"body": body, "preview_url": preview_url},
-        })
+        return self._send(
+            to,
+            {
+                "type": "text",
+                "text": {"body": body, "preview_url": preview_url},
+            },
+        )
 
     def send_image(
         self,

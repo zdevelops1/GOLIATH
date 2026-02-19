@@ -1,7 +1,7 @@
 """Tests for social/messaging integrations: X, Instagram, Discord, Telegram, Slack, WhatsApp, Reddit."""
 
 import unittest.mock
-from unittest.mock import MagicMock, patch, mock_open
+from unittest.mock import MagicMock, patch
 
 import pytest
 
@@ -10,8 +10,8 @@ import pytest
 # X / Twitter
 # ---------------------------------------------------------------------------
 
-class TestXClient:
 
+class TestXClient:
     @patch("goliath.integrations.x.config")
     def test_missing_credentials_raises(self, mock_config):
         mock_config.X_CONSUMER_KEY = ""
@@ -20,6 +20,7 @@ class TestXClient:
         mock_config.X_ACCESS_TOKEN_SECRET = "ts"
 
         from goliath.integrations.x import XClient
+
         with pytest.raises(RuntimeError, match="Missing X/Twitter credentials"):
             XClient()
 
@@ -37,6 +38,7 @@ class TestXClient:
         mock_requests.post.return_value = mock_resp
 
         from goliath.integrations.x import XClient
+
         client = XClient()
         result = client.tweet("Hello")
 
@@ -53,6 +55,7 @@ class TestXClient:
         mock_config.X_ACCESS_TOKEN_SECRET = "ats"
 
         call_count = [0]
+
         def side_effect(*args, **kwargs):
             call_count[0] += 1
             resp = MagicMock()
@@ -62,6 +65,7 @@ class TestXClient:
         mock_requests.post.side_effect = side_effect
 
         from goliath.integrations.x import XClient
+
         client = XClient()
         results = client.thread(["First", "Second"])
 
@@ -78,6 +82,7 @@ class TestXClient:
         mock_config.X_ACCESS_TOKEN_SECRET = "ats"
 
         from goliath.integrations.x import XClient
+
         client = XClient()
         with pytest.raises(ValueError, match="at least one tweet"):
             client.thread([])
@@ -87,14 +92,15 @@ class TestXClient:
 # Instagram
 # ---------------------------------------------------------------------------
 
-class TestInstagramClient:
 
+class TestInstagramClient:
     @patch("goliath.integrations.instagram.config")
     def test_missing_token_raises(self, mock_config):
         mock_config.INSTAGRAM_ACCESS_TOKEN = ""
         mock_config.INSTAGRAM_USER_ID = "123"
 
         from goliath.integrations.instagram import InstagramClient
+
         with pytest.raises(RuntimeError, match="INSTAGRAM_ACCESS_TOKEN"):
             InstagramClient()
 
@@ -104,6 +110,7 @@ class TestInstagramClient:
         mock_config.INSTAGRAM_USER_ID = ""
 
         from goliath.integrations.instagram import InstagramClient
+
         with pytest.raises(RuntimeError, match="INSTAGRAM_USER_ID"):
             InstagramClient()
 
@@ -120,6 +127,7 @@ class TestInstagramClient:
         mock_requests.post.side_effect = [container_resp, publish_resp]
 
         from goliath.integrations.instagram import InstagramClient
+
         client = InstagramClient()
         result = client.post_image("https://example.com/img.jpg", caption="Test")
 
@@ -137,6 +145,7 @@ class TestInstagramClient:
         mock_config.INSTAGRAM_USER_ID = "user1"
 
         from goliath.integrations.instagram import InstagramClient
+
         client = InstagramClient()
         with pytest.raises(ValueError, match="at least 2"):
             client.post_carousel([{"image_url": "https://example.com/1.jpg"}])
@@ -146,13 +155,14 @@ class TestInstagramClient:
 # Discord
 # ---------------------------------------------------------------------------
 
-class TestDiscordClient:
 
+class TestDiscordClient:
     @patch("goliath.integrations.discord.config")
     def test_missing_webhook_raises(self, mock_config):
         mock_config.DISCORD_WEBHOOK_URL = ""
 
         from goliath.integrations.discord import DiscordClient
+
         with pytest.raises(RuntimeError, match="DISCORD_WEBHOOK_URL"):
             DiscordClient()
 
@@ -167,6 +177,7 @@ class TestDiscordClient:
         mock_requests.post.return_value = mock_resp
 
         from goliath.integrations.discord import DiscordClient
+
         client = DiscordClient()
         result = client.send("Hello!")
 
@@ -184,6 +195,7 @@ class TestDiscordClient:
         mock_requests.post.return_value = mock_resp
 
         from goliath.integrations.discord import DiscordClient
+
         client = DiscordClient()
         result = client.send_embed(title="Test", description="Body", color=0xFF0000)
 
@@ -198,6 +210,7 @@ class TestDiscordClient:
         mock_config.DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/123/abc"
 
         from goliath.integrations.discord import DiscordClient
+
         client = DiscordClient()
         with pytest.raises(FileNotFoundError):
             client.send_file("/nonexistent/file.txt")
@@ -207,14 +220,15 @@ class TestDiscordClient:
 # Telegram
 # ---------------------------------------------------------------------------
 
-class TestTelegramClient:
 
+class TestTelegramClient:
     @patch("goliath.integrations.telegram.config")
     def test_missing_token_raises(self, mock_config):
         mock_config.TELEGRAM_BOT_TOKEN = ""
         mock_config.TELEGRAM_CHAT_ID = ""
 
         from goliath.integrations.telegram import TelegramClient
+
         with pytest.raises(RuntimeError, match="TELEGRAM_BOT_TOKEN"):
             TelegramClient()
 
@@ -229,8 +243,9 @@ class TestTelegramClient:
         mock_requests.post.return_value = mock_resp
 
         from goliath.integrations.telegram import TelegramClient
+
         client = TelegramClient()
-        result = client.send("Hello!")
+        client.send("Hello!")
 
         mock_requests.post.assert_called_once()
         url = mock_requests.post.call_args[0][0]
@@ -243,6 +258,7 @@ class TestTelegramClient:
         mock_config.TELEGRAM_CHAT_ID = ""
 
         from goliath.integrations.telegram import TelegramClient
+
         client = TelegramClient()
         with pytest.raises(RuntimeError, match="No chat_id"):
             client.send("Hello!")
@@ -252,14 +268,15 @@ class TestTelegramClient:
 # Slack
 # ---------------------------------------------------------------------------
 
-class TestSlackClient:
 
+class TestSlackClient:
     @patch("goliath.integrations.slack.config")
     def test_missing_credentials_raises(self, mock_config):
         mock_config.SLACK_WEBHOOK_URL = ""
         mock_config.SLACK_BOT_TOKEN = ""
 
         from goliath.integrations.slack import SlackClient
+
         with pytest.raises(RuntimeError, match="SLACK_WEBHOOK_URL.*SLACK_BOT_TOKEN"):
             SlackClient()
 
@@ -274,6 +291,7 @@ class TestSlackClient:
         mock_requests.post.return_value = mock_resp
 
         from goliath.integrations.slack import SlackClient
+
         client = SlackClient()
         result = client.send("Hello!")
 
@@ -290,12 +308,15 @@ class TestSlackClient:
         mock_requests.post.return_value = mock_resp
 
         from goliath.integrations.slack import SlackClient
+
         client = SlackClient()
         result = client.send("Hello!", channel="#general")
 
         assert result["ok"] is True
         call_kwargs = mock_requests.post.call_args
-        assert "Bearer xoxb-token" in call_kwargs.kwargs.get("headers", {}).get("Authorization", "")
+        assert "Bearer xoxb-token" in call_kwargs.kwargs.get("headers", {}).get(
+            "Authorization", ""
+        )
 
     @patch("goliath.integrations.slack.config")
     def test_bot_token_requires_channel(self, mock_config):
@@ -303,6 +324,7 @@ class TestSlackClient:
         mock_config.SLACK_BOT_TOKEN = "xoxb-token"
 
         from goliath.integrations.slack import SlackClient
+
         client = SlackClient()
         with pytest.raises(ValueError, match="channel"):
             client.send("Hello!")
@@ -313,6 +335,7 @@ class TestSlackClient:
         mock_config.SLACK_BOT_TOKEN = ""
 
         from goliath.integrations.slack import SlackClient
+
         client = SlackClient()
         with pytest.raises(RuntimeError, match="SLACK_BOT_TOKEN"):
             client.upload_file("file.txt", "#channel")
@@ -322,14 +345,15 @@ class TestSlackClient:
 # WhatsApp
 # ---------------------------------------------------------------------------
 
-class TestWhatsAppClient:
 
+class TestWhatsAppClient:
     @patch("goliath.integrations.whatsapp.config")
     def test_missing_token_raises(self, mock_config):
         mock_config.WHATSAPP_ACCESS_TOKEN = ""
         mock_config.WHATSAPP_PHONE_ID = "123"
 
         from goliath.integrations.whatsapp import WhatsAppClient
+
         with pytest.raises(RuntimeError, match="WHATSAPP_ACCESS_TOKEN"):
             WhatsAppClient()
 
@@ -339,6 +363,7 @@ class TestWhatsAppClient:
         mock_config.WHATSAPP_PHONE_ID = ""
 
         from goliath.integrations.whatsapp import WhatsAppClient
+
         with pytest.raises(RuntimeError, match="WHATSAPP_PHONE_ID"):
             WhatsAppClient()
 
@@ -348,13 +373,14 @@ class TestWhatsAppClient:
         mock_config.WHATSAPP_PHONE_ID = "phone_1"
 
         from goliath.integrations.whatsapp import WhatsAppClient
+
         client = WhatsAppClient()
 
         mock_resp = MagicMock()
         mock_resp.json.return_value = {"messages": [{"id": "msg_1"}]}
         client.session.post = MagicMock(return_value=mock_resp)
 
-        result = client.send_text(to="15551234567", body="Hello!")
+        client.send_text(to="15551234567", body="Hello!")
 
         call_kwargs = client.session.post.call_args.kwargs
         payload = call_kwargs["json"]
@@ -369,6 +395,7 @@ class TestWhatsAppClient:
         mock_config.WHATSAPP_PHONE_ID = "phone_1"
 
         from goliath.integrations.whatsapp import WhatsAppClient
+
         client = WhatsAppClient()
         with pytest.raises(ValueError, match="image_url or image_id"):
             client.send_image(to="15551234567")
@@ -379,13 +406,14 @@ class TestWhatsAppClient:
         mock_config.WHATSAPP_PHONE_ID = "phone_1"
 
         from goliath.integrations.whatsapp import WhatsAppClient
+
         client = WhatsAppClient()
 
         mock_resp = MagicMock()
         mock_resp.json.return_value = {"messages": [{"id": "msg_1"}]}
         client.session.post = MagicMock(return_value=mock_resp)
 
-        result = client.send_template(to="15551234567", template_name="hello_world")
+        client.send_template(to="15551234567", template_name="hello_world")
 
         payload = client.session.post.call_args.kwargs["json"]
         assert payload["type"] == "template"
@@ -397,13 +425,16 @@ class TestWhatsAppClient:
         mock_config.WHATSAPP_PHONE_ID = "phone_1"
 
         from goliath.integrations.whatsapp import WhatsAppClient
+
         client = WhatsAppClient()
 
         mock_resp = MagicMock()
         mock_resp.json.return_value = {"messages": [{"id": "msg_1"}]}
         client.session.post = MagicMock(return_value=mock_resp)
 
-        client.send_location(to="15551234567", latitude=37.77, longitude=-122.42, name="SF")
+        client.send_location(
+            to="15551234567", latitude=37.77, longitude=-122.42, name="SF"
+        )
         payload = client.session.post.call_args.kwargs["json"]
         assert payload["type"] == "location"
         assert payload["location"]["name"] == "SF"
@@ -413,8 +444,8 @@ class TestWhatsAppClient:
 # Reddit
 # ---------------------------------------------------------------------------
 
-class TestRedditClient:
 
+class TestRedditClient:
     @patch("goliath.integrations.reddit.config")
     def test_missing_credentials_raises(self, mock_config):
         mock_config.REDDIT_CLIENT_ID = ""
@@ -423,6 +454,7 @@ class TestRedditClient:
         mock_config.REDDIT_PASSWORD = ""
 
         from goliath.integrations.reddit import RedditClient
+
         with pytest.raises(RuntimeError, match="Missing Reddit credentials"):
             RedditClient()
 
@@ -439,6 +471,7 @@ class TestRedditClient:
         mock_requests.post.return_value = auth_resp
 
         from goliath.integrations.reddit import RedditClient
+
         client = RedditClient()
 
         # Verify auth was called
@@ -448,12 +481,14 @@ class TestRedditClient:
 
         # Now test submit_text
         submit_resp = MagicMock()
-        submit_resp.json.return_value = {"json": {"data": {"url": "https://reddit.com/r/test/1"}}}
+        submit_resp.json.return_value = {
+            "json": {"data": {"url": "https://reddit.com/r/test/1"}}
+        }
         submit_resp.status_code = 200
         submit_resp.content = b'{"json": {}}'
         client.session.post = MagicMock(return_value=submit_resp)
 
-        result = client.submit_text("test", title="Hello", text="Body")
+        client.submit_text("test", title="Hello", text="Body")
         call_kwargs = client.session.post.call_args.kwargs
         assert call_kwargs["data"]["sr"] == "test"
         assert call_kwargs["data"]["kind"] == "self"
@@ -467,10 +502,14 @@ class TestRedditClient:
         mock_config.REDDIT_PASSWORD = "pass"
 
         auth_resp = MagicMock()
-        auth_resp.json.return_value = {"error": "invalid_grant", "error_description": "bad creds"}
+        auth_resp.json.return_value = {
+            "error": "invalid_grant",
+            "error_description": "bad creds",
+        }
         mock_requests.post.return_value = auth_resp
 
         from goliath.integrations.reddit import RedditClient
+
         with pytest.raises(RuntimeError, match="invalid_grant"):
             RedditClient()
 
@@ -487,6 +526,7 @@ class TestRedditClient:
         mock_requests.post.return_value = auth_resp
 
         from goliath.integrations.reddit import RedditClient
+
         client = RedditClient()
         with pytest.raises(ValueError, match="direction must be"):
             client.vote("t3_abc", direction=2)
@@ -504,10 +544,12 @@ class TestRedditClient:
         mock_requests.post.return_value = auth_resp
 
         from goliath.integrations.reddit import RedditClient
+
         client = RedditClient()
         # session.headers is a mock; check the __setitem__ call
         client.session.headers.__setitem__.assert_any_call(
-            "User-Agent", unittest.mock.ANY,
+            "User-Agent",
+            unittest.mock.ANY,
         )
         ua_value = client.session.headers.__setitem__.call_args_list
         ua_set = [c for c in ua_value if c[0][0] == "User-Agent"]

@@ -29,7 +29,9 @@ OPENAI_DEFAULT_MODEL = os.environ.get("OPENAI_DEFAULT_MODEL", "gpt-4o")
 
 # --- Anthropic / Claude API ---
 ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
-ANTHROPIC_DEFAULT_MODEL = os.environ.get("ANTHROPIC_DEFAULT_MODEL", "claude-sonnet-4-5-20250929")
+ANTHROPIC_DEFAULT_MODEL = os.environ.get(
+    "ANTHROPIC_DEFAULT_MODEL", "claude-sonnet-4-5-20250929"
+)
 
 # --- Google / Gemini API ---
 GOOGLE_API_KEY = os.environ.get("GOOGLE_API_KEY", "")
@@ -85,7 +87,9 @@ REDDIT_USERNAME = os.environ.get("REDDIT_USERNAME", "")
 REDDIT_PASSWORD = os.environ.get("REDDIT_PASSWORD", "")
 
 # --- Memory ---
-MEMORY_PATH = os.environ.get("GOLIATH_MEMORY_PATH", str(Path.home() / ".goliath" / "memory.json"))
+MEMORY_PATH = os.environ.get(
+    "GOLIATH_MEMORY_PATH", str(Path.home() / ".goliath" / "memory.json")
+)
 MEMORY_MAX_HISTORY = int(os.environ.get("GOLIATH_MEMORY_MAX_HISTORY", "20"))
 
 # --- Model defaults ---

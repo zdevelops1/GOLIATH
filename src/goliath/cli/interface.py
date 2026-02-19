@@ -52,7 +52,9 @@ def _handle_memory_command(engine: Engine, task: str) -> bool:
             print()
             for turn in history:
                 role = turn["role"].upper()
-                text = turn["content"][:120] + ("..." if len(turn["content"]) > 120 else "")
+                text = turn["content"][:120] + (
+                    "..." if len(turn["content"]) > 120 else ""
+                )
                 print(f"  [{role}] {text}")
         return True
 
@@ -151,7 +153,9 @@ def run_interactive():
         try:
             result = engine.execute(task)
             print(f"\n{result.content}")
-            print(f"\n  [{result.provider}:{result.model} | {result.usage['total_tokens']} tokens]")
+            print(
+                f"\n  [{result.provider}:{result.model} | {result.usage['total_tokens']} tokens]"
+            )
         except ModerationError as exc:
             print(f"\n[BLOCKED] {exc}")
         except Exception as exc:

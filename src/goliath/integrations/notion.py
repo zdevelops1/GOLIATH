@@ -65,11 +65,13 @@ class NotionClient:
             )
 
         self.session = requests.Session()
-        self.session.headers.update({
-            "Authorization": f"Bearer {config.NOTION_API_KEY}",
-            "Content-Type": "application/json",
-            "Notion-Version": _NOTION_VERSION,
-        })
+        self.session.headers.update(
+            {
+                "Authorization": f"Bearer {config.NOTION_API_KEY}",
+                "Content-Type": "application/json",
+                "Notion-Version": _NOTION_VERSION,
+            }
+        )
 
     # -- Search ------------------------------------------------------------
 
@@ -200,11 +202,14 @@ class NotionClient:
         Returns:
             Created database object dict.
         """
-        return self._post("/databases", json={
-            "parent": {"type": "page_id", "page_id": parent_page_id},
-            "title": [{"type": "text", "text": {"content": title}}],
-            "properties": properties,
-        })
+        return self._post(
+            "/databases",
+            json={
+                "parent": {"type": "page_id", "page_id": parent_page_id},
+                "title": [{"type": "text", "text": {"content": title}}],
+                "properties": properties,
+            },
+        )
 
     # -- Blocks ------------------------------------------------------------
 

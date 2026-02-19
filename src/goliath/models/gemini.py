@@ -26,7 +26,9 @@ class GeminiProvider(BaseProvider):
         self.client = genai.Client(api_key=config.GOOGLE_API_KEY)
         self.model = config.GOOGLE_DEFAULT_MODEL
 
-    def run(self, prompt: str, system_prompt: str = "", history: list[dict] | None = None) -> ModelResponse:
+    def run(
+        self, prompt: str, system_prompt: str = "", history: list[dict] | None = None
+    ) -> ModelResponse:
         """Send a task prompt to Gemini and return the response."""
         config_kwargs = {
             "max_output_tokens": config.MAX_TOKENS,
@@ -40,10 +42,12 @@ class GeminiProvider(BaseProvider):
         if history:
             for turn in history:
                 role = "model" if turn["role"] == "assistant" else turn["role"]
-                contents.append(types.Content(
-                    role=role,
-                    parts=[types.Part(text=turn["content"])],
-                ))
+                contents.append(
+                    types.Content(
+                        role=role,
+                        parts=[types.Part(text=turn["content"])],
+                    )
+                )
         contents.append(prompt)
 
         response = self.client.models.generate_content(

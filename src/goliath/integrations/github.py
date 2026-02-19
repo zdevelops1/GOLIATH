@@ -72,11 +72,13 @@ class GitHubClient:
             )
         self.owner = config.GITHUB_OWNER
         self.session = requests.Session()
-        self.session.headers.update({
-            "Authorization": f"Bearer {self.token}",
-            "Accept": "application/vnd.github+json",
-            "X-GitHub-Api-Version": "2022-11-28",
-        })
+        self.session.headers.update(
+            {
+                "Authorization": f"Bearer {self.token}",
+                "Accept": "application/vnd.github+json",
+                "X-GitHub-Api-Version": "2022-11-28",
+            }
+        )
 
     # -- Repositories ------------------------------------------------------
 
@@ -98,11 +100,14 @@ class GitHubClient:
         private: bool = False,
     ) -> dict:
         """Create a new repository for the authenticated user."""
-        return self._post("/user/repos", json={
-            "name": name,
-            "description": description,
-            "private": private,
-        })
+        return self._post(
+            "/user/repos",
+            json={
+                "name": name,
+                "description": description,
+                "private": private,
+            },
+        )
 
     # -- Issues ------------------------------------------------------------
 
@@ -113,12 +118,17 @@ class GitHubClient:
         per_page: int = 30,
     ) -> list[dict]:
         """List issues for a repository."""
-        return self._get(f"/repos/{repo}/issues", params={
-            "state": state,
-            "per_page": per_page,
-        })
+        return self._get(
+            f"/repos/{repo}/issues",
+            params={
+                "state": state,
+                "per_page": per_page,
+            },
+        )
 
-    def create_issue(self, repo: str, title: str, body: str = "", labels: list[str] | None = None) -> dict:
+    def create_issue(
+        self, repo: str, title: str, body: str = "", labels: list[str] | None = None
+    ) -> dict:
         """Create a new issue."""
         payload: dict = {"title": title, "body": body}
         if labels:
@@ -127,7 +137,9 @@ class GitHubClient:
 
     def comment_on_issue(self, repo: str, issue_number: int, body: str) -> dict:
         """Add a comment to an issue or pull request."""
-        return self._post(f"/repos/{repo}/issues/{issue_number}/comments", json={"body": body})
+        return self._post(
+            f"/repos/{repo}/issues/{issue_number}/comments", json={"body": body}
+        )
 
     # -- Pull Requests -----------------------------------------------------
 
@@ -138,10 +150,13 @@ class GitHubClient:
         per_page: int = 30,
     ) -> list[dict]:
         """List pull requests for a repository."""
-        return self._get(f"/repos/{repo}/pulls", params={
-            "state": state,
-            "per_page": per_page,
-        })
+        return self._get(
+            f"/repos/{repo}/pulls",
+            params={
+                "state": state,
+                "per_page": per_page,
+            },
+        )
 
     def create_pull(
         self,
@@ -152,12 +167,15 @@ class GitHubClient:
         body: str = "",
     ) -> dict:
         """Create a pull request."""
-        return self._post(f"/repos/{repo}/pulls", json={
-            "title": title,
-            "head": head,
-            "base": base,
-            "body": body,
-        })
+        return self._post(
+            f"/repos/{repo}/pulls",
+            json={
+                "title": title,
+                "head": head,
+                "base": base,
+                "body": body,
+            },
+        )
 
     # -- Files -------------------------------------------------------------
 
