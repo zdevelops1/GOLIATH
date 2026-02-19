@@ -117,6 +117,13 @@ goliath/
       slack.py           # Slack (messages, Block Kit, file uploads)
       github.py          # GitHub (repos, issues, PRs, files, Actions)
       imagegen.py        # Image generation (DALL-E text-to-image, edits, variations)
+      sheets.py          # Google Sheets (read, write, append, create)
+      drive.py           # Google Drive (upload, download, share, folders)
+      calendar.py        # Google Calendar (events CRUD)
+      docs.py            # Google Docs (read, create, append text)
+      notion.py          # Notion (pages, databases, blocks)
+      whatsapp.py        # WhatsApp (text, images, documents, templates)
+      reddit.py          # Reddit (posts, comments, voting, browsing)
     tools/               # Executable tool plugins (web search, file I/O, etc.)
     memory/
       store.py           # Persistent memory (conversation history + facts)
@@ -185,7 +192,7 @@ MODEL_PROVIDERS = {
 
 ## Integrations
 
-Nine built-in integrations for connecting GOLIATH to external services:
+Sixteen built-in integrations for connecting GOLIATH to external services:
 
 | Integration | What it does | Setup |
 |---|---|---|
@@ -198,6 +205,13 @@ Nine built-in integrations for connecting GOLIATH to external services:
 | **GitHub** | Manage repos, issues, PRs, files, and Actions | Personal access token from [github.com/settings/tokens](https://github.com/settings/tokens) |
 | **Image Generation** | Generate, edit, and vary images via DALL-E | Uses existing `OPENAI_API_KEY` |
 | **Web Scraper** | Extract text, links, and data from URLs | No keys needed |
+| **Google Sheets** | Read, write, and manage spreadsheet data | Service account JSON or API key ([setup guide](src/goliath/integrations/sheets.py)) |
+| **Google Drive** | Upload, download, share, and manage files | Service account JSON ([setup guide](src/goliath/integrations/drive.py)) |
+| **Google Calendar** | List, create, update, and delete events | Service account JSON ([setup guide](src/goliath/integrations/calendar.py)) |
+| **Google Docs** | Read, create, and append to documents | Service account JSON ([setup guide](src/goliath/integrations/docs.py)) |
+| **Notion** | Manage pages, databases, and blocks | Internal integration token from [notion.so/my-integrations](https://www.notion.so/my-integrations) |
+| **WhatsApp** | Send text, images, documents, and templates | Meta Cloud API token ([setup guide](src/goliath/integrations/whatsapp.py)) |
+| **Reddit** | Submit posts, comment, vote, and browse | Script app credentials from [reddit.com/prefs/apps](https://www.reddit.com/prefs/apps) |
 
 ### Quick Examples
 
@@ -211,6 +225,13 @@ from goliath.integrations.slack import SlackClient
 from goliath.integrations.github import GitHubClient
 from goliath.integrations.imagegen import ImageGenClient
 from goliath.integrations.scraper import WebScraper
+from goliath.integrations.sheets import SheetsClient
+from goliath.integrations.drive import DriveClient
+from goliath.integrations.calendar import CalendarClient
+from goliath.integrations.docs import DocsClient
+from goliath.integrations.notion import NotionClient
+from goliath.integrations.whatsapp import WhatsAppClient
+from goliath.integrations.reddit import RedditClient
 
 # Post a tweet
 XClient().tweet("Hello from GOLIATH!")
@@ -238,6 +259,27 @@ result = ImageGenClient().generate("A futuristic city skyline at sunset")
 
 # Scrape a web page
 data = WebScraper().get_text("https://example.com")
+
+# Read from a Google Sheet
+rows = SheetsClient().get_values("SPREADSHEET_ID", "Sheet1!A1:D10")
+
+# Upload a file to Google Drive
+DriveClient().upload_file("report.pdf", folder_id="FOLDER_ID")
+
+# Create a Google Calendar event
+CalendarClient().create_event(summary="Standup", start="2025-06-01T09:00:00", end="2025-06-01T09:30:00")
+
+# Append text to a Google Doc
+DocsClient().append_text("DOCUMENT_ID", "\nNew section content here.")
+
+# Search Notion
+NotionClient().search("project plan")
+
+# Send a WhatsApp message
+WhatsAppClient().send_text(to="15551234567", body="Hello from GOLIATH!")
+
+# Submit a Reddit post
+RedditClient().submit_text("test", title="Hello from GOLIATH", text="Automated post!")
 ```
 
 Each integration file contains full setup instructions in its docstring.
@@ -291,6 +333,15 @@ All settings live in `config.py` and can be overridden with environment variable
 | `GITHUB_TOKEN` | GitHub personal access token |
 | `GITHUB_OWNER` | Default GitHub user or org name |
 | `IMAGEGEN_DEFAULT_MODEL` | DALL-E model (`dall-e-3` default, `dall-e-2`, `gpt-image-1`) |
+| `GOOGLE_SERVICE_ACCOUNT_FILE` | Path to Google service account JSON (Sheets, Drive, Calendar, Docs) |
+| `GOOGLE_SHEETS_API_KEY` | Google API key for read-only Sheets access |
+| `NOTION_API_KEY` | Notion internal integration token |
+| `WHATSAPP_PHONE_ID` | WhatsApp Business phone number ID |
+| `WHATSAPP_ACCESS_TOKEN` | WhatsApp Cloud API access token |
+| `REDDIT_CLIENT_ID` | Reddit script app client ID |
+| `REDDIT_CLIENT_SECRET` | Reddit script app client secret |
+| `REDDIT_USERNAME` | Reddit account username |
+| `REDDIT_PASSWORD` | Reddit account password |
 
 ## License
 

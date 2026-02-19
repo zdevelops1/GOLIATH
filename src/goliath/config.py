@@ -67,6 +67,23 @@ GITHUB_OWNER = os.environ.get("GITHUB_OWNER", "")
 # --- Image Generation ---
 IMAGEGEN_DEFAULT_MODEL = os.environ.get("IMAGEGEN_DEFAULT_MODEL", "dall-e-3")
 
+# --- Google Workspace (Sheets, Drive, Calendar, Docs) ---
+GOOGLE_SERVICE_ACCOUNT_FILE = os.environ.get("GOOGLE_SERVICE_ACCOUNT_FILE", "")
+GOOGLE_SHEETS_API_KEY = os.environ.get("GOOGLE_SHEETS_API_KEY", "")
+
+# --- Notion ---
+NOTION_API_KEY = os.environ.get("NOTION_API_KEY", "")
+
+# --- WhatsApp (Meta Cloud API) ---
+WHATSAPP_PHONE_ID = os.environ.get("WHATSAPP_PHONE_ID", "")
+WHATSAPP_ACCESS_TOKEN = os.environ.get("WHATSAPP_ACCESS_TOKEN", "")
+
+# --- Reddit ---
+REDDIT_CLIENT_ID = os.environ.get("REDDIT_CLIENT_ID", "")
+REDDIT_CLIENT_SECRET = os.environ.get("REDDIT_CLIENT_SECRET", "")
+REDDIT_USERNAME = os.environ.get("REDDIT_USERNAME", "")
+REDDIT_PASSWORD = os.environ.get("REDDIT_PASSWORD", "")
+
 # --- Memory ---
 MEMORY_PATH = os.environ.get("GOLIATH_MEMORY_PATH", str(Path.home() / ".goliath" / "memory.json"))
 MEMORY_MAX_HISTORY = int(os.environ.get("GOLIATH_MEMORY_MAX_HISTORY", "20"))
@@ -107,4 +124,11 @@ INTEGRATIONS = {
     "slack": "goliath.integrations.slack",
     "github": "goliath.integrations.github",
     "imagegen": "goliath.integrations.imagegen",
+    "sheets": "goliath.integrations.sheets",
+    "drive": "goliath.integrations.drive",
+    "calendar": "goliath.integrations.calendar",
+    "docs": "goliath.integrations.docs",
+    "notion": "goliath.integrations.notion",
+    "whatsapp": "goliath.integrations.whatsapp",
+    "reddit": "goliath.integrations.reddit",
 }
