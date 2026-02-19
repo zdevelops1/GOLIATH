@@ -101,6 +101,7 @@ goliath/
     main.py              # CLI dispatcher (interactive & single-shot)
     core/
       engine.py          # Task execution engine — orchestrates everything
+      moderation.py      # Content moderation — screens tasks before the model
     models/
       base.py            # Abstract provider interface (subclass to add new models)
       grok.py            # xAI Grok provider (default)
@@ -283,6 +284,44 @@ RedditClient().submit_text("test", title="Hello from GOLIATH", text="Automated p
 ```
 
 Each integration file contains full setup instructions in its docstring.
+
+## Safety & Content Moderation
+
+GOLIATH includes a built-in content moderation layer that automatically screens every task before it reaches the AI model. Harmful requests are blocked with a clear `[BLOCKED]` message — nothing is sent to the provider.
+
+**Blocked categories:**
+
+| Category | What it catches |
+|---|---|
+| **Illegal activity** | Weapons, drugs, hacking, counterfeiting, trafficking |
+| **Violence & threats** | Instructions to harm, kill, or assault; covering up violence |
+| **Hate speech** | Content targeting groups based on race, religion, gender, orientation |
+| **Harassment** | Stalking, doxxing, swatting, blackmail, intimidation |
+| **Self-harm** | Suicide methods, self-injury (includes crisis helpline info) |
+| **Sexual exploitation** | Any sexual content involving minors |
+| **Spam & fraud** | Phishing, scams, impersonation, fake reviews, Ponzi schemes |
+
+```
+GOLIATH > how to hack someone's account
+
+[BLOCKED] This request appears to involve illegal activity. GOLIATH cannot assist with this.
+```
+
+The moderation module lives at `src/goliath/core/moderation.py` and uses compiled regex patterns for fast screening with minimal latency.
+
+## Security
+
+All API keys and secrets are loaded exclusively from environment variables or a `.env` file — no credentials are hardcoded in source code. The `.env` file is git-ignored and must never be committed.
+
+**Security practices built into GOLIATH:**
+
+- API tokens sent via `Authorization` headers (never in URLs or request bodies)
+- URL scheme validation in the web scraper (blocks `file://` and SSRF)
+- Input length limits in the CLI (32K characters) and memory commands
+- Error messages sanitized to prevent credential leaks
+- File handles properly managed to prevent resource leaks
+
+For vulnerability reporting, see [SECURITY.md](SECURITY.md). For community standards and responsible use policies, see [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md).
 
 ## Adding a New Integration
 
