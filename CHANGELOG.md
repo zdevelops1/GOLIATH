@@ -2,6 +2,25 @@
 
 All notable changes to GOLIATH are documented in this file.
 
+## [0.2.0] - 2026-02-19
+
+### Added
+
+- **10 new integrations (21 → 31 total):**
+  - **Social & content:** Pinterest, TikTok, Spotify
+  - **Meetings & scheduling:** Zoom, Calendly
+  - **CRM & sales:** HubSpot, Salesforce
+  - **CMS & web:** WordPress, Webflow
+  - **Payments:** PayPal (sandbox + live)
+- **73 new tests** for all 10 integrations covering credential validation, auth patterns (Bearer token, HTTP Basic, OAuth client credentials, Server-to-Server OAuth, password flow), API call construction, and sandbox/live toggling
+
+### Changed
+
+- Total test count: 265 → 338
+- README updated with 31 integrations, expanded architecture tree, and config reference
+
+---
+
 ## [0.1.0] - 2025-06-01
 
 ### Added
