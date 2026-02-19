@@ -86,6 +86,26 @@ REDDIT_CLIENT_SECRET = os.environ.get("REDDIT_CLIENT_SECRET", "")
 REDDIT_USERNAME = os.environ.get("REDDIT_USERNAME", "")
 REDDIT_PASSWORD = os.environ.get("REDDIT_PASSWORD", "")
 
+# --- YouTube ---
+YOUTUBE_API_KEY = os.environ.get("YOUTUBE_API_KEY", "")
+YOUTUBE_ACCESS_TOKEN = os.environ.get("YOUTUBE_ACCESS_TOKEN", "")
+
+# --- LinkedIn ---
+LINKEDIN_ACCESS_TOKEN = os.environ.get("LINKEDIN_ACCESS_TOKEN", "")
+LINKEDIN_PERSON_ID = os.environ.get("LINKEDIN_PERSON_ID", "")
+
+# --- Shopify ---
+SHOPIFY_STORE = os.environ.get("SHOPIFY_STORE", "")
+SHOPIFY_ACCESS_TOKEN = os.environ.get("SHOPIFY_ACCESS_TOKEN", "")
+
+# --- Stripe ---
+STRIPE_SECRET_KEY = os.environ.get("STRIPE_SECRET_KEY", "")
+
+# --- Twilio ---
+TWILIO_ACCOUNT_SID = os.environ.get("TWILIO_ACCOUNT_SID", "")
+TWILIO_AUTH_TOKEN = os.environ.get("TWILIO_AUTH_TOKEN", "")
+TWILIO_PHONE_NUMBER = os.environ.get("TWILIO_PHONE_NUMBER", "")
+
 # --- Memory ---
 MEMORY_PATH = os.environ.get(
     "GOLIATH_MEMORY_PATH", str(Path.home() / ".goliath" / "memory.json")
@@ -135,4 +155,9 @@ INTEGRATIONS = {
     "notion": "goliath.integrations.notion",
     "whatsapp": "goliath.integrations.whatsapp",
     "reddit": "goliath.integrations.reddit",
+    "youtube": "goliath.integrations.youtube",
+    "linkedin": "goliath.integrations.linkedin",
+    "shopify": "goliath.integrations.shopify",
+    "stripe": "goliath.integrations.stripe",
+    "twilio": "goliath.integrations.twilio",
 }

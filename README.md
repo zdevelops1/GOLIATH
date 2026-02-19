@@ -127,6 +127,11 @@ goliath/
       notion.py          # Notion (pages, databases, blocks)
       whatsapp.py        # WhatsApp (text, images, documents, templates)
       reddit.py          # Reddit (posts, comments, voting, browsing)
+      youtube.py         # YouTube (search, upload, manage videos)
+      linkedin.py        # LinkedIn (posts, image sharing, profile)
+      shopify.py         # Shopify (products, orders, customers, inventory)
+      stripe.py          # Stripe (payments, customers, subscriptions, refunds)
+      twilio.py          # Twilio (SMS/MMS messaging)
     tools/               # Executable tool plugins (web search, file I/O, etc.)
     memory/
       store.py           # Persistent memory (conversation history + facts)
@@ -195,7 +200,7 @@ MODEL_PROVIDERS = {
 
 ## Integrations
 
-Sixteen built-in integrations for connecting GOLIATH to external services:
+Twenty-one built-in integrations for connecting GOLIATH to external services:
 
 | Integration | What it does | Setup |
 |---|---|---|
@@ -215,6 +220,11 @@ Sixteen built-in integrations for connecting GOLIATH to external services:
 | **Notion** | Manage pages, databases, and blocks | Internal integration token from [notion.so/my-integrations](https://www.notion.so/my-integrations) |
 | **WhatsApp** | Send text, images, documents, and templates | Meta Cloud API token ([setup guide](src/goliath/integrations/whatsapp.py)) |
 | **Reddit** | Submit posts, comment, vote, and browse | Script app credentials from [reddit.com/prefs/apps](https://www.reddit.com/prefs/apps) |
+| **YouTube** | Search, upload, and manage videos | API key or OAuth token from [Google Cloud Console](https://console.cloud.google.com/) |
+| **LinkedIn** | Share posts, images, and manage profile | OAuth token from [developer.linkedin.com](https://developer.linkedin.com/) |
+| **Shopify** | Manage products, orders, customers, and inventory | Admin API token from your [Shopify admin](https://admin.shopify.com/) |
+| **Stripe** | Payments, customers, subscriptions, and refunds | Secret key from [dashboard.stripe.com/apikeys](https://dashboard.stripe.com/apikeys) |
+| **Twilio SMS** | Send and manage SMS/MMS messages | Account SID + auth token from [console.twilio.com](https://console.twilio.com/) |
 
 ### Quick Examples
 
@@ -235,6 +245,11 @@ from goliath.integrations.docs import DocsClient
 from goliath.integrations.notion import NotionClient
 from goliath.integrations.whatsapp import WhatsAppClient
 from goliath.integrations.reddit import RedditClient
+from goliath.integrations.youtube import YouTubeClient
+from goliath.integrations.linkedin import LinkedInClient
+from goliath.integrations.shopify import ShopifyClient
+from goliath.integrations.stripe import StripeClient
+from goliath.integrations.twilio import TwilioClient
 
 # Post a tweet
 XClient().tweet("Hello from GOLIATH!")
@@ -283,6 +298,21 @@ WhatsAppClient().send_text(to="15551234567", body="Hello from GOLIATH!")
 
 # Submit a Reddit post
 RedditClient().submit_text("test", title="Hello from GOLIATH", text="Automated post!")
+
+# Search YouTube
+YouTubeClient().search("Python tutorial", max_results=5)
+
+# Share a LinkedIn post
+LinkedInClient().create_post("Hello from GOLIATH!")
+
+# List Shopify products
+ShopifyClient().list_products(limit=10)
+
+# Create a Stripe payment intent
+StripeClient().create_payment_intent(amount=2000, currency="usd")
+
+# Send an SMS via Twilio
+TwilioClient().send(to="+15559876543", body="Hello from GOLIATH!")
 ```
 
 Each integration file contains full setup instructions in its docstring.
@@ -383,6 +413,16 @@ All settings live in `config.py` and can be overridden with environment variable
 | `REDDIT_CLIENT_SECRET` | Reddit script app client secret |
 | `REDDIT_USERNAME` | Reddit account username |
 | `REDDIT_PASSWORD` | Reddit account password |
+| `YOUTUBE_API_KEY` | YouTube Data API key (read-only) |
+| `YOUTUBE_ACCESS_TOKEN` | YouTube OAuth token (upload/manage) |
+| `LINKEDIN_ACCESS_TOKEN` | LinkedIn OAuth access token |
+| `LINKEDIN_PERSON_ID` | LinkedIn member person ID |
+| `SHOPIFY_STORE` | Shopify store domain (e.g. `your-store.myshopify.com`) |
+| `SHOPIFY_ACCESS_TOKEN` | Shopify Admin API access token |
+| `STRIPE_SECRET_KEY` | Stripe secret key (`sk_test_` or `sk_live_`) |
+| `TWILIO_ACCOUNT_SID` | Twilio Account SID |
+| `TWILIO_AUTH_TOKEN` | Twilio Auth Token |
+| `TWILIO_PHONE_NUMBER` | Twilio sender phone number (E.164 format) |
 
 ## License
 
