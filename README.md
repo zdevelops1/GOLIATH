@@ -1,5 +1,7 @@
 # GOLIATH
 
+[![CI](https://github.com/zdevelops1/GOLIATH/actions/workflows/ci.yml/badge.svg)](https://github.com/zdevelops1/GOLIATH/actions/workflows/ci.yml)
+
 **Universal AI Automation Engine**
 
 GOLIATH is a modular, plugin-driven automation engine that takes plain-English tasks and executes them through AI. Built on the xAI Grok API by default, with drop-in support for OpenAI, Anthropic Claude, and Google Gemini. Any model provider or third-party integration can be added as a plugin with zero changes to the core.
