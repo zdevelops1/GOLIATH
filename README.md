@@ -4,7 +4,7 @@
 
 **Universal AI Automation Engine**
 
-GOLIATH is a modular, plugin-driven automation engine that takes plain-English tasks and executes them through AI. Built on the xAI Grok API by default, with drop-in support for 8 additional model providers and 67 third-party integrations. Any model provider or integration can be added as a plugin with zero changes to the core.
+GOLIATH is a modular, plugin-driven automation engine that takes plain-English tasks and executes them through AI. Built on the xAI Grok API by default, with drop-in support for 8 additional model providers and 67 third-party integrations. 464+ tests passing across 8 test files. Any model provider or integration can be added as a plugin with zero changes to the core.
 
 ## Supported Providers
 

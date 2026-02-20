@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "goliath-ai"
-version = "0.6.0"
+version = "0.6.1"
 description = "Universal AI Automation Engine — 9 AI providers and 67 integrations in one CLI"
 readme = "README.md"
 license = "MIT"

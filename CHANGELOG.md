@@ -2,6 +2,30 @@
 
 All notable changes to GOLIATH are documented in this file.
 
+## [0.6.1] - 2026-02-20
+
+### Added
+
+- **58 new tests for batch 4 integrations** covering all 10 integrations added in v0.6.0:
+  - Notion AI (credential validation, fallback key, generate, summarize, 404 fallback)
+  - Perplexity Search (auth, search with citations, quick search, recency filter)
+  - Brave Search (auth header, web/news/image search endpoints)
+  - Wikipedia (no-auth init, search, summary, random, on-this-day)
+  - Weather / OpenWeatherMap (credential validation, current/coords/forecast/geocode/air quality)
+  - News API (credential validation, top headlines, search, sources)
+  - Google Maps (credential validation, geocode, reverse geocode, nearby search, directions, distance matrix, autocomplete)
+  - Yelp (credential validation, auth header, search, business details, reviews, phone search)
+  - OpenSea (credential validation, auth header, collections, NFTs, stats, events)
+  - Binance (no-key init for public endpoints, API key header, price, order book, klines, signed request validation, 24h stats)
+
+### Changed
+
+- Total tests: 406 → 464
+- README updated with test count
+- Package version bumped to 0.6.1
+
+---
+
 ## [0.6.0] - 2026-02-19
 
 ### Added
