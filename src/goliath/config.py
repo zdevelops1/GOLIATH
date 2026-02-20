@@ -204,6 +204,48 @@ AWS_S3_USE_INSTANCE_PROFILE = (
     os.environ.get("AWS_S3_USE_INSTANCE_PROFILE", "").lower() == "true"
 )
 
+# --- Asana ---
+ASANA_ACCESS_TOKEN = os.environ.get("ASANA_ACCESS_TOKEN", "")
+
+# --- Monday.com ---
+MONDAY_API_TOKEN = os.environ.get("MONDAY_API_TOKEN", "")
+
+# --- Zendesk ---
+ZENDESK_SUBDOMAIN = os.environ.get("ZENDESK_SUBDOMAIN", "")
+ZENDESK_EMAIL = os.environ.get("ZENDESK_EMAIL", "")
+ZENDESK_API_TOKEN = os.environ.get("ZENDESK_API_TOKEN", "")
+
+# --- Intercom ---
+INTERCOM_ACCESS_TOKEN = os.environ.get("INTERCOM_ACCESS_TOKEN", "")
+
+# --- Twitch ---
+TWITCH_CLIENT_ID = os.environ.get("TWITCH_CLIENT_ID", "")
+TWITCH_CLIENT_SECRET = os.environ.get("TWITCH_CLIENT_SECRET", "")
+TWITCH_ACCESS_TOKEN = os.environ.get("TWITCH_ACCESS_TOKEN", "")
+
+# --- Snapchat ---
+SNAPCHAT_ACCESS_TOKEN = os.environ.get("SNAPCHAT_ACCESS_TOKEN", "")
+SNAPCHAT_AD_ACCOUNT_ID = os.environ.get("SNAPCHAT_AD_ACCOUNT_ID", "")
+
+# --- Medium ---
+MEDIUM_ACCESS_TOKEN = os.environ.get("MEDIUM_ACCESS_TOKEN", "")
+
+# --- Substack ---
+SUBSTACK_SUBDOMAIN = os.environ.get("SUBSTACK_SUBDOMAIN", "")
+SUBSTACK_SESSION_COOKIE = os.environ.get("SUBSTACK_SESSION_COOKIE", "")
+SUBSTACK_USER_ID = os.environ.get("SUBSTACK_USER_ID", "")
+
+# --- Cloudflare ---
+CLOUDFLARE_API_TOKEN = os.environ.get("CLOUDFLARE_API_TOKEN", "")
+CLOUDFLARE_API_KEY = os.environ.get("CLOUDFLARE_API_KEY", "")
+CLOUDFLARE_EMAIL = os.environ.get("CLOUDFLARE_EMAIL", "")
+
+# --- Firebase ---
+FIREBASE_PROJECT_ID = os.environ.get("FIREBASE_PROJECT_ID", "")
+FIREBASE_API_KEY = os.environ.get("FIREBASE_API_KEY", "")
+FIREBASE_DATABASE_URL = os.environ.get("FIREBASE_DATABASE_URL", "")
+FIREBASE_SERVICE_ACCOUNT_FILE = os.environ.get("FIREBASE_SERVICE_ACCOUNT_FILE", "")
+
 # --- Memory ---
 MEMORY_PATH = os.environ.get(
     "GOLIATH_MEMORY_PATH", str(Path.home() / ".goliath" / "memory.json")
@@ -280,4 +322,14 @@ INTEGRATIONS = {
     "sendgrid": "goliath.integrations.sendgrid",
     "trello": "goliath.integrations.trello",
     "s3": "goliath.integrations.s3",
+    "asana": "goliath.integrations.asana",
+    "monday": "goliath.integrations.monday",
+    "zendesk": "goliath.integrations.zendesk",
+    "intercom": "goliath.integrations.intercom",
+    "twitch": "goliath.integrations.twitch",
+    "snapchat": "goliath.integrations.snapchat",
+    "medium": "goliath.integrations.medium",
+    "substack": "goliath.integrations.substack",
+    "cloudflare": "goliath.integrations.cloudflare",
+    "firebase": "goliath.integrations.firebase",
 }

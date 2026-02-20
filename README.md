@@ -4,7 +4,7 @@
 
 **Universal AI Automation Engine**
 
-GOLIATH is a modular, plugin-driven automation engine that takes plain-English tasks and executes them through AI. Built on the xAI Grok API by default, with drop-in support for 8 additional model providers and 38 third-party integrations. Any model provider or integration can be added as a plugin with zero changes to the core.
+GOLIATH is a modular, plugin-driven automation engine that takes plain-English tasks and executes them through AI. Built on the xAI Grok API by default, with drop-in support for 8 additional model providers and 48 third-party integrations. Any model provider or integration can be added as a plugin with zero changes to the core.
 
 ## Supported Providers
 
@@ -232,7 +232,7 @@ MODEL_PROVIDERS = {
 
 ## Integrations
 
-Thirty-eight built-in integrations for connecting GOLIATH to external services:
+Forty-eight built-in integrations for connecting GOLIATH to external services:
 
 | Integration | What it does | Setup |
 |---|---|---|
@@ -274,6 +274,16 @@ Thirty-eight built-in integrations for connecting GOLIATH to external services:
 | **SendGrid** | Transactional email, templates, contacts | API key from [app.sendgrid.com](https://app.sendgrid.com/settings/api_keys) |
 | **Trello** | Boards, lists, cards, and checklists | API key + token from [trello.com/power-ups/admin](https://trello.com/power-ups/admin) |
 | **Amazon S3** | Object storage, buckets, presigned URLs | AWS credentials from [IAM Console](https://console.aws.amazon.com/iam/) |
+| **Asana** | Projects, tasks, workspaces, and comments | Personal access token from [app.asana.com](https://app.asana.com/0/developer-console) |
+| **Monday.com** | Boards, items, updates via GraphQL | API token from [monday.com/apps/manage](https://monday.com/apps/manage) |
+| **Zendesk** | Tickets, users, organizations, and search | API token from [Zendesk Admin](https://support.zendesk.com/hc/en-us/articles/4408889192858) |
+| **Intercom** | Contacts, conversations, and messaging | Access token from [Intercom Developer Hub](https://app.intercom.com/) |
+| **Twitch** | Channels, streams, chat, and clips | Client credentials from [dev.twitch.tv](https://dev.twitch.tv/console) |
+| **Snapchat** | Campaigns, ad squads, and creative media | OAuth token from [Snapchat Marketing API](https://business.snapchat.com/) |
+| **Medium** | Publish posts and manage publications | Integration token from [Medium settings](https://medium.com/me/settings/security) |
+| **Substack** | Draft, publish, and manage newsletter posts | Session cookie from [substack.com](https://substack.com/) |
+| **Cloudflare** | DNS records, zones, Workers, and caching | API token from [Cloudflare dashboard](https://dash.cloudflare.com/profile/api-tokens) |
+| **Firebase** | Firestore, Realtime Database, and Auth | Project config from [Firebase console](https://console.firebase.google.com/) |
 
 ### Quick Examples
 
@@ -316,6 +326,16 @@ from goliath.integrations.mailchimp import MailchimpClient
 from goliath.integrations.sendgrid import SendGridClient
 from goliath.integrations.trello import TrelloClient
 from goliath.integrations.s3 import S3Client
+from goliath.integrations.asana import AsanaClient
+from goliath.integrations.monday import MondayClient
+from goliath.integrations.zendesk import ZendeskClient
+from goliath.integrations.intercom import IntercomClient
+from goliath.integrations.twitch import TwitchClient
+from goliath.integrations.snapchat import SnapchatClient
+from goliath.integrations.medium import MediumClient
+from goliath.integrations.substack import SubstackClient
+from goliath.integrations.cloudflare import CloudflareClient
+from goliath.integrations.firebase import FirebaseClient
 
 # Post a tweet
 XClient().tweet("Hello from GOLIATH!")
@@ -430,6 +450,36 @@ TrelloClient().create_card(list_id="xyz789", name="New task")
 
 # Upload a file to S3
 S3Client().upload_file("report.pdf", "my-bucket", "reports/report.pdf")
+
+# Create an Asana task
+AsanaClient().create_task(project_gid="12345", name="Build landing page", notes="Design and implement.")
+
+# Create a Monday.com item
+MondayClient().create_item(board_id="67890", item_name="New feature request")
+
+# Create a Zendesk ticket
+ZendeskClient().create_ticket(subject="Cannot log in", description="User reports 403 error.", priority="high")
+
+# Send an Intercom message
+IntercomClient().send_message(from_admin_id="admin_1", to_contact_id="user_1", body="How can we help?")
+
+# Search Twitch channels
+TwitchClient().search_channels("speedrunning")
+
+# List Snapchat campaigns
+SnapchatClient().list_campaigns()
+
+# Publish a Medium post
+MediumClient().create_post(title="My Article", content="# Hello World", content_format="markdown")
+
+# Create a Substack draft
+SubstackClient().create_draft(title="Weekly Digest", body_html="<h1>Hello Subscribers</h1>")
+
+# Create a Cloudflare DNS record
+CloudflareClient().create_dns_record(zone_id="z1", type="A", name="app.example.com", content="192.0.2.1")
+
+# Set a Firebase Firestore document
+FirebaseClient().set_document("users", "user123", {"name": "Jane", "email": "jane@example.com"})
 ```
 
 Each integration file contains full setup instructions in its docstring.

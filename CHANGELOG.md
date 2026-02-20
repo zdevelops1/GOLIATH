@@ -2,6 +2,25 @@
 
 All notable changes to GOLIATH are documented in this file.
 
+## [0.4.0] - 2026-02-19
+
+### Added
+
+- **10 new integrations (38 → 48 total):**
+  - **Project management:** Asana (projects, tasks, workspaces, comments), Monday.com (boards, items, updates via GraphQL)
+  - **Customer support:** Zendesk (tickets, users, organizations, search), Intercom (contacts, conversations, messaging)
+  - **Streaming & social:** Twitch (channels, streams, chat, clips), Snapchat (campaigns, ad squads, creative media)
+  - **Publishing:** Medium (posts, publications), Substack (drafts, newsletter publishing, subscriber stats)
+  - **Infrastructure:** Cloudflare (DNS, zones, Workers, caching), Firebase (Firestore, Realtime Database, Auth)
+
+### Changed
+
+- Total integrations: 38 → 48
+- README updated with all 48 integrations
+- Package version bumped to 0.4.0
+
+---
+
 ## [0.3.0] - 2026-02-19
 
 ### Added
