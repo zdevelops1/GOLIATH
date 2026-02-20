@@ -246,6 +246,36 @@ FIREBASE_API_KEY = os.environ.get("FIREBASE_API_KEY", "")
 FIREBASE_DATABASE_URL = os.environ.get("FIREBASE_DATABASE_URL", "")
 FIREBASE_SERVICE_ACCOUNT_FILE = os.environ.get("FIREBASE_SERVICE_ACCOUNT_FILE", "")
 
+# --- Figma ---
+FIGMA_ACCESS_TOKEN = os.environ.get("FIGMA_ACCESS_TOKEN", "")
+
+# --- Canva ---
+CANVA_ACCESS_TOKEN = os.environ.get("CANVA_ACCESS_TOKEN", "")
+
+# --- Loom ---
+LOOM_ACCESS_TOKEN = os.environ.get("LOOM_ACCESS_TOKEN", "")
+
+# --- Typeform ---
+TYPEFORM_ACCESS_TOKEN = os.environ.get("TYPEFORM_ACCESS_TOKEN", "")
+
+# --- Beehiiv ---
+BEEHIIV_API_KEY = os.environ.get("BEEHIIV_API_KEY", "")
+BEEHIIV_PUBLICATION_ID = os.environ.get("BEEHIIV_PUBLICATION_ID", "")
+
+# --- ConvertKit ---
+CONVERTKIT_API_KEY = os.environ.get("CONVERTKIT_API_KEY", "")
+CONVERTKIT_API_SECRET = os.environ.get("CONVERTKIT_API_SECRET", "")
+
+# --- Linear ---
+LINEAR_API_KEY = os.environ.get("LINEAR_API_KEY", "")
+
+# --- Resend ---
+RESEND_API_KEY = os.environ.get("RESEND_API_KEY", "")
+
+# --- Supabase ---
+SUPABASE_URL = os.environ.get("SUPABASE_URL", "")
+SUPABASE_KEY = os.environ.get("SUPABASE_KEY", "")
+
 # --- Memory ---
 MEMORY_PATH = os.environ.get(
     "GOLIATH_MEMORY_PATH", str(Path.home() / ".goliath" / "memory.json")
@@ -332,4 +362,13 @@ INTEGRATIONS = {
     "substack": "goliath.integrations.substack",
     "cloudflare": "goliath.integrations.cloudflare",
     "firebase": "goliath.integrations.firebase",
+    "figma": "goliath.integrations.figma",
+    "canva": "goliath.integrations.canva",
+    "loom": "goliath.integrations.loom",
+    "typeform": "goliath.integrations.typeform",
+    "beehiiv": "goliath.integrations.beehiiv",
+    "convertkit": "goliath.integrations.convertkit",
+    "linear": "goliath.integrations.linear",
+    "resend": "goliath.integrations.resend",
+    "supabase": "goliath.integrations.supabase",
 }

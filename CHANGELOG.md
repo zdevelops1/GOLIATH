@@ -2,6 +2,27 @@
 
 All notable changes to GOLIATH are documented in this file.
 
+## [0.5.0] - 2026-02-19
+
+### Added
+
+- **9 new integrations (48 → 57 total):**
+  - **Design:** Figma (files, components, comments, image exports), Canva (designs, folders, exports, brand templates)
+  - **Video:** Loom (videos, transcripts, folders, oEmbed)
+  - **Forms:** Typeform (forms, responses, workspaces, insights)
+  - **Newsletters:** Beehiiv (posts, subscribers, publication stats), ConvertKit (subscribers, forms, sequences, broadcasts)
+  - **Project management:** Linear (issues, projects, teams, comments via GraphQL)
+  - **Email:** Resend (transactional email, domains, batch sending)
+  - **Backend-as-a-Service:** Supabase (PostgREST database CRUD, storage, auth)
+
+### Changed
+
+- Total integrations: 48 → 57
+- README updated with all 57 integrations
+- Package version bumped to 0.5.0
+
+---
+
 ## [0.4.0] - 2026-02-19
 
 ### Added

@@ -4,7 +4,7 @@
 
 **Universal AI Automation Engine**
 
-GOLIATH is a modular, plugin-driven automation engine that takes plain-English tasks and executes them through AI. Built on the xAI Grok API by default, with drop-in support for 8 additional model providers and 48 third-party integrations. Any model provider or integration can be added as a plugin with zero changes to the core.
+GOLIATH is a modular, plugin-driven automation engine that takes plain-English tasks and executes them through AI. Built on the xAI Grok API by default, with drop-in support for 8 additional model providers and 57 third-party integrations. Any model provider or integration can be added as a plugin with zero changes to the core.
 
 ## Supported Providers
 
@@ -232,7 +232,7 @@ MODEL_PROVIDERS = {
 
 ## Integrations
 
-Forty-eight built-in integrations for connecting GOLIATH to external services:
+Fifty-seven built-in integrations for connecting GOLIATH to external services:
 
 | Integration | What it does | Setup |
 |---|---|---|
@@ -284,6 +284,15 @@ Forty-eight built-in integrations for connecting GOLIATH to external services:
 | **Substack** | Draft, publish, and manage newsletter posts | Session cookie from [substack.com](https://substack.com/) |
 | **Cloudflare** | DNS records, zones, Workers, and caching | API token from [Cloudflare dashboard](https://dash.cloudflare.com/profile/api-tokens) |
 | **Firebase** | Firestore, Realtime Database, and Auth | Project config from [Firebase console](https://console.firebase.google.com/) |
+| **Figma** | Files, components, comments, and image exports | Personal access token from [Figma settings](https://www.figma.com/developers/api#access-tokens) |
+| **Canva** | Designs, folders, exports, and brand templates | OAuth token from [Canva Developer Portal](https://www.canva.com/developers/) |
+| **Loom** | Videos, transcripts, folders, and embeds | Access token from [Loom Developer settings](https://www.loom.com/account/developer) |
+| **Typeform** | Forms, responses, workspaces, and insights | Personal token from [Typeform admin](https://admin.typeform.com/account#/section/tokens) |
+| **Beehiiv** | Newsletter posts, subscribers, and publication stats | API key from [Beehiiv settings](https://app.beehiiv.com/) |
+| **ConvertKit** | Subscribers, forms, sequences, and broadcasts | API key + secret from [ConvertKit settings](https://app.convertkit.com/account_settings/advanced_settings) |
+| **Linear** | Issues, projects, teams, and comments via GraphQL | API key from [Linear settings](https://linear.app/settings/api) |
+| **Resend** | Transactional email, domains, and batch sending | API key from [resend.com](https://resend.com/api-keys) |
+| **Supabase** | Database CRUD, storage, and auth | Project URL + key from [Supabase dashboard](https://supabase.com/) |
 
 ### Quick Examples
 
@@ -336,6 +345,15 @@ from goliath.integrations.medium import MediumClient
 from goliath.integrations.substack import SubstackClient
 from goliath.integrations.cloudflare import CloudflareClient
 from goliath.integrations.firebase import FirebaseClient
+from goliath.integrations.figma import FigmaClient
+from goliath.integrations.canva import CanvaClient
+from goliath.integrations.loom import LoomClient
+from goliath.integrations.typeform import TypeformClient
+from goliath.integrations.beehiiv import BeehiivClient
+from goliath.integrations.convertkit import ConvertKitClient
+from goliath.integrations.linear import LinearClient
+from goliath.integrations.resend import ResendClient
+from goliath.integrations.supabase import SupabaseClient
 
 # Post a tweet
 XClient().tweet("Hello from GOLIATH!")
@@ -480,6 +498,33 @@ CloudflareClient().create_dns_record(zone_id="z1", type="A", name="app.example.c
 
 # Set a Firebase Firestore document
 FirebaseClient().set_document("users", "user123", {"name": "Jane", "email": "jane@example.com"})
+
+# Export a Figma frame as PNG
+FigmaClient().export_images("FILE_KEY", node_ids=["1:2"], format="png", scale=2)
+
+# List Canva designs
+CanvaClient().list_designs()
+
+# Get a Loom video transcript
+LoomClient().get_transcript("VIDEO_ID")
+
+# Get Typeform responses
+TypeformClient().get_responses("FORM_ID", page_size=25)
+
+# Create a Beehiiv newsletter post
+BeehiivClient().create_post(title="Weekly Newsletter", content_html="<p>Hello readers!</p>")
+
+# Add a ConvertKit subscriber to a form
+ConvertKitClient().add_subscriber_to_form(form_id=12345, email="reader@example.com")
+
+# Create a Linear issue
+LinearClient().create_issue(team_id="TEAM_UUID", title="Fix login bug", priority=2)
+
+# Send an email via Resend
+ResendClient().send(from_addr="you@yourdomain.com", to=["user@example.com"], subject="Hello", html="<p>Hi!</p>")
+
+# Query Supabase rows
+SupabaseClient().select("users", columns="id,name,email", limit=10)
 ```
 
 Each integration file contains full setup instructions in its docstring.
