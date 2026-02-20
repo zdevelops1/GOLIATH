@@ -4,7 +4,7 @@
 
 **Universal AI Automation Engine**
 
-GOLIATH is a modular, plugin-driven automation engine that takes plain-English tasks and executes them through AI. Built on the xAI Grok API by default, with drop-in support for 8 additional model providers and 57 third-party integrations. Any model provider or integration can be added as a plugin with zero changes to the core.
+GOLIATH is a modular, plugin-driven automation engine that takes plain-English tasks and executes them through AI. Built on the xAI Grok API by default, with drop-in support for 8 additional model providers and 67 third-party integrations. Any model provider or integration can be added as a plugin with zero changes to the core.
 
 ## Supported Providers
 
@@ -232,7 +232,7 @@ MODEL_PROVIDERS = {
 
 ## Integrations
 
-Fifty-seven built-in integrations for connecting GOLIATH to external services:
+Sixty-seven built-in integrations for connecting GOLIATH to external services:
 
 | Integration | What it does | Setup |
 |---|---|---|
@@ -293,6 +293,16 @@ Fifty-seven built-in integrations for connecting GOLIATH to external services:
 | **Linear** | Issues, projects, teams, and comments via GraphQL | API key from [Linear settings](https://linear.app/settings/api) |
 | **Resend** | Transactional email, domains, and batch sending | API key from [resend.com](https://resend.com/api-keys) |
 | **Supabase** | Database CRUD, storage, and auth | Project URL + key from [Supabase dashboard](https://supabase.com/) |
+| **Notion AI** | Text generation, summarization, translation, grammar | Integration token from [notion.so/my-integrations](https://www.notion.so/my-integrations) |
+| **Perplexity Search** | AI-powered web search with citations | API key from [perplexity.ai](https://www.perplexity.ai/settings/api) |
+| **Brave Search** | Web, news, and image search with summarization | API key from [brave.com/search/api](https://brave.com/search/api/) |
+| **Wikipedia** | Articles, summaries, search, on-this-day | No API key required (free) |
+| **Weather (OpenWeatherMap)** | Current weather, forecasts, air quality, geocoding | API key from [openweathermap.org](https://openweathermap.org/) |
+| **News API** | Headlines, article search, and news sources | API key from [newsapi.org](https://newsapi.org/) |
+| **Google Maps** | Geocoding, places, directions, distance matrix | API key from [Google Cloud Console](https://console.cloud.google.com/) |
+| **Yelp** | Business search, reviews, and categories | API key from [yelp.com/developers](https://www.yelp.com/developers/) |
+| **OpenSea** | NFT collections, assets, events, and offers | API key from [opensea.io](https://docs.opensea.io/) |
+| **Binance** | Crypto market data, order books, klines, account info | API key from [binance.com](https://www.binance.com/) |
 
 ### Quick Examples
 
@@ -354,6 +364,16 @@ from goliath.integrations.convertkit import ConvertKitClient
 from goliath.integrations.linear import LinearClient
 from goliath.integrations.resend import ResendClient
 from goliath.integrations.supabase import SupabaseClient
+from goliath.integrations.notion_ai import NotionAIClient
+from goliath.integrations.perplexity_search import PerplexitySearchClient
+from goliath.integrations.brave_search import BraveSearchClient
+from goliath.integrations.wikipedia import WikipediaClient
+from goliath.integrations.weather import WeatherClient
+from goliath.integrations.news import NewsClient
+from goliath.integrations.google_maps import GoogleMapsClient
+from goliath.integrations.yelp import YelpClient
+from goliath.integrations.opensea import OpenSeaClient
+from goliath.integrations.binance import BinanceClient
 
 # Post a tweet
 XClient().tweet("Hello from GOLIATH!")
@@ -525,6 +545,36 @@ ResendClient().send(from_addr="you@yourdomain.com", to=["user@example.com"], sub
 
 # Query Supabase rows
 SupabaseClient().select("users", columns="id,name,email", limit=10)
+
+# Generate text with Notion AI
+NotionAIClient().generate(prompt="Write a product launch announcement for a new AI tool.")
+
+# AI-powered web search with Perplexity
+PerplexitySearchClient().search("What is the current price of Bitcoin?")
+
+# Web search with Brave Search
+BraveSearchClient().web_search("Python asyncio tutorial", count=5)
+
+# Search Wikipedia articles
+WikipediaClient().search("artificial intelligence")
+
+# Get current weather
+WeatherClient().get_current("London", units="metric")
+
+# Search news headlines
+NewsClient().top_headlines(country="us", category="technology")
+
+# Geocode an address with Google Maps
+GoogleMapsClient().geocode("1600 Amphitheatre Parkway, Mountain View, CA")
+
+# Search Yelp businesses
+YelpClient().search("coffee", location="San Francisco, CA")
+
+# Get an NFT collection from OpenSea
+OpenSeaClient().get_collection("boredapeyachtclub")
+
+# Get Bitcoin price from Binance
+BinanceClient().get_price("BTCUSDT")
 ```
 
 Each integration file contains full setup instructions in its docstring.
@@ -686,6 +736,49 @@ All settings live in `config.py` and can be overridden with environment variable
 | `AWS_SECRET_ACCESS_KEY` | AWS secret access key |
 | `AWS_DEFAULT_REGION` | AWS region (default: `us-east-1`) |
 | `AWS_S3_BUCKET` | Default S3 bucket name (optional) |
+| `ASANA_ACCESS_TOKEN` | Asana personal access token |
+| `MONDAY_API_TOKEN` | Monday.com API token |
+| `ZENDESK_SUBDOMAIN` | Zendesk subdomain |
+| `ZENDESK_EMAIL` | Zendesk account email |
+| `ZENDESK_API_TOKEN` | Zendesk API token |
+| `INTERCOM_ACCESS_TOKEN` | Intercom access token |
+| `TWITCH_CLIENT_ID` | Twitch app client ID |
+| `TWITCH_CLIENT_SECRET` | Twitch app client secret |
+| `TWITCH_ACCESS_TOKEN` | Twitch OAuth token (optional) |
+| `SNAPCHAT_ACCESS_TOKEN` | Snapchat Marketing API token |
+| `SNAPCHAT_AD_ACCOUNT_ID` | Snapchat ad account ID |
+| `MEDIUM_ACCESS_TOKEN` | Medium integration token |
+| `SUBSTACK_SUBDOMAIN` | Substack publication subdomain |
+| `SUBSTACK_SESSION_COOKIE` | Substack session cookie |
+| `SUBSTACK_USER_ID` | Substack user ID |
+| `CLOUDFLARE_API_TOKEN` | Cloudflare API token |
+| `CLOUDFLARE_API_KEY` | Cloudflare Global API key (alternative) |
+| `CLOUDFLARE_EMAIL` | Cloudflare account email (with Global key) |
+| `FIREBASE_PROJECT_ID` | Firebase project ID |
+| `FIREBASE_API_KEY` | Firebase Web API key |
+| `FIREBASE_DATABASE_URL` | Firebase Realtime Database URL |
+| `FIGMA_ACCESS_TOKEN` | Figma personal access token |
+| `CANVA_ACCESS_TOKEN` | Canva OAuth access token |
+| `LOOM_ACCESS_TOKEN` | Loom API access token |
+| `TYPEFORM_ACCESS_TOKEN` | Typeform personal token |
+| `BEEHIIV_API_KEY` | Beehiiv API key |
+| `BEEHIIV_PUBLICATION_ID` | Beehiiv publication ID |
+| `CONVERTKIT_API_KEY` | ConvertKit API key |
+| `CONVERTKIT_API_SECRET` | ConvertKit API secret |
+| `LINEAR_API_KEY` | Linear API key |
+| `RESEND_API_KEY` | Resend API key |
+| `SUPABASE_URL` | Supabase project URL |
+| `SUPABASE_KEY` | Supabase anon/service key |
+| `NOTION_AI_API_KEY` | Notion AI API key (reuses `NOTION_API_KEY` if set) |
+| `BRAVE_SEARCH_API_KEY` | Brave Search subscription token |
+| `WIKIPEDIA_ACCESS_TOKEN` | Wikipedia access token (optional — free without) |
+| `OPENWEATHER_API_KEY` | OpenWeatherMap API key |
+| `NEWS_API_KEY` | NewsAPI.org API key |
+| `GOOGLE_MAPS_API_KEY` | Google Maps Platform API key |
+| `YELP_API_KEY` | Yelp Fusion API key |
+| `OPENSEA_API_KEY` | OpenSea API key |
+| `BINANCE_API_KEY` | Binance API key |
+| `BINANCE_API_SECRET` | Binance API secret |
 
 ## License
 

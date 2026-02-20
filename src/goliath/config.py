@@ -276,6 +276,36 @@ RESEND_API_KEY = os.environ.get("RESEND_API_KEY", "")
 SUPABASE_URL = os.environ.get("SUPABASE_URL", "")
 SUPABASE_KEY = os.environ.get("SUPABASE_KEY", "")
 
+# --- Notion AI ---
+NOTION_AI_API_KEY = os.environ.get("NOTION_AI_API_KEY", "")
+
+# --- Brave Search ---
+BRAVE_SEARCH_API_KEY = os.environ.get("BRAVE_SEARCH_API_KEY", "")
+
+# --- Wikipedia (optional) ---
+WIKIPEDIA_ACCESS_TOKEN = os.environ.get("WIKIPEDIA_ACCESS_TOKEN", "")
+WIKIPEDIA_USER_AGENT = os.environ.get("WIKIPEDIA_USER_AGENT", "")
+
+# --- OpenWeatherMap ---
+OPENWEATHER_API_KEY = os.environ.get("OPENWEATHER_API_KEY", "")
+
+# --- News API ---
+NEWS_API_KEY = os.environ.get("NEWS_API_KEY", "")
+
+# --- Google Maps ---
+GOOGLE_MAPS_API_KEY = os.environ.get("GOOGLE_MAPS_API_KEY", "")
+
+# --- Yelp ---
+YELP_API_KEY = os.environ.get("YELP_API_KEY", "")
+
+# --- OpenSea ---
+OPENSEA_API_KEY = os.environ.get("OPENSEA_API_KEY", "")
+
+# --- Binance ---
+BINANCE_API_KEY = os.environ.get("BINANCE_API_KEY", "")
+BINANCE_API_SECRET = os.environ.get("BINANCE_API_SECRET", "")
+BINANCE_BASE_URL = os.environ.get("BINANCE_BASE_URL", "")
+
 # --- Memory ---
 MEMORY_PATH = os.environ.get(
     "GOLIATH_MEMORY_PATH", str(Path.home() / ".goliath" / "memory.json")
@@ -371,4 +401,14 @@ INTEGRATIONS = {
     "linear": "goliath.integrations.linear",
     "resend": "goliath.integrations.resend",
     "supabase": "goliath.integrations.supabase",
+    "notion_ai": "goliath.integrations.notion_ai",
+    "perplexity_search": "goliath.integrations.perplexity_search",
+    "brave_search": "goliath.integrations.brave_search",
+    "wikipedia": "goliath.integrations.wikipedia",
+    "weather": "goliath.integrations.weather",
+    "news": "goliath.integrations.news",
+    "google_maps": "goliath.integrations.google_maps",
+    "yelp": "goliath.integrations.yelp",
+    "opensea": "goliath.integrations.opensea",
+    "binance": "goliath.integrations.binance",
 }

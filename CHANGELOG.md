@@ -2,6 +2,25 @@
 
 All notable changes to GOLIATH are documented in this file.
 
+## [0.6.0] - 2026-02-19
+
+### Added
+
+- **10 new integrations (57 → 67 total):**
+  - **AI & search:** Notion AI (text generation, summarization, translation, grammar), Perplexity Search (AI-powered web search with citations), Brave Search (web, news, image search, summarization)
+  - **Knowledge:** Wikipedia (articles, summaries, search, on-this-day — no API key required)
+  - **Data & weather:** Weather API / OpenWeatherMap (current weather, forecasts, air quality, geocoding), News API (headlines, article search, sources)
+  - **Location:** Google Maps (geocoding, places, directions, distance matrix), Yelp (business search, reviews, categories)
+  - **Web3 & crypto:** OpenSea (NFT collections, assets, events, offers), Binance (market data, order books, klines, account info)
+
+### Changed
+
+- Total integrations: 57 → 67
+- README updated with all 67 integrations
+- Package version bumped to 0.6.0
+
+---
+
 ## [0.5.0] - 2026-02-19
 
 ### Added
