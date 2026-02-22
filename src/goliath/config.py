@@ -351,6 +351,39 @@ PLAID_ENV = os.environ.get("PLAID_ENV", "sandbox")
 # --- ClickUp ---
 CLICKUP_API_TOKEN = os.environ.get("CLICKUP_API_TOKEN", "")
 
+# --- Coinbase ---
+COINBASE_API_KEY = os.environ.get("COINBASE_API_KEY", "")
+COINBASE_API_SECRET = os.environ.get("COINBASE_API_SECRET", "")
+
+# --- Kraken ---
+KRAKEN_API_KEY = os.environ.get("KRAKEN_API_KEY", "")
+KRAKEN_API_SECRET = os.environ.get("KRAKEN_API_SECRET", "")
+
+# --- Etherscan ---
+ETHERSCAN_API_KEY = os.environ.get("ETHERSCAN_API_KEY", "")
+ETHERSCAN_BASE_URL = os.environ.get("ETHERSCAN_BASE_URL", "")
+
+# --- Alpha Vantage ---
+ALPHA_VANTAGE_API_KEY = os.environ.get("ALPHA_VANTAGE_API_KEY", "")
+
+# --- Polygon.io ---
+POLYGON_API_KEY = os.environ.get("POLYGON_API_KEY", "")
+
+# --- Yahoo Finance ---
+YAHOO_FINANCE_API_KEY = os.environ.get("YAHOO_FINANCE_API_KEY", "")
+YAHOO_FINANCE_BASE_URL = os.environ.get("YAHOO_FINANCE_BASE_URL", "")
+
+# --- SEC EDGAR ---
+SEC_EDGAR_USER_AGENT = os.environ.get("SEC_EDGAR_USER_AGENT", "")
+
+# --- CoinGecko ---
+COINGECKO_API_KEY = os.environ.get("COINGECKO_API_KEY", "")
+COINGECKO_PRO = os.environ.get("COINGECKO_PRO", "")
+
+# --- TradingView ---
+TRADINGVIEW_SESSION_ID = os.environ.get("TRADINGVIEW_SESSION_ID", "")
+TRADINGVIEW_SESSION_SIGN = os.environ.get("TRADINGVIEW_SESSION_SIGN", "")
+
 # --- Memory ---
 MEMORY_PATH = os.environ.get(
     "GOLIATH_MEMORY_PATH", str(Path.home() / ".goliath" / "memory.json")
@@ -466,4 +499,14 @@ INTEGRATIONS = {
     "contentful": "goliath.integrations.contentful",
     "plaid": "goliath.integrations.plaid",
     "clickup": "goliath.integrations.clickup",
+    "coinbase": "goliath.integrations.coinbase",
+    "kraken": "goliath.integrations.kraken",
+    "etherscan": "goliath.integrations.etherscan",
+    "alpha_vantage": "goliath.integrations.alpha_vantage",
+    "polygon": "goliath.integrations.polygon",
+    "yahoo_finance": "goliath.integrations.yahoo_finance",
+    "reddit_finance": "goliath.integrations.reddit_finance",
+    "sec_edgar": "goliath.integrations.sec_edgar",
+    "coingecko": "goliath.integrations.coingecko",
+    "tradingview": "goliath.integrations.tradingview",
 }

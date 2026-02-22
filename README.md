@@ -4,7 +4,7 @@
 
 **Universal AI Automation Engine**
 
-GOLIATH is a modular, plugin-driven automation engine that takes plain-English tasks and executes them through AI. Built on the xAI Grok API by default, with drop-in support for 8 additional model providers and 77 third-party integrations. 530+ tests passing across 9 test files. Any model provider or integration can be added as a plugin with zero changes to the core.
+GOLIATH is a modular, plugin-driven automation engine that takes plain-English tasks and executes them through AI. Built on the xAI Grok API by default, with drop-in support for 8 additional model providers and 87 third-party integrations. 530+ tests passing across 9 test files. Any model provider or integration can be added as a plugin with zero changes to the core.
 
 ## Supported Providers
 
@@ -313,6 +313,16 @@ Sixty-seven built-in integrations for connecting GOLIATH to external services:
 | **Contentful** | Content entries, assets, content types, publishing | Space ID + tokens from [contentful.com](https://www.contentful.com/) |
 | **Plaid** | Bank accounts, transactions, balances, identity | Client ID + secret from [plaid.com](https://plaid.com/) |
 | **ClickUp** | Tasks, lists, spaces, folders, comments | API token from [clickup.com](https://clickup.com/) |
+| **Coinbase** | Spot/buy/sell prices, accounts, transactions | API key from [coinbase.com](https://www.coinbase.com/settings/api) |
+| **Kraken** | Ticker, OHLC, order book, balances, trade history | API key from [kraken.com](https://www.kraken.com/) |
+| **Etherscan** | ETH balances, transactions, gas prices, contract ABIs | API key from [etherscan.io](https://etherscan.io/) |
+| **Alpha Vantage** | Stock quotes, forex, crypto, economic indicators | API key from [alphavantage.co](https://www.alphavantage.co/) |
+| **Polygon.io** | Stock aggregates, tickers, trades, splits, dividends | API key from [polygon.io](https://polygon.io/) |
+| **Yahoo Finance** | Stock quotes, charts, company profiles, trending | Optional key from [financeapi.net](https://financeapi.net/) |
+| **Reddit Finance** | WSB, r/stocks, ticker mentions, DD posts, sentiment | Reddit OAuth (reuses Reddit credentials) |
+| **SEC EDGAR** | Company filings, XBRL financials, full-text search | Free — User-Agent header required |
+| **CoinGecko** | Crypto prices, market data, trending coins, exchanges | Free (optional key for higher limits) |
+| **TradingView** | Technical analysis, stock/crypto/forex screeners | Free public data (optional session cookies) |
 
 ### Quick Examples
 
@@ -394,6 +404,16 @@ from goliath.integrations.algolia import AlgoliaClient
 from goliath.integrations.contentful import ContentfulClient
 from goliath.integrations.plaid import PlaidClient
 from goliath.integrations.clickup import ClickUpClient
+from goliath.integrations.coinbase import CoinbaseClient
+from goliath.integrations.kraken import KrakenClient
+from goliath.integrations.etherscan import EtherscanClient
+from goliath.integrations.alpha_vantage import AlphaVantageClient
+from goliath.integrations.polygon import PolygonClient
+from goliath.integrations.yahoo_finance import YahooFinanceClient
+from goliath.integrations.reddit_finance import RedditFinanceClient
+from goliath.integrations.sec_edgar import SECEdgarClient
+from goliath.integrations.coingecko import CoinGeckoClient
+from goliath.integrations.tradingview import TradingViewClient
 
 # Post a tweet
 XClient().tweet("Hello from GOLIATH!")
@@ -625,6 +645,36 @@ PlaidClient().get_balance(access_token="access-sandbox-xxx")
 
 # Create a ClickUp task
 ClickUpClient().create_task("list-id", name="Fix login bug", description="Details here")
+
+# Get BTC spot price from Coinbase
+CoinbaseClient().get_spot_price("BTC-USD")
+
+# Get ticker info from Kraken
+KrakenClient().get_ticker("XBTUSD")
+
+# Get ETH balance from Etherscan
+EtherscanClient().get_balance("0xde0B295669a9FD93d5F28D9Ec85E40f4cb697BAe")
+
+# Get stock quote from Alpha Vantage
+AlphaVantageClient().get_quote("AAPL")
+
+# Get previous close from Polygon.io
+PolygonClient().get_previous_close("AAPL")
+
+# Get stock quote from Yahoo Finance
+YahooFinanceClient().get_quote("TSLA")
+
+# Get hot posts from r/wallstreetbets
+RedditFinanceClient().get_hot("wallstreetbets")
+
+# Get Apple SEC filings
+SECEdgarClient().get_company_filings("AAPL")
+
+# Get Bitcoin price from CoinGecko
+CoinGeckoClient().get_price("bitcoin", vs_currencies="usd")
+
+# Get technical analysis from TradingView
+TradingViewClient().get_analysis("AAPL", exchange="NASDAQ")
 ```
 
 Each integration file contains full setup instructions in its docstring.
@@ -851,6 +901,20 @@ All settings live in `config.py` and can be overridden with environment variable
 | `PLAID_SECRET` | Plaid secret |
 | `PLAID_ENV` | Plaid environment (`sandbox`, `development`, `production`) |
 | `CLICKUP_API_TOKEN` | ClickUp personal API token |
+| `COINBASE_API_KEY` | Coinbase API key |
+| `COINBASE_API_SECRET` | Coinbase API secret |
+| `KRAKEN_API_KEY` | Kraken API key |
+| `KRAKEN_API_SECRET` | Kraken private key (base64) |
+| `ETHERSCAN_API_KEY` | Etherscan API key |
+| `ETHERSCAN_BASE_URL` | Etherscan base URL (for testnets) |
+| `ALPHA_VANTAGE_API_KEY` | Alpha Vantage API key |
+| `POLYGON_API_KEY` | Polygon.io API key |
+| `YAHOO_FINANCE_API_KEY` | Yahoo Finance API key (optional) |
+| `SEC_EDGAR_USER_AGENT` | SEC EDGAR User-Agent (`"Name email@example.com"`) |
+| `COINGECKO_API_KEY` | CoinGecko API key (optional — free tier works without) |
+| `COINGECKO_PRO` | Set to `true` for CoinGecko Pro API |
+| `TRADINGVIEW_SESSION_ID` | TradingView session cookie (optional) |
+| `TRADINGVIEW_SESSION_SIGN` | TradingView session sign cookie (optional) |
 
 ## License
 

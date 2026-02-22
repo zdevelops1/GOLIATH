@@ -2,6 +2,30 @@
 
 All notable changes to GOLIATH are documented in this file.
 
+## [0.8.0] - 2026-02-21
+
+### Added
+
+- **10 new finance & market data integrations** (batch 6), bringing the total from 77 to 87:
+  - **Coinbase** — spot/buy/sell prices, exchange rates, accounts, transactions (HMAC-SHA256 auth)
+  - **Kraken** — ticker, OHLC, order book, spreads, balances, trade history (HMAC-SHA512 nonce auth)
+  - **Etherscan** — ETH balances, transactions, token transfers, gas oracle, contract ABIs
+  - **Alpha Vantage** — stock quotes, intraday/daily/weekly series, forex, crypto, SMA, RSI, GDP, inflation
+  - **Polygon.io** — aggregates, previous close, ticker details, trades, quotes, splits, dividends
+  - **Yahoo Finance** — real-time quotes, historical charts, company profiles, search, trending, movers
+  - **Reddit Finance** — WSB/stocks/investing feeds, ticker search, DD posts, trending finance discussions
+  - **SEC EDGAR** — company filings by ticker/CIK, XBRL financial facts, full-text search, ticker lookup
+  - **CoinGecko** — crypto prices, markets, charts, OHLC, trending, exchanges, global stats (free + Pro)
+  - **TradingView** — symbol search, technical analysis, stock/crypto/forex screeners
+
+### Changed
+
+- Total integrations: 77 → 87
+- README updated with new integrations table, examples, and configuration reference
+- Package version bumped to 0.8.0
+
+---
+
 ## [0.7.0] - 2026-02-21
 
 ### Added
