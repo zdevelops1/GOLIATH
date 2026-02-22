@@ -4,7 +4,7 @@
 
 **Universal AI Automation Engine**
 
-GOLIATH is a modular, plugin-driven automation engine that takes plain-English tasks and executes them through AI. Built on the xAI Grok API by default, with drop-in support for 8 additional model providers and 67 third-party integrations. 464+ tests passing across 8 test files. Any model provider or integration can be added as a plugin with zero changes to the core.
+GOLIATH is a modular, plugin-driven automation engine that takes plain-English tasks and executes them through AI. Built on the xAI Grok API by default, with drop-in support for 8 additional model providers and 77 third-party integrations. 530+ tests passing across 9 test files. Any model provider or integration can be added as a plugin with zero changes to the core.
 
 ## Supported Providers
 
@@ -303,6 +303,16 @@ Sixty-seven built-in integrations for connecting GOLIATH to external services:
 | **Yelp** | Business search, reviews, and categories | API key from [yelp.com/developers](https://www.yelp.com/developers/) |
 | **OpenSea** | NFT collections, assets, events, and offers | API key from [opensea.io](https://docs.opensea.io/) |
 | **Binance** | Crypto market data, order books, klines, account info | API key from [binance.com](https://www.binance.com/) |
+| **Vercel** | Deployments, projects, domains, environment variables | Token from [vercel.com](https://vercel.com/account/tokens) |
+| **Sentry** | Error tracking, issues, events, project management | Auth token from [sentry.io](https://sentry.io/) |
+| **Datadog** | Metrics, monitors, events, alerting | API + App key from [datadoghq.com](https://www.datadoghq.com/) |
+| **PagerDuty** | Incidents, services, on-call schedules | API key from [pagerduty.com](https://www.pagerduty.com/) |
+| **Mixpanel** | Event tracking, user profiles, analytics queries | Project token from [mixpanel.com](https://mixpanel.com/) |
+| **Segment** | Identify, track, page, group, batch analytics | Write key from [segment.com](https://segment.com/) |
+| **Algolia** | Full-text search, index management, faceting | App ID + API key from [algolia.com](https://www.algolia.com/) |
+| **Contentful** | Content entries, assets, content types, publishing | Space ID + tokens from [contentful.com](https://www.contentful.com/) |
+| **Plaid** | Bank accounts, transactions, balances, identity | Client ID + secret from [plaid.com](https://plaid.com/) |
+| **ClickUp** | Tasks, lists, spaces, folders, comments | API token from [clickup.com](https://clickup.com/) |
 
 ### Quick Examples
 
@@ -374,6 +384,16 @@ from goliath.integrations.google_maps import GoogleMapsClient
 from goliath.integrations.yelp import YelpClient
 from goliath.integrations.opensea import OpenSeaClient
 from goliath.integrations.binance import BinanceClient
+from goliath.integrations.vercel import VercelClient
+from goliath.integrations.sentry import SentryClient
+from goliath.integrations.datadog import DatadogClient
+from goliath.integrations.pagerduty import PagerDutyClient
+from goliath.integrations.mixpanel import MixpanelClient
+from goliath.integrations.segment import SegmentClient
+from goliath.integrations.algolia import AlgoliaClient
+from goliath.integrations.contentful import ContentfulClient
+from goliath.integrations.plaid import PlaidClient
+from goliath.integrations.clickup import ClickUpClient
 
 # Post a tweet
 XClient().tweet("Hello from GOLIATH!")
@@ -575,6 +595,36 @@ OpenSeaClient().get_collection("boredapeyachtclub")
 
 # Get Bitcoin price from Binance
 BinanceClient().get_price("BTCUSDT")
+
+# List Vercel deployments
+VercelClient().list_deployments()
+
+# List Sentry issues
+SentryClient().list_issues("my-project")
+
+# Submit a Datadog metric
+DatadogClient().submit_metric("app.requests", value=42.0, tags=["env:prod"])
+
+# Create a PagerDuty incident
+PagerDutyClient().create_incident(title="DB Down", service_id="PSVC1")
+
+# Track a Mixpanel event
+MixpanelClient().track(distinct_id="user-1", event="Purchase", properties={"amount": 49.99})
+
+# Identify a user in Segment
+SegmentClient().identify(user_id="user-1", traits={"name": "Alice", "plan": "pro"})
+
+# Search with Algolia
+AlgoliaClient().search("products", query="laptop")
+
+# List Contentful entries
+ContentfulClient().list_entries(content_type="blogPost")
+
+# Get bank balances via Plaid
+PlaidClient().get_balance(access_token="access-sandbox-xxx")
+
+# Create a ClickUp task
+ClickUpClient().create_task("list-id", name="Fix login bug", description="Details here")
 ```
 
 Each integration file contains full setup instructions in its docstring.
@@ -779,6 +829,28 @@ All settings live in `config.py` and can be overridden with environment variable
 | `OPENSEA_API_KEY` | OpenSea API key |
 | `BINANCE_API_KEY` | Binance API key |
 | `BINANCE_API_SECRET` | Binance API secret |
+| `VERCEL_ACCESS_TOKEN` | Vercel access token |
+| `VERCEL_TEAM_ID` | Vercel team ID (optional) |
+| `SENTRY_AUTH_TOKEN` | Sentry auth token |
+| `SENTRY_ORG` | Sentry organization slug |
+| `DATADOG_API_KEY` | Datadog API key |
+| `DATADOG_APP_KEY` | Datadog Application key |
+| `DATADOG_SITE` | Datadog site (e.g. `datadoghq.eu`, default `datadoghq.com`) |
+| `PAGERDUTY_API_KEY` | PagerDuty REST API key |
+| `PAGERDUTY_FROM_EMAIL` | PagerDuty From email (optional) |
+| `MIXPANEL_PROJECT_TOKEN` | Mixpanel project token |
+| `MIXPANEL_SERVICE_ACCOUNT_USER` | Mixpanel service account username (for query APIs) |
+| `MIXPANEL_SERVICE_ACCOUNT_SECRET` | Mixpanel service account secret |
+| `SEGMENT_WRITE_KEY` | Segment source write key |
+| `ALGOLIA_APP_ID` | Algolia Application ID |
+| `ALGOLIA_API_KEY` | Algolia Admin API key |
+| `CONTENTFUL_SPACE_ID` | Contentful space ID |
+| `CONTENTFUL_ACCESS_TOKEN` | Contentful CDA access token |
+| `CONTENTFUL_MANAGEMENT_TOKEN` | Contentful CMA token (for write operations) |
+| `PLAID_CLIENT_ID` | Plaid client ID |
+| `PLAID_SECRET` | Plaid secret |
+| `PLAID_ENV` | Plaid environment (`sandbox`, `development`, `production`) |
+| `CLICKUP_API_TOKEN` | ClickUp personal API token |
 
 ## License
 

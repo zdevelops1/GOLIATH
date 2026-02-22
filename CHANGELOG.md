@@ -2,6 +2,43 @@
 
 All notable changes to GOLIATH are documented in this file.
 
+## [0.7.0] - 2026-02-21
+
+### Added
+
+- **10 new integrations** (batch 5), bringing the total from 67 to 77:
+  - **Vercel** — deployments, projects, domains, environment variables
+  - **Sentry** — error tracking, issues, events, project management
+  - **Datadog** — metrics, monitors, events, alerting
+  - **PagerDuty** — incidents, services, on-call schedules, escalation policies
+  - **Mixpanel** — event tracking, user profiles, analytics queries
+  - **Segment** — identify, track, page, group, batch analytics
+  - **Algolia** — full-text search, index management, multi-search
+  - **Contentful** — content entries, assets, content types, CMA publishing
+  - **Plaid** — bank accounts, transactions, balances, identity, institutions
+  - **ClickUp** — tasks, lists, spaces, folders, comments
+
+- **66 new tests** for all batch 5 integrations:
+  - Vercel (credential validation, auth headers, projects, deployments, domains, team params)
+  - Sentry (credential + org validation, auth header, projects, issues, update issue)
+  - Datadog (credential validation, DD headers, submit metric, monitors, events, custom site)
+  - PagerDuty (credential validation, Token auth header, incidents, create incident, services, oncalls)
+  - Mixpanel (credential validation, track event, token in payload, set user, SA auth required, batch)
+  - Segment (credential validation, Basic auth header, identify, track, page, group, batch)
+  - Algolia (credential validation, X-Algolia headers, search, save objects, get object, indices, app ID in URL)
+  - Contentful (space ID + token validation, auth header, list entries, content types, CMA required, assets)
+  - Plaid (credential validation, sandbox URL, link token, exchange token, balance, transactions, auth payload)
+  - ClickUp (credential validation, auth header, teams, tasks, create task, comments, spaces)
+
+### Changed
+
+- Total integrations: 67 → 77
+- Total tests: 464 → 530
+- README updated with new integrations table, examples, and configuration reference
+- Package version bumped to 0.7.0
+
+---
+
 ## [0.6.1] - 2026-02-20
 
 ### Added

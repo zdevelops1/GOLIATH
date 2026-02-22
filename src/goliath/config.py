@@ -306,6 +306,51 @@ BINANCE_API_KEY = os.environ.get("BINANCE_API_KEY", "")
 BINANCE_API_SECRET = os.environ.get("BINANCE_API_SECRET", "")
 BINANCE_BASE_URL = os.environ.get("BINANCE_BASE_URL", "")
 
+# --- Vercel ---
+VERCEL_ACCESS_TOKEN = os.environ.get("VERCEL_ACCESS_TOKEN", "")
+VERCEL_TEAM_ID = os.environ.get("VERCEL_TEAM_ID", "")
+
+# --- Sentry ---
+SENTRY_AUTH_TOKEN = os.environ.get("SENTRY_AUTH_TOKEN", "")
+SENTRY_ORG = os.environ.get("SENTRY_ORG", "")
+SENTRY_BASE_URL = os.environ.get("SENTRY_BASE_URL", "")
+
+# --- Datadog ---
+DATADOG_API_KEY = os.environ.get("DATADOG_API_KEY", "")
+DATADOG_APP_KEY = os.environ.get("DATADOG_APP_KEY", "")
+DATADOG_SITE = os.environ.get("DATADOG_SITE", "")
+
+# --- PagerDuty ---
+PAGERDUTY_API_KEY = os.environ.get("PAGERDUTY_API_KEY", "")
+PAGERDUTY_FROM_EMAIL = os.environ.get("PAGERDUTY_FROM_EMAIL", "")
+
+# --- Mixpanel ---
+MIXPANEL_PROJECT_TOKEN = os.environ.get("MIXPANEL_PROJECT_TOKEN", "")
+MIXPANEL_PROJECT_ID = os.environ.get("MIXPANEL_PROJECT_ID", "")
+MIXPANEL_SERVICE_ACCOUNT_USER = os.environ.get("MIXPANEL_SERVICE_ACCOUNT_USER", "")
+MIXPANEL_SERVICE_ACCOUNT_SECRET = os.environ.get("MIXPANEL_SERVICE_ACCOUNT_SECRET", "")
+
+# --- Segment ---
+SEGMENT_WRITE_KEY = os.environ.get("SEGMENT_WRITE_KEY", "")
+SEGMENT_API_TOKEN = os.environ.get("SEGMENT_API_TOKEN", "")
+
+# --- Algolia ---
+ALGOLIA_APP_ID = os.environ.get("ALGOLIA_APP_ID", "")
+ALGOLIA_API_KEY = os.environ.get("ALGOLIA_API_KEY", "")
+
+# --- Contentful ---
+CONTENTFUL_SPACE_ID = os.environ.get("CONTENTFUL_SPACE_ID", "")
+CONTENTFUL_ACCESS_TOKEN = os.environ.get("CONTENTFUL_ACCESS_TOKEN", "")
+CONTENTFUL_MANAGEMENT_TOKEN = os.environ.get("CONTENTFUL_MANAGEMENT_TOKEN", "")
+
+# --- Plaid ---
+PLAID_CLIENT_ID = os.environ.get("PLAID_CLIENT_ID", "")
+PLAID_SECRET = os.environ.get("PLAID_SECRET", "")
+PLAID_ENV = os.environ.get("PLAID_ENV", "sandbox")
+
+# --- ClickUp ---
+CLICKUP_API_TOKEN = os.environ.get("CLICKUP_API_TOKEN", "")
+
 # --- Memory ---
 MEMORY_PATH = os.environ.get(
     "GOLIATH_MEMORY_PATH", str(Path.home() / ".goliath" / "memory.json")
@@ -411,4 +456,14 @@ INTEGRATIONS = {
     "yelp": "goliath.integrations.yelp",
     "opensea": "goliath.integrations.opensea",
     "binance": "goliath.integrations.binance",
+    "vercel": "goliath.integrations.vercel",
+    "sentry": "goliath.integrations.sentry",
+    "datadog": "goliath.integrations.datadog",
+    "pagerduty": "goliath.integrations.pagerduty",
+    "mixpanel": "goliath.integrations.mixpanel",
+    "segment": "goliath.integrations.segment",
+    "algolia": "goliath.integrations.algolia",
+    "contentful": "goliath.integrations.contentful",
+    "plaid": "goliath.integrations.plaid",
+    "clickup": "goliath.integrations.clickup",
 }
