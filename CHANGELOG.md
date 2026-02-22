@@ -2,6 +2,22 @@
 
 All notable changes to GOLIATH are documented in this file.
 
+## [0.9.0] - 2026-02-21
+
+### Added
+
+- **2 new trading & brokerage integrations** (batch 7), bringing the total from 87 to 89:
+  - **Alpaca** — stock/crypto trading, market data (bars, quotes, trades, snapshots), positions, orders (market/limit/stop), portfolio history, watchlists, paper + live trading toggle
+  - **Robinhood** — stock quotes, positions, portfolio, fundamentals, historicals, instruments, watchlists, movers, earnings, news, popularity, tags (unofficial API, Bearer token or username/password/MFA auth)
+
+### Changed
+
+- Total integrations: 87 → 89
+- README updated with new integrations table, examples, and configuration reference
+- Package version bumped to 0.9.0
+
+---
+
 ## [0.8.0] - 2026-02-21
 
 ### Added

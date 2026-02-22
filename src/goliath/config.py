@@ -384,6 +384,17 @@ COINGECKO_PRO = os.environ.get("COINGECKO_PRO", "")
 TRADINGVIEW_SESSION_ID = os.environ.get("TRADINGVIEW_SESSION_ID", "")
 TRADINGVIEW_SESSION_SIGN = os.environ.get("TRADINGVIEW_SESSION_SIGN", "")
 
+# --- Alpaca ---
+ALPACA_API_KEY = os.environ.get("ALPACA_API_KEY", "")
+ALPACA_API_SECRET = os.environ.get("ALPACA_API_SECRET", "")
+ALPACA_PAPER = os.environ.get("ALPACA_PAPER", "true")
+
+# --- Robinhood ---
+ROBINHOOD_ACCESS_TOKEN = os.environ.get("ROBINHOOD_ACCESS_TOKEN", "")
+ROBINHOOD_USERNAME = os.environ.get("ROBINHOOD_USERNAME", "")
+ROBINHOOD_PASSWORD = os.environ.get("ROBINHOOD_PASSWORD", "")
+ROBINHOOD_MFA_CODE = os.environ.get("ROBINHOOD_MFA_CODE", "")
+
 # --- Memory ---
 MEMORY_PATH = os.environ.get(
     "GOLIATH_MEMORY_PATH", str(Path.home() / ".goliath" / "memory.json")
@@ -509,4 +520,6 @@ INTEGRATIONS = {
     "sec_edgar": "goliath.integrations.sec_edgar",
     "coingecko": "goliath.integrations.coingecko",
     "tradingview": "goliath.integrations.tradingview",
+    "alpaca": "goliath.integrations.alpaca",
+    "robinhood": "goliath.integrations.robinhood",
 }

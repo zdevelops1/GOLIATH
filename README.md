@@ -4,7 +4,7 @@
 
 **Universal AI Automation Engine**
 
-GOLIATH is a modular, plugin-driven automation engine that takes plain-English tasks and executes them through AI. Built on the xAI Grok API by default, with drop-in support for 8 additional model providers and 87 third-party integrations. 530+ tests passing across 9 test files. Any model provider or integration can be added as a plugin with zero changes to the core.
+GOLIATH is a modular, plugin-driven automation engine that takes plain-English tasks and executes them through AI. Built on the xAI Grok API by default, with drop-in support for 8 additional model providers and 89 third-party integrations. 530+ tests passing across 9 test files. Any model provider or integration can be added as a plugin with zero changes to the core.
 
 ## Supported Providers
 
@@ -232,7 +232,7 @@ MODEL_PROVIDERS = {
 
 ## Integrations
 
-Sixty-seven built-in integrations for connecting GOLIATH to external services:
+Eighty-nine built-in integrations for connecting GOLIATH to external services:
 
 | Integration | What it does | Setup |
 |---|---|---|
@@ -323,6 +323,8 @@ Sixty-seven built-in integrations for connecting GOLIATH to external services:
 | **SEC EDGAR** | Company filings, XBRL financials, full-text search | Free — User-Agent header required |
 | **CoinGecko** | Crypto prices, market data, trending coins, exchanges | Free (optional key for higher limits) |
 | **TradingView** | Technical analysis, stock/crypto/forex screeners | Free public data (optional session cookies) |
+| **Alpaca** | Stock/crypto trading, market data, portfolio management | API key from [alpaca.markets](https://alpaca.markets/) |
+| **Robinhood** | Stock quotes, positions, watchlists, account data | Access token or username/password ([setup guide](src/goliath/integrations/robinhood.py)) |
 
 ### Quick Examples
 
@@ -414,6 +416,8 @@ from goliath.integrations.reddit_finance import RedditFinanceClient
 from goliath.integrations.sec_edgar import SECEdgarClient
 from goliath.integrations.coingecko import CoinGeckoClient
 from goliath.integrations.tradingview import TradingViewClient
+from goliath.integrations.alpaca import AlpacaClient
+from goliath.integrations.robinhood import RobinhoodClient
 
 # Post a tweet
 XClient().tweet("Hello from GOLIATH!")
@@ -675,6 +679,12 @@ CoinGeckoClient().get_price("bitcoin", vs_currencies="usd")
 
 # Get technical analysis from TradingView
 TradingViewClient().get_analysis("AAPL", exchange="NASDAQ")
+
+# Place a market order via Alpaca (paper trading)
+AlpacaClient().place_order(symbol="AAPL", qty=10, side="buy", order_type="market", time_in_force="day")
+
+# Get a stock quote from Robinhood
+RobinhoodClient().get_quote("AAPL")
 ```
 
 Each integration file contains full setup instructions in its docstring.
@@ -915,6 +925,13 @@ All settings live in `config.py` and can be overridden with environment variable
 | `COINGECKO_PRO` | Set to `true` for CoinGecko Pro API |
 | `TRADINGVIEW_SESSION_ID` | TradingView session cookie (optional) |
 | `TRADINGVIEW_SESSION_SIGN` | TradingView session sign cookie (optional) |
+| `ALPACA_API_KEY` | Alpaca API Key ID |
+| `ALPACA_API_SECRET` | Alpaca API Secret Key |
+| `ALPACA_PAPER` | `true` for paper trading, `false` for live (default: `true`) |
+| `ROBINHOOD_ACCESS_TOKEN` | Robinhood Bearer access token |
+| `ROBINHOOD_USERNAME` | Robinhood username (alternative to token) |
+| `ROBINHOOD_PASSWORD` | Robinhood password (alternative to token) |
+| `ROBINHOOD_MFA_CODE` | Robinhood TOTP MFA code (if MFA enabled) |
 
 ## License
 
